@@ -1,14 +1,12 @@
 'use client';
 
-import React, { useEffect, useMemo, Suspense } from 'react';
+import React, { useMemo, Suspense } from 'react';
 import { LazyMotion, domAnimation, m, Transition, Variants } from 'framer-motion';
 import dynamic from 'next/dynamic';
-import Lenis from 'lenis';
 
 // Component Imports - Optimized with dynamic imports for non-critical components
 import Navbar from "@/components/features/Navbar";
 import ServicesHeader from '@/components/features/servicepage/ServicesHeader';
-import { Separator } from '@/components/features/Seperator';
 
 // Lazy-loaded components for better initial page load performance
 const LeadGen = dynamic(() => import("@/components/features/servicepage/LeadGen"), {
@@ -36,38 +34,6 @@ const ChatbotWidget = dynamic(() => import("../../components/chatbotui/chat-widg
   ssr: false // Chatbot doesn't need SSR
 });
 
-// Type-safe Lenis configuration interface
-interface LenisOptions {
-  lerp?: number;
-  duration?: number;
-  easing?: (t: number) => number;
-  touchMultiplier?: number;
-}
-
-// Memoized hook for Lenis initialization
-const useLenisScroll = () => {
-  useEffect(() => {
-    const lenisOptions: LenisOptions = {
-      lerp: 0.1,
-      duration: 1.2,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      touchMultiplier: 2
-    };
-
-    const lenis = new Lenis(lenisOptions);
-
-    const raf = (time: number) => {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    };
-
-    requestAnimationFrame(raf);
-    
-    return () => {
-      lenis.destroy();
-    };
-  }, []);
-};
 
 // Type-safe animation variants
 const sectionVariants: Variants = {
@@ -88,7 +54,6 @@ const sectionTransition: Transition = {
 
 // --- Main Page Component ---
 export default function Page() {
-  useLenisScroll();
 
   const memoizedAnimations = useMemo(() => ({
     section: {
@@ -119,14 +84,12 @@ export default function Page() {
               whileInView="whileInView"
               viewport={memoizedAnimations.section.viewport}
               transition={memoizedAnimations.section.transition}
-              className="bg-white/15 backdrop-blur-sm rounded-2xl p-8 border border-white/30 shadow-sm hover:bg-white/20 transition-all duration-300"
+              className="p-8"
             >
               <Suspense fallback={<div className="animate-pulse bg-white/20 backdrop-blur-sm rounded-lg h-36" />}>
                 <WebDev />
               </Suspense>
             </m.section>
-
-            <Separator />
 
             {/* Lead Generation Section */}
             <m.section 
@@ -136,7 +99,7 @@ export default function Page() {
               whileInView="whileInView"
               viewport={memoizedAnimations.section.viewport}
               transition={{...memoizedAnimations.section.transition, delay: 0.1}}
-              className="bg-white/15 backdrop-blur-sm rounded-2xl p-8 border border-white/30 shadow-sm hover:bg-white/20 transition-all duration-300"
+              className="p-8"
             >
               <Suspense fallback={<div className="animate-pulse bg-white/20 backdrop-blur-sm rounded-lg h-32 mb-8" />}>
                 <LeadGen />
@@ -149,8 +112,6 @@ export default function Page() {
               </div>
             </m.section>
 
-            <Separator />
-
             {/* Automation Section */}
             <m.section 
               id="automation"
@@ -159,43 +120,18 @@ export default function Page() {
               whileInView="whileInView"
               viewport={memoizedAnimations.section.viewport}
               transition={{...memoizedAnimations.section.transition, delay: 0.2}}
-              className="bg-white/15 backdrop-blur-sm rounded-2xl p-8 border border-white/30 shadow-sm hover:bg-white/20 transition-all duration-300"
+              className="p-8"
             >
               <Suspense fallback={<div className="animate-pulse bg-white/20 backdrop-blur-sm rounded-lg h-32" />}>
                 <AutomationSection />
               </Suspense>
             </m.section>
 
-            <Separator />
-
-            {/* Content Strategy Section - Empty but structured for future content */}
-            <m.section 
-              id="content-strategy"
-              variants={memoizedAnimations.section.variants}
-              initial="initial"
-              whileInView="whileInView"
-              viewport={memoizedAnimations.section.viewport}
-              transition={{...memoizedAnimations.section.transition, delay: 0.3}}
-              className="bg-white/15 backdrop-blur-sm rounded-2xl p-8 border border-white/30 shadow-sm hover:bg-white/20 transition-all duration-300"
-            >
-              {/* Future content strategy component can be added here */}
-              <div className="text-center py-12 text-gray-500">
-                <div className="bg-white/20 backdrop-blur-sm rounded-xl p-8 border border-white/30">
-                  <h3 className="text-2xl font-bold text-gray-700 mb-4">Content Strategy</h3>
-                  <p className="text-lg">Comprehensive content solutions coming soon</p>
-                  <div className="mt-6 w-16 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mx-auto"></div>
-                </div>
-              </div>
-            </m.section>
-
-            <Separator />
           </div>
 
           <div className="mt-20 flex justify-center">
             <Suspense fallback={<div className="animate-pulse bg-blue-100/30 backdrop-blur-sm rounded-lg h-12 w-32" />}>
-              <div className="bg-white/15 backdrop-blur-sm rounded-2xl p-4 border border-white/30 shadow-sm">
-                <ChatbotWidget />
-              </div>
+              <ChatbotWidget />
             </Suspense>
           </div>
         </main>

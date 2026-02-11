@@ -10,8 +10,9 @@ import ServiceFilter from "@/components/features/homepage/Service-filter";
 import { Separator } from "@/components/features/Seperator";
 import { TypingAnimation } from "@/components/magicui/typing-animation";
 import Contactme from "@/components/features/contactme";
-import CalmImageSection from "@/components/features/CalmImageSection";
+import SalesOverview from '@/components/ui/line-chart';
 import ChatbotWidget from "../components/chatbotui/chat-widget/page";
+
 
 // Custom hook for fade-in animation on scroll
 function useFadeInOnScroll(threshold = 0.1, rootMargin = '0px 0px -50px 0px') {
@@ -47,6 +48,7 @@ function useFadeInOnScroll(threshold = 0.1, rootMargin = '0px 0px -50px 0px') {
 
   return { elementRef, isVisible };
 }
+
 
 // Reusable FadeInSection component
 interface FadeInSectionProps {
@@ -118,14 +120,7 @@ export default function Page() {
               className="flex items-center justify-center p-4 lg:p-8"
             > 
               <div className="w-full max-w-xl lg:-ml-20">
-                <CalmImageSection
-                  src="/HeaderImage.png"
-                  alt="Your image description"
-                  width={1400}
-                  height={1050}
-                  priority={true}
-                  className="my-8"
-                />
+                <SalesOverview />
               </div>
             </div>
           </div>
