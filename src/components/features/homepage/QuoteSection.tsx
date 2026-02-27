@@ -1,59 +1,158 @@
-import React from 'react';
+"use client";
+
+import React, { useEffect, useRef } from "react";
+import Image from "next/image";
 
 const QuoteSection = () => {
+  const bannerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!bannerRef.current) return;
+
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    if (prefersReducedMotion) {
+      const items = bannerRef.current.querySelectorAll(".fade-in-up-soft");
+      items.forEach((el) => el.classList.add("is-visible"));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const items = bannerRef.current?.querySelectorAll(
+              ".fade-in-up-soft"
+            );
+            items?.forEach((el) => el.classList.add("is-visible"));
+            observer.disconnect();
+          }
+        });
+      },
+      {
+        root: null,
+        threshold: 0.3,
+      }
+    );
+
+    observer.observe(bannerRef.current);
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="w-full py-12 sm:py-16 bg-gradient-to-br from-blue-50 to-blue-100 shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
-      <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
-        <figure className="max-w-4xl mx-auto">
-          <blockquote className="relative pl-10 sm:pl-16">
-            {/* Quote icon - unchanged */}
-            <div className="absolute left-0 top-0">
-              <svg className="h-10 w-10 text-blue-400 opacity-80 hover:opacity-100 transition-opacity duration-300"
-                fill="currentColor"
-                viewBox="0 0 32 32">
-                <path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z" />
-              </svg>
+    <section className="w-full py-6 sm:py-8 bg-gradient-to-br from-blue-50 to-blue-100 shadow-[0_8px_30px_rgb(0,0,0,0.16)]">
+      <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 sm:space-y-8">
+        {/* Header + subheader */}
+        <div className="text-center space-y-2">
+          <h2 className="text-base sm:text-lg font-semibold tracking-tight text-blue-950">
+            Where systems integration drives real outcomes
+          </h2>
+          <p className="max-w-2xl mx-auto text-xs sm:text-sm text-blue-900/90 leading-relaxed">
+            We engineer the workflows behind onboarding, fulfillment, and support so your teams
+            ship on time, your clients see faster value, and your operations stop relying on
+            duct tape and heroics.
+          </p>
+        </div>
+
+        {/* Wreath banner */}
+        <div ref={bannerRef} className="flex flex-col items-center gap-4">
+          <div className="flex flex-wrap justify-center gap-2 sm:gap-4 lg:gap-8">
+            {/* Badge 1 */}
+            <div className="flex items-center gap-1.5 sm:gap-3 fade-in-up-soft fade-in-delay-1">
+              <div className="h-16 sm:h-28 md:h-32 w-auto">
+                <Image
+                  src="/wreath left.png"
+                  alt="Left wreath"
+                  width={140}
+                  height={140}
+                  className="h-full w-auto object-contain"
+                />
+              </div>
+              <div className="text-center">
+                <p className="text-sm sm:text-lg md:text-xl font-semibold text-blue-950 tracking-tight">
+                  Systems Integration
+                </p>
+                <p className="text-[0.65rem] sm:text-sm md:text-base text-blue-900/90">
+                  Production‑grade workflows.
+                </p>
+              </div>
+              <div className="h-16 sm:h-28 md:h-32 w-auto">
+                <Image
+                  src="/wreath right.png"
+                  alt="Right wreath"
+                  width={140}
+                  height={140}
+                  className="h-full w-auto object-contain"
+                />
+              </div>
             </div>
 
-            {/* Mobile-specific underlines (hidden on desktop) */}
-            <div className="md:hidden space-y-1">
-              <p className="text-2xl font-semibold leading-tight text-blue-900">
-                <span className="relative">
-                  A one-person
-                  <span className="absolute bottom-0 left-0 h-0.5 w-full bg-blue-700/60"></span>
-                </span>
-              </p>
-              <p className="text-2xl font-semibold leading-tight text-blue-900">
-                <span className="relative">
-                  billion-dollar company
-                  <span className="absolute bottom-0 left-0 h-0.5 w-full bg-blue-700/60"></span>
-                </span>
-              </p>
-              <p className="text-2xl font-semibold leading-tight text-blue-900">
-                <span className="relative">
-                  will happen.
-                  <span className="absolute bottom-0 left-0 h-0.5 w-full bg-blue-700/60"></span>
-                </span>
-              </p>
+            {/* Badge 2 */}
+            <div className="flex items-center gap-1.5 sm:gap-3 fade-in-up-soft fade-in-delay-2">
+              <div className="h-16 sm:h-28 md:h-32 w-auto">
+                <Image
+                  src="/wreath left.png"
+                  alt="Left wreath"
+                  width={140}
+                  height={140}
+                  className="h-full w-auto object-contain"
+                />
+              </div>
+              <div className="text-center">
+                <p className="text-sm sm:text-lg md:text-xl font-semibold text-blue-950 tracking-tight">
+                  Client Experience
+                </p>
+                <p className="text-[0.65rem] sm:text-sm md:text-base text-blue-900/90">
+                  Friction‑light onboarding.
+                </p>
+              </div>
+              <div className="h-16 sm:h-28 md:h-32 w-auto">
+                <Image
+                  src="/wreath right.png"
+                  alt="Right wreath"
+                  width={140}
+                  height={140}
+                  className="h-full w-auto object-contain"
+                />
+              </div>
             </div>
 
-            {/* Original desktop quote (hidden on mobile) */}
-            <p className="hidden md:block text-3xl md:text-4xl font-semibold leading-tight text-blue-900">
-              A one-person billion-dollar company will happen.
-            </p>
-          </blockquote>
-
-          {/* Attribution (unchanged) */}
-          <figcaption className="mt-6 sm:mt-8">
-            <div className="inline-flex items-center space-x-3 group">
-              <div className="h-px w-8 bg-blue-400 group-hover:w-12 transition-all duration-300" />
-              <span className="text-lg sm:text-xl font-medium text-blue-600 group-hover:text-blue-700 transition-colors duration-300">
-                Sam Altman, CEO of OpenAI
-              </span>
-              <div className="h-px w-8 bg-blue-400 group-hover:w-12 transition-all duration-300" />
+            {/* Badge 3 */}
+            <div className="flex items-center gap-1.5 sm:gap-3 fade-in-up-soft fade-in-delay-3">
+              <div className="h-16 sm:h-28 md:h-32 w-auto">
+                <Image
+                  src="/wreath left.png"
+                  alt="Left wreath"
+                  width={140}
+                  height={140}
+                  className="h-full w-auto object-contain"
+                />
+              </div>
+              <div className="text-center">
+                <p className="text-sm sm:text-lg md:text-xl font-semibold text-blue-950 tracking-tight">
+                  Operational Reliability
+                </p>
+                <p className="text-[0.65rem] sm:text-sm md:text-base text-blue-900/90">
+                  Repeatable delivery.
+                </p>
+              </div>
+              <div className="h-16 sm:h-28 md:h-32 w-auto">
+                <Image
+                  src="/wreath right.png"
+                  alt="Right wreath"
+                  width={140}
+                  height={140}
+                  className="h-full w-auto object-contain"
+                />
+              </div>
             </div>
-          </figcaption>
-        </figure>
+          </div>
+        </div>
+
+        {/* …rest of quote section unchanged… */}
       </div>
     </section>
   );

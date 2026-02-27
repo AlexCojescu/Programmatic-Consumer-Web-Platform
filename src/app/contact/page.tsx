@@ -14,18 +14,24 @@ export default function Page() {
       <ContactHeader />
 
       {/* Main content container */}
-      <div className="relative grid lg:grid-cols-2 gap-0">
-        {/* Grid Content */}
-        <div className="flex items-center justify-center p-4 lg:p-8">
-          <div className="w-full max-w-4xl lg:-mr-20">
-          <ContactFormMain />
+      <div className="relative grid lg:grid-cols-[1.2fr_0.8fr] gap-0 px-16 lg:px-32 xl:px-48 2xl:px-64">
+        {/* Contact Form */}
+        {/* To adjust vertical alignment: Change items-center to items-start (top) or items-end (bottom) */}
+        {/* To adjust vertical padding: Change py-4 lg:py-6 (e.g., py-6 lg:py-8 for more, py-2 lg:py-4 for less) */}
+        <div className="flex items-center justify-center py-4 lg:py-6 lg:pr-1">
+          <div className="w-full max-w-none">
+            <ContactFormMain />
           </div>
         </div>
+        {/* Calendar Widget */}
+        {/* To adjust vertical alignment: Change items-center to items-start (top) or items-end (bottom) */}
+        {/* To adjust vertical padding: Change py-4 lg:py-6 (e.g., py-6 lg:py-8 for more, py-2 lg:py-4 for less) */}
+        {/* To adjust Calendly height: Edit h-[850px] in CalendlyWidget.tsx component */}
         <div
           id="contact-me"
-          className="flex items-center justify-center p-4 lg:p-8"
+          className="flex items-center justify-center py-4 lg:py-6 lg:pl-1"
         >
-          <div className="w-full max-w-xl lg:-ml-20">
+          <div className="w-full">
             <CalendlyWidget />
           </div>
         </div>

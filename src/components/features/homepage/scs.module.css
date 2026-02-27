@@ -3,13 +3,12 @@
    ======================================== */
    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-
    /* Base Container */
    .strategyConsultingContainer {
      width: 100%;
      max-width: 1400px;
-     margin: 2rem auto 0 auto;
-     padding: 2rem 2rem 0 2rem;
+     margin: 0 auto;
+     padding: 0 2rem 0 2rem;
      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
    }
    
@@ -236,6 +235,7 @@
      display: flex;
      flex-direction: column;
      justify-content: center;
+     color: #000000; /* Ensure parent doesn't override */
    }
    
    .rightContent {
@@ -259,38 +259,52 @@
      letter-spacing: -0.025em;
    }
    
-   .bulletPoints {
-     display: flex;
-     flex-direction: column;
-     gap: 0.8rem;
-   }
-   
-   .bulletItem {
+   /* Simple point rows (no bullets) */
+   .pointRow {
      font-family: 'Inter', sans-serif;
-     display: flex;
-     align-items: flex-start;
-     gap: 0.5rem;
      font-size: 1.1rem;
      line-height: 1.5;
      font-weight: 400;
      color: #1a202c;
    }
    
-   .bullet {
-     color: #3182ce;
-     font-weight: bold;
-     margin-top: 0.1rem;
-     flex-shrink: 0;
-     font-size: 1.2rem;
+   /* Force bullet text style (the three lines on the right) */
+   .bulletPoints {
+     background: transparent;
    }
    
-   /* Mobile Optimizations - Tablet (OPTIMIZED FOR SMALLER TEXT) */
-   @media (max-width: 768px) {
-     .strategyConsultingContainer {
-       margin: 3vw auto 0 auto;
-       padding: 3vw 3vw 0 3vw;
-     }
+   .bulletItem {
+     margin-bottom: 0.6rem;
+     color: #000000 !important;
+   }
    
+   /* Direct span selector - CSS modules will scope .bulletItem but not span */
+   .bulletItem span {
+     font-family: 'Inter', sans-serif !important;
+     font-size: 1.05rem !important;
+     line-height: 1.6 !important;
+     font-weight: 400 !important;
+     color: #000000 !important;
+   }
+   
+   /* More specific selectors to ensure black color - highest specificity */
+   .strategyConsultingContainer .rightSection .rightContent .contentBlock .bulletPoints .bulletItem,
+   .strategyConsultingContainer .rightSection .rightContent .contentBlock .bulletPoints .bulletItem span,
+   .rightSection .rightContent .contentBlock .bulletPoints .bulletItem span,
+   .rightSection .bulletItem span,
+   .rightContent .bulletItem span,
+   .contentBlock .bulletItem span,
+   .bulletPoints .bulletItem span {
+     color: #000000 !important;
+   }
+   
+   /* Nuclear option - target all spans in bullet items with maximum specificity */
+   div.bulletItem > span {
+     color: #000000 !important;
+   }
+   
+   /* Mobile Optimizations - Tablet */
+   @media (max-width: 768px) {
      .aboveBorderSection {
        padding: 5vw 4vw;
        margin-bottom: 4vw;
@@ -422,34 +436,14 @@
        margin-bottom: 1vw;
      }
    
-     .bulletPoints {
-       gap: 2vw;
-     }
-   
-     .bulletItem {
+     .pointRow {
        font-size: 0.75rem;
        line-height: 1.45;
-       gap: 2vw;
-       align-items: flex-start;
-     }
-   
-     .bulletItem strong {
-       font-size: 0.75rem;
-     }
-   
-     .bullet {
-       font-size: 0.875rem;
-       margin-top: 0.1rem;
-       flex-shrink: 0;
      }
    }
    
-   /* Mobile Optimizations - Small Mobile (FURTHER OPTIMIZED) */
+   /* Small mobile */
    @media (max-width: 480px) {
-     .strategyConsultingContainer {
-       padding: 4vw 2.5vw 0 2.5vw;
-     }
-   
      .aboveBorderSection {
        padding: 6vw 4vw;
        border-radius: 14px;
@@ -498,20 +492,6 @@
        line-height: 1.25;
      }
    
-     .bulletItem {
-       font-size: 0.688rem;
-       line-height: 1.5;
-       gap: 2.5vw;
-     }
-   
-     .bulletItem strong {
-       font-size: 0.688rem;
-     }
-   
-     .bullet {
-       font-size: 0.813rem;
-     }
-   
      .talkToExpertBtn,
      .learnMoreBtn {
        min-height: 48px;
@@ -521,10 +501,6 @@
    
      .rightContent {
        gap: 5vw;
-     }
-   
-     .bulletPoints {
-       gap: 2.5vw;
      }
    }
    
@@ -558,3 +534,4 @@
    .strategyConsultingContainer *::after {
      box-sizing: border-box;
    }
+   

@@ -48,3 +48,49 @@ body {
   overflow-x: hidden;
   max-width: 100vw;
 }
+
+@keyframes fadeInUpSoft {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* base state: hidden */
+.fade-in-up-soft {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+/* when visible: animate in */
+.fade-in-up-soft.is-visible {
+  animation-name: fadeInUpSoft;
+  animation-duration: 900ms; /* slower */
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+}
+
+/* staggered delays */
+.fade-in-delay-1.is-visible {
+  animation-delay: 0.1s;
+}
+.fade-in-delay-2.is-visible {
+  animation-delay: 0.4s;
+}
+.fade-in-delay-3.is-visible {
+  animation-delay: 0.7s;
+}
+
+/* respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .fade-in-up-soft,
+  .fade-in-up-soft.is-visible {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

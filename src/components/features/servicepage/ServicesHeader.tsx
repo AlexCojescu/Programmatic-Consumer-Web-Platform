@@ -1,23 +1,25 @@
-'use client';
+"use client";
 
-import React from 'react';
-// MODIFIED: Explicitly import the 'Variants' type
-import { motion, type Variants } from 'framer-motion';
+import React from "react";
+import { motion, type Variants } from "framer-motion";
 
-// --- Data for the navigation links ---
 const serviceLinks = [
-  { name: 'AI Solutions', href: '#ai-solutions', isFeatured: true },
-  { name: 'Advanced Data Architecture', href: '#data-architecture' },
-  { name: 'AI UGC', href: '#apps', isFeatured: true },
-  { name: 'Automation', href: '#automation', isFeatured: true },
-  { name: 'Digital Innovation & Strategy', href: '#digital-strategy', isFeatured: true },
-  { name: 'Enterprise Digital Transformation', href: '#enterprise-transformation' },
-  { name: 'Performance Technology', href: '#performance-tech' },
-  { name: 'Web Design', href: '#web-design', isFeatured: true },
-  { name: 'Web Development', href: '#web-development', isFeatured: true },
+  { name: "Revenue OS", href: "#ai-solutions", isFeatured: true },
+  { name: "Client Onboarding", href: "#data-architecture", isFeatured: true },
+  { name: "Fulfillment & Delivery", href: "#apps", isFeatured: true },
+  { name: "Tool & Data Integration", href: "#automation", isFeatured: true },
+  { name: "SOP Design", href: "#digital-strategy", isFeatured: true },
+  {
+    name: "KPI Dashboards & Reporting",
+    href: "#enterprise-transformation",
+    isFeatured: true,
+  },
+  { name: "Client Success", href: "#performance-tech", isFeatured: true },
+  { name: "Retention Ops", href: "#web-design", isFeatured: true },
+  { name: "Ongoing Ops Management", href: "#web-development", isFeatured: true },
+  { name: "Process Mapping", href: "#web-development", isFeatured: true },
 ];
 
-// --- Animation Variants ---
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
@@ -36,54 +38,54 @@ const itemVariants: Variants = {
     y: 0,
     transition: {
       duration: 0.5,
-      ease: 'easeOut',
+      ease: "easeOut",
     },
   },
 };
 
 const ServicesHeader = () => {
   return (
-    // UPDATED: Removed white background to show gradient
-    <div className="pt-16 sm:pt-20 lg:pt-24 xl:pt-32">
-      <motion.header 
+    <div className="pt-14 sm:pt-20 lg:pt-24 xl:pt-40">
+      <motion.header
         className="relative"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
-        <div className="pt-36 sm:pt-48 pb-0 px-20 sm:px-32 lg:px-48 xl:px-64">
-          
+        <div className="pt-28 sm:pt-48 pb-0 px-4 sm:px-20 lg:px-64 xl:px-80">
           {/* Main "Services" Title */}
-          <motion.h1 
-            variants={itemVariants}
-            className="text-7xl sm:text-8xl lg:text-9xl font-light text-gray-900 tracking-tighter"
-          >
-            Services
-          </motion.h1>
+          <motion.h1
+  variants={itemVariants}
+  className="text-4xl sm:text-8xl lg:text-8xl font-light text-gray-900 tracking-tight sm:tracking-tighter leading-snug sm:leading-[1.05]"
+>
+  Operational systems for serious operators, <br className="sm:hidden" />Not AI theatre
+</motion.h1>
+
+
 
           {/* Navigation Links Container */}
-          <motion.nav 
+          <motion.nav
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="mt-16"
+            className="mt-10 sm:mt-16"
           >
-            <div className="flex flex-wrap gap-x-8 gap-y-5">
+            <div className="flex flex-wrap gap-x-4 sm:gap-x-8 gap-y-3 sm:gap-y-5">
               {serviceLinks.map((link) => (
                 <motion.a
                   key={link.name}
                   href={link.href}
                   variants={itemVariants}
-                  className={`text-xl sm:text-2xl text-gray-500 hover:text-gray-900 transition-colors duration-300 relative group
-                    ${link.isFeatured ? 'font-medium text-gray-800' : ''}
+                  className={`text-sm sm:text-2xl text-gray-500 hover:text-gray-900 transition-colors duration-300 relative group
+                    ${link.isFeatured ? "font-medium text-gray-800" : ""}
                   `}
                 >
                   <span>{link.name}</span>
                   {link.isFeatured && (
-                    <span className="absolute bottom-[-4px] left-0 w-full h-px bg-gray-400"></span>
+                    <span className="absolute bottom-[-4px] left-0 w-full h-px bg-gray-400" />
                   )}
                   {!link.isFeatured && (
-                    <span className="absolute bottom-[-4px] left-0 w-0 h-px bg-gray-500 transition-all duration-300 group-hover:w-full"></span>
+                    <span className="absolute bottom-[-4px] left-0 w-0 h-px bg-gray-500 transition-all duration-300 group-hover:w-full" />
                   )}
                 </motion.a>
               ))}

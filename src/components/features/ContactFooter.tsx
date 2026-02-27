@@ -1,38 +1,41 @@
-import React from 'react';
+"use client";
 
-// You can replace this with an icon from a library like `react-icons` if you have one installed.
+import React from "react";
+
 const LinkedInIcon = () => (
-  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+  <svg
+    className="h-5 w-5"
+    fill="currentColor"
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+  >
+    <path d="M19 0h-14C2.239 0 0 2.239 0 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5V5c0-2.761-2.238-5-5-5zM8 19H5V8h3v11zM6.5 6.732c-.966 0-1.75-.79-1.75-1.764S5.534 3.204 6.5 3.204 8.25 3.994 8.25 4.968 7.466 6.732 6.5 6.732zM20 19h-3v-5.604c0-3.368-4-3.113-4 0V19h-3V8h3v1.765c1.396-2.586 7-2.777 7 2.476V19z" />
   </svg>
 );
 
-const ContactFooter = () => {
+const ContactFooter: React.FC = () => {
   return (
-    // Changed to `py-` to add symmetrical padding on the top and bottom
-    <section className="py-16 sm:py-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        
-        {/* A simple divider to separate this section from the content above */}
-        <div className="w-full border-t border-gray-200"></div>
-
-        <div className="mt-12 sm:mt-16 text-center">
-          <h3 className="text-2xl font-semibold text-gray-900">
-            Looking Forward to Connecting
+    <section className="w-full">
+      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-12 lg:px-8">
+        <div className="flex flex-col items-center gap-4 text-center sm:gap-3">
+          <h3 className="text-lg font-semibold tracking-tight text-neutral-900 sm:text-xl">
+            We read every note.
           </h3>
-          <p className="mt-4 text-base text-gray-600 max-w-xl mx-auto">
-            I personally review every message and will respond within 24 business hours. In the meantime, feel free to connect with me on LinkedIn.
+          <p className="max-w-xl text-sm leading-relaxed text-neutral-600 sm:text-[0.95rem]">
+            Your message doesn’t drop into a generic inbox. It’s reviewed by the same team that
+            designs and implements the systems—expect a thoughtful reply within one business day.
           </p>
-          
-          <div className="mt-8 flex justify-center">
+
+          <div className="mt-2 flex items-center gap-2 text-xs text-neutral-500 sm:text-[0.8rem]">
+            <span>Prefer async?</span>
             <a
-              href="https://www.linkedin.com/in/alexandrucojescu/" // <-- IMPORTANT: Change this URL
+              href="https://www.linkedin.com/in/alexandrucojescu/"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="LinkedIn Profile"
-              className="text-gray-400 hover:text-blue-600 transition-colors duration-300"
+              className="inline-flex items-center gap-1 rounded-full border border-neutral-200 bg-neutral-50 px-3 py-1 text-xs font-medium text-neutral-700 transition hover:border-neutral-300 hover:bg-neutral-100"
             >
               <LinkedInIcon />
+              <span className="underline underline-offset-2">Connect on LinkedIn</span>
             </a>
           </div>
         </div>

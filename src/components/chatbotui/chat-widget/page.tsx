@@ -84,36 +84,56 @@ export default function ChatWidget() {
             </div>
 
             {/* Chat Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-white scrollbar-hidden">
+            <div className="flex-1 overflow-y-auto bg-white scrollbar-hidden flex flex-col relative">
               {error && (
-                <div className="text-red-600 bg-red-50 border border-red-200 p-2.5 rounded text-sm">
+                <div className="text-red-600 bg-red-50 border border-red-200 p-2.5 rounded text-sm m-4">
                   {error.message}
                 </div>
               )}
 
-              {messages.map((message) => (
-                <div key={message.id} className="flex flex-col">
-                  {message.parts?.map((part, index) => {
-                    switch (part.type) {
-                      case "text":
-                        return (
-                          <div
-                            key={`${message.id}-${index}`}
-                            className={`max-w-[80%] p-2.5 rounded text-sm ${
-                              message.role === "user"
-                                ? "bg-gray-900 text-white ml-auto"
-                                : "bg-gray-100 text-gray-900"
-                            }`}
-                          >
-                            {part.text}
-                          </div>
-                        );
-                      default:
-                        return null;
-                    }
-                  })}
+              {/* Empty state when there are no messages yet */}
+              {(!messages || messages.length === 0) && !error && (
+                <div className="flex-1 flex flex-col items-center justify-center text-center p-4">
+                  <div className="flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 mb-4 text-gray-400">
+                    <BotIcon />
+                  </div>
+                  <p className="text-sm font-medium text-gray-500 mb-2">
+                    Ask anything about our systems integration & services.
+                  </p>
+                  <p className="text-xs text-gray-400 max-w-xs">
+                    I can help you understand our offers, recommend next steps, or answer quick questions.
+                  </p>
                 </div>
-              ))}
+              )}
+
+              {/* Messages list */}
+              {messages && messages.length > 0 && (
+                <div className="p-4 space-y-3">
+                  {messages.map((message) => (
+                    <div key={message.id} className="flex flex-col">
+                      {message.parts?.map((part, index) => {
+                        switch (part.type) {
+                          case "text":
+                            return (
+                              <div
+                                key={`${message.id}-${index}`}
+                                className={`max-w-[80%] p-2.5 rounded text-sm ${
+                                  message.role === "user"
+                                    ? "bg-gray-900 text-white ml-auto"
+                                    : "bg-gray-100 text-gray-900"
+                                }`}
+                              >
+                                {part.text}
+                              </div>
+                            );
+                          default:
+                            return null;
+                        }
+                      })}
+                    </div>
+                  ))}
+                </div>
+              )}
 
               {(status === "submitted" || status === "streaming") && (
                 <div className="flex items-center gap-2 text-gray-500 text-sm">

@@ -1,29 +1,43 @@
-import React from 'react';
+"use client";
 
-const ContactHeader = () => {
+import React from "react";
+
+const ContactHeader: React.FC = () => {
   return (
-    // Added mt-32 and lg:mt-48 to create a large margin above the component
-    <div className="py-24 sm:py-18 mt-18 lg:mt-18">
-      <div className="max-w-4xl mx-auto text-center px-4 sm:px-6">
-        {/* Optional: A small badge for a modern UI touch */}
-        <div className="mb-4">
-            <span className="inline-block rounded-full bg-blue-100 px-4 py-1.5 text-sm font-semibold text-blue-700">
-                Let&apos;s Connect
+    <section className="relative w-full">
+      <div
+        className="
+          mx-auto flex max-w-5xl flex-col items-center
+          px-4 sm:px-6 lg:px-8
+          pt-40 sm:pt-44 lg:pt-48
+          pb-6 lg:pb-8
+        "
+      >
+        <div className="w-full rounded-3xl px-6 py-8 text-center sm:px-10 sm:py-10">
+          <p className="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-neutral-500">
+            Contact · Systems Audit
+          </p>
+
+          <h1 className="mt-4 text-4xl font-bold tracking-tight text-neutral-900 sm:text-5xl lg:text-6xl">
+            Schedule a{" "}
+            <span className="bg-gradient-to-r from-sky-600 to-indigo-600 bg-clip-text text-transparent">
+              systems audit
             </span>
+          </h1>
+
+          <p className="mt-5 text-sm leading-relaxed text-neutral-700 sm:text-base">
+            Share how your NMS, billing, and CRM are wired today, plus where tickets get stuck.
+            We’ll review your operation and send back a concrete recommendation on whether a full
+            build makes sense—and what we’d tackle first.
+          </p>
+
+          <p className="mt-3 text-xs text-neutral-500 sm:text-[0.8rem]">
+            No generic sales demo. You’ll leave with an opinionated view of your systems, even if
+            we never work together.
+          </p>
         </div>
-        
-        {/* The main heading with a gradient text effect */}
-        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-          Start a Conversation
-        </h1>
-        
-        {/* Updated paragraph with slightly larger text and more top margin */}
-        <p className="mt-8 text-xl sm:text-2xl leading-8 text-gray-700">
-          Have a project in mind or just want to ask a question? I&apos;m here to help.
-          Schedule a free discovery call below or send a message, and I&apos;ll get back to you shortly.
-        </p>
       </div>
-    </div>
+    </section>
   );
 };
 

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   Area,
   CartesianGrid,
@@ -13,6 +13,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { ArrowDown, ArrowUp } from "lucide-react";
+
 
 const salesData = [
   { month: "Jan 24", goals: 250000, sales: 280000, salesArea: 280000 },
@@ -111,9 +112,22 @@ const CustomTooltip = ({ active, payload, label }: TooltipProps) => {
 };
 
 export default function SalesOverview() {
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
-    <div className="flex min-h-[420px] items-center justify-center px-4 py-10">
-      <div className="w-full max-w-4xl rounded-2xl border border-neutral-200 bg-white p-6 shadow-[0_18px_60px_rgba(15,23,42,0.08)]">
+    <div className="flex min-h-[560px] items-center justify-center px-0 py-6">
+      <div
+        className="w-full max-w-xl rounded-2xl border bg-white p-6 shadow-[0_18px_60px_rgba(15,23,42,0.08)] transition-all duration-300 ease-out"
+        style={{
+          borderColor: isHovered ? "#d1d5db" : "#e5e7eb",
+          boxShadow: isHovered
+            ? "0 12px 30px -8px rgba(15,23,42,0.18)"
+            : "0 18px 60px rgba(15,23,42,0.08)",
+          transform: isHovered ? "translateY(-2px)" : "translateY(0)",
+        }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
         <div className="mb-4 flex items-center justify-between gap-4">
           <div>
             <h2 className="text-sm font-semibold text-neutral-900">
@@ -129,12 +143,13 @@ export default function SalesOverview() {
           </div>
         </div>
 
-        <div className="w-full h-[320px]">
+        <div className="w-full h-[442px]">
           <ResponsiveContainer width="100%" height="100%">
             <ComposedChart
               data={salesData}
               margin={{ top: 5, right: 10, left: 0, bottom: 5 }}
             >
+              {/* ...rest of your chart unchanged... */}
               <defs>
                 <linearGradient
                   id="salesGradient"

@@ -1,0 +1,454 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
+.enterpriseServicesHub {
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    #ffffff 0%,
+    #ffffff 40%,
+    #eff6ff 60%,
+    #dbeafe 100%
+  );
+}
+
+.heroSection {
+  background: transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.heroWrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 4rem 2rem 3rem 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.heroContent {
+  text-align: center;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  position: relative;
+  z-index: 3;
+}
+
+.heroContent.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.contentWrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.titleSection {
+  margin-bottom: 2rem;
+}
+
+.mainTitle {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.titleUnderline {
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #3b82f6, #2563eb);
+  margin: 1.5rem auto;
+  border-radius: 2px;
+  transform: scaleX(0);
+  animation: expandLine 1.2s cubic-bezier(0.23, 1, 0.32, 1) 0.4s forwards;
+}
+
+@keyframes expandLine {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.heroDescription {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  font-size: clamp(1.1rem, 2.5vw, 1.25rem);
+  color: #475569;
+  line-height: 1.7;
+  margin: 0 0 4rem 0;
+  font-weight: 400;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 0;
+  animation: fadeInUp 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.6s forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.serviceNavigation {
+  margin: 0 0 2.5rem 0;
+  opacity: 0;
+  animation: fadeInUp 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.8s forwards;
+}
+
+/* DESKTOP: 3 columns unchanged */
+.serviceTabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.serviceTab {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: #ffffff;
+  border: 1px solid #f8f9fa;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  text-align: left;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: slideInUp 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.15),
+    0 8px 25px rgba(0, 0, 0, 0.1),
+    0 3px 10px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  will-change: transform, box-shadow, background;
+}
+
+@keyframes slideInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.serviceTab:hover {
+  border-color: #e2e8f0;
+  background: #ffffff;
+  transform: translateY(-2px);
+}
+
+.serviceTab.active {
+  border-color: #e2e8f0;
+  background: #ffffff;
+  transform: translateY(-1px);
+}
+
+.tabIcon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8fafc;
+  border-radius: 12px;
+  color: #64748b;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  will-change: background, color;
+}
+
+.serviceTab:hover .tabIcon,
+.serviceTab.active .tabIcon {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  color: white;
+}
+
+.tabContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.tabLabelFull {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 0.25rem;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  transition: color 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.tabLabelShort {
+  display: none;
+}
+
+.tabDescription {
+  display: block;
+  font-size: 0.9rem;
+  color: #64748b;
+  line-height: 1.4;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  transition: color 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.serviceTab:hover .tabDescription,
+.serviceTab.active .tabDescription {
+  color: #475569;
+}
+
+.tabIndicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  border-radius: 0 2px 2px 0;
+  transform: scaleY(0);
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  will-change: transform;
+}
+
+.serviceTab:hover .tabIndicator,
+.serviceTab.active .tabIndicator {
+  transform: scaleY(1);
+}
+
+/* Active Service Highlight – visible and below tabs on all viewports */
+.activeServiceHighlight {
+  display: block;
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  border-radius: 16px;
+  padding: 1.5rem 1.75rem;
+  margin-top: 1.75rem;
+  color: white;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.highlightContent {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.highlightIcon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: white;
+}
+
+.highlightText {
+  flex: 1;
+}
+
+.highlightTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem 0;
+  color: white;
+}
+
+.highlightDescription {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.serviceContent {
+  background: transparent;
+}
+
+.contentContainer {
+  opacity: 0;
+  transform: translateY(5px);
+  animation: contentFadeIn 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes contentFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* MOBILE OPTIMIZATIONS */
+@media (max-width: 768px) {
+  .heroWrapper {
+    padding: 6vw 4vw 5vw 4vw;
+  }
+
+  .mainTitle {
+    font-size: clamp(1.7rem, 7vw, 2.25rem);
+    line-height: 1.2;
+  }
+
+  .heroDescription {
+    font-size: clamp(0.95rem, 3.7vw, 1.05rem);
+    margin-bottom: 5vw;
+    padding: 0 2vw;
+  }
+
+  .titleUnderline {
+    width: 60px;
+    height: 3px;
+    margin: 4vw auto;
+  }
+
+  /* Three buttons in one row (3 columns), with tighter padding and text */
+  .serviceTabs {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .serviceTab {
+    padding: 0.75rem 0.65rem;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .tabIcon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 0.35rem;
+  }
+
+  .tabLabelFull {
+    display: none;
+  }
+
+  .tabLabelShort {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 0.15rem;
+  }
+
+  .tabDescription {
+    font-size: 0.7rem;
+    line-height: 1.35;
+  }
+
+  /* SCS / active-service info below the three buttons, smaller text */
+  .activeServiceHighlight {
+    padding: 1.1rem 1rem;
+    margin-top: 1.25rem;
+  }
+
+  .highlightContent {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .highlightIcon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .highlightTitle {
+    font-size: 0.95rem;
+  }
+
+  .highlightDescription {
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+}
+
+/* VERY SMALL MOBILE */
+@media (max-width: 480px) {
+  .heroWrapper {
+    padding: 8vw 3vw 10vw 3vw;
+  }
+
+  .serviceTabs {
+    gap: 0.6rem;
+  }
+
+  .serviceTab {
+    padding: 0.65rem 0.5rem;
+  }
+
+  .tabIcon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .tabLabelShort {
+    font-size: 0.8rem;
+  }
+
+  .tabDescription {
+    font-size: 0.7rem;
+  }
+
+  .activeServiceHighlight {
+    padding: 1rem 0.9rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .heroContent,
+    .heroDescription,
+    .serviceNavigation,
+    .serviceTab,
+    .contentContainer {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  
+    .titleUnderline {
+      animation: none;
+      transform: scaleX(1);
+    }
+  
+    .enterpriseServicesHub * {
+      transition-duration: 0.1s !important;
+    }
+  }
+  
+
+.serviceTab,
+.contentContainer {
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.enterpriseServicesHub * {
+  box-sizing: border-box;
+}

@@ -3,7 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import styles from './scs.module.css';
+import styles from './SCS.module.css';
 
 interface DigitalSEOSolutionsProps {
   imageSource?: string;
@@ -13,7 +13,7 @@ interface DigitalSEOSolutionsProps {
 
 const DigitalSEOSolutions: React.FC<DigitalSEOSolutionsProps> = ({
   imageSource = "/agent03.png",
-  imageAlt = "Digital SEO Solutions illustration",
+  imageAlt = "Operational flow and delivery systems illustration",
   className = ""
 }) => {
   const router = useRouter();
@@ -42,17 +42,32 @@ const DigitalSEOSolutions: React.FC<DigitalSEOSolutionsProps> = ({
           </div>
 
           <div className={styles.leftContent}>
-            <h2 className={styles.mainTitle}>Digital SEO Solutions</h2>
+            <h2 className={styles.mainTitle}>Operational Flow &amp; Delivery Systems</h2>
             <h3 className={styles.subtitle}>
-              Optimize Customer Interactions. Streamline Support. Drive Efficiency.
+              Turn Day‑to‑Day Work Into a Predictable, Trackable Delivery Engine.
             </h3>
             <p className={styles.description}>
-              Our AI-driven web development solutions merge cutting-edge design with powerful SEO strategies and intelligent chatbot integration. We create high-performance websites that not only rank higher but also provide instant, personalized user experiences. By leveraging AI, we automate engagement, capture leads, and ensure your site is a dynamic, always-on asset for your business.
+              We design and standardize the workflows that sit behind your services <br /> so work moves
+              through clear stages with defined ownership. Instead of relying on individual
+              heroics, your team runs from shared playbooks, simple queues, and consistent views
+              of what’s in progress, what’s blocked, and what’s done.
             </p>
             <button className={styles.learnMoreBtn} onClick={handleLearnMoreClick}>
               <span>Learn More</span>
-              <svg className={styles.arrowIcon} width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M1 8h14m-7-7l7 7-7 7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <svg
+                className={styles.arrowIcon}
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+              >
+                <path
+                  d="M1 8h14m-7-7l7 7-7 7"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
               </svg>
             </button>
           </div>
@@ -65,37 +80,47 @@ const DigitalSEOSolutions: React.FC<DigitalSEOSolutionsProps> = ({
         <div className={styles.rightSection}>
           <div className={styles.rightContent}>
             <div className={styles.contentBlock}>
-              <h3 className={styles.blockTitle}>1. Intelligent AI Chatbots</h3>
+              <h3 className={styles.blockTitle}>
+                1. End‑to‑End Process Mapping &amp; Design
+              </h3>
               <div className={styles.bulletPoints}>
                 <div className={styles.bulletItem}>
-                  <span className={styles.bullet}>•</span>
-                  <span><strong>Deploy</strong> custom AI agents that handle customer inquiries, offer real-time support, and guide users through the sales funnel 24/7.</span>
+                  <span>
+                    Outline how client work actually flows today—from intake through delivery and follow‑up.
+                  </span>
                 </div>
                 <div className={styles.bulletItem}>
-                  <span className={styles.bullet}>•</span>
-                  <span><strong>Build</strong> fast, responsive websites optimized to convert traffic into sales. The AI chatbot acts as a seamless extension of your sales team, engaging visitors and turning them into qualified leads.</span>
+                  <span>
+                    Simplify and re‑order steps so responsibilities are clear and work doesn't bounce between people or tools.
+                  </span>
                 </div>
                 <div className={styles.bulletItem}>
-                  <span className={styles.bullet}>•</span>
-                  <span><strong>Scalable Architecture</strong> Our solutions are built to grow with your business, ensuring your website and AI agents can handle increasing traffic and data without compromising performance.</span>
+                  <span>
+                    Create practical checklists and stages that anyone on the team can follow.
+                  </span>
                 </div>
               </div>
             </div>
 
             <div className={styles.contentBlock}>
-              <h3 className={styles.blockTitle}>2. Seamless Deployment & Integration</h3>
+              <h3 className={styles.blockTitle}>
+                2. Execution Systems &amp; Capacity Management
+              </h3>
               <div className={styles.bulletPoints}>
                 <div className={styles.bulletItem}>
-                  <span className={styles.bullet}>•</span>
-                  <span><strong>Facilitate</strong> rapid deployment across all designated customer touchpoints (e.g., web, mobile, messaging platforms).</span>
+                  <span>
+                    Implement task and ticket flows that match your real‑world processes, not the other way around.
+                  </span>
                 </div>
                 <div className={styles.bulletItem}>
-                  <span className={styles.bullet}>•</span>
-                  <span><strong>Ensure</strong> robust, bidirectional integration with existing CRM, ERP, and support system infrastructures.</span>
+                  <span>
+                    Give operators visibility into workload, bottlenecks, and handoffs without needing complex reports.
+                  </span>
                 </div>
                 <div className={styles.bulletItem}>
-                  <span className={styles.bullet}>•</span>
-                  <span><strong>Implement</strong> scalable architectures to accommodate fluctuating user volume and ensure consistent performance.</span>
+                  <span>
+                    Support ongoing refinement so your workflows can evolve as volume, team size, and offerings change.
+                  </span>
                 </div>
               </div>
             </div>

@@ -1,169 +1,609 @@
-'use client';
+"use client";
 
-import React from 'react';
-// Import motion and Variants for animations
-import { motion, type Variants } from 'framer-motion';
+import React, { useState, useEffect, useRef } from "react";
+import { AnimatePresence, motion } from "motion/react";
 
-// --- Reusable SVG Icons for the feature columns ---
-const BlueprintIcon = () => (
-  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-  </svg>
-);
+interface Service {
+  id: string;
+  icon: string;
+  title: string;
+  description: string;
+  bottlenecks: string[];
+  outcomes: string[];
+  previewOutcome: string;
+  metadata: string;
+}
 
-const ScaleIcon = () => (
-  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-  </svg>
-);
+const useOutsideClick = (callback: () => void) => {
+  const ref = useRef<HTMLDivElement>(null);
 
-const ResponsiveIcon = () => (
-  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-  </svg>
-);
+  useEffect(() => {
+    const handleClick = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        callback();
+      }
+    };
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
+  }, [callback]);
 
-// Animation variants
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.3,
-      delayChildren: 0.2,
-    },
-  },
+  return ref;
 };
 
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.8,
-      ease: [0.25, 0.46, 0.45, 0.94],
-    },
-  },
-};
+const Header: React.FC = () => {
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+  const [current, setCurrent] = useState<Service | null>(null);
 
-const WebDev = () => {
+  const ref = useOutsideClick(() => setCurrent(null));
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      setIsMobile(width <= 480);
+      setIsTablet(width <= 1024 && width > 480);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setCurrent(null);
+    };
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, []);
+
+  const services: Service[] = [
+    {
+      id: "onboarding-activations",
+      icon: "🚀",
+      title: "Onboarding & Activations",
+      description:
+        "Move from slow, inconsistent activations to a streamlined onboarding engine. We eliminate handoffs, missing forms, and scheduling chaos by connecting your sales, provisioning, and field ops into one reliable system. Every install becomes predictable faster sign‑to‑activation, unified visibility across teams, and a standardized playbook that scales smoothly across all regions.",
+      bottlenecks: [
+        "Multiple handoffs between sales, provisioning, field techs, and billing with no single source of truth.",
+        "Manual chasing of missing forms, signatures, and info.",
+        "Technicians showing up unprepared or to bad appointments due to poor data flow.",
+        "Region‑to‑region inconsistency: some teams “wing it,” others follow local hacks.",
+      ],
+      outcomes: [
+        "Shorter time from signed contract to install/activation (faster revenue recognition).",
+        "Standardized onboarding playbook across regions and teams.",
+        "Higher show rate for key appointments (intake, site survey, install).",
+        "Higher completion rate of customer tasks (forms, agreements, prep steps).",
+        "Predictable install calendar with fewer reschedules and “no access” visits.",
+        "Clear visibility into onboarding status for sales, ops, and support in one place.",
+      ],
+      previewOutcome:
+        "Faster revenue recognition (shorter time from signed contract to install/activation)...",
+      metadata: "Onboarding · Activations · Revenue",
+    },
+    {
+      id: "delivery-support-networkops",
+      icon: "📡",
+      title: "Delivery, Support & Network Ops",
+      description:
+        "Turn your delivery and support operations into a synchronized ecosystem. We make sure every alert becomes action, every ticket finds an owner, and every work order closes without duplication or delay. With integrated systems and automated SLA tracking, you’ll see fewer fire drills, cleaner data, and a higher first‑time fix rate across your footprint.",
+      bottlenecks: [
+        "Tickets bouncing between teams because ownership is unclear.",
+        "Network alerts not translating into actionable work for ops/support.",
+        "Mismatched records (service active in one system, cancelled in another).",
+        "Relying on spreadsheets and side‑channels (Slack, email) to reconcile data.",
+      ],
+      outcomes: [
+        "Faster project / work‑order completion across the footprint.",
+        "Lower volume of “stuck” tickets and fire‑drill escalations.",
+        "Reduced rework loops (duplicate dispatches, repeated site visits).",
+        "Clear SLAs and automated routing/notifications when SLAs are at risk.",
+        "Better first‑time fix rate for field work and support cases.",
+        "Consistent data between NMS, CRM, billing, and support tools.",
+      ],
+      previewOutcome:
+        "Faster project and work‑order completion across your footprint...",
+      metadata: "Support · Network Ops · SLAs",
+    },
+    {
+      id: "revenue-retention-cx",
+      icon: "💰",
+      title: "Revenue, Retention & Customer Experience",
+      description:
+        "We help you tie operational excellence directly to revenue growth. By fixing the friction points in onboarding and support, customers stay longer, adopt faster, and spend more. Our systems connect data across teams so you can launch new offers confidently, reduce churn, and deliver a faster, cleaner customer journey.",
+      bottlenecks: [
+        "Customers cancelling before install due to slow or confusing onboarding.",
+        "Lost upgrade/cross‑sell opportunities because data is siloed.",
+        "No reliable way to tie operational KPIs to revenue and retention metrics.",
+      ],
+      outcomes: [
+        "Higher activation and retention rates per cohort or region.",
+        "Reduced churn driven by onboarding friction or support frustration.",
+        "Better NPS/CSAT through faster, cleaner customer journeys.",
+        "Ability to launch new offers/plans without breaking existing workflows.",
+      ],
+      previewOutcome:
+        "Higher activation and retention rates per cohort or region...",
+      metadata: "Revenue · Retention · Customer Experience",
+    },
+    {
+      id: "internal-efficiency-scale",
+      icon: "🏗️",
+      title: "Internal Efficiency & Scalability",
+      description:
+        "Scale your operations without scaling your headcount. We codify your best processes into clear, consistent SOPs and dashboards that track live KPIs across installs, tickets, and onboarding. Leadership gains visibility, new hires ramp faster, and your organization stops running on gut feel — it runs on data.",
+      bottlenecks: [
+        "Key processes living in veterans’ heads instead of documented SOPs.",
+        "Every region/team “doing things their own way,” blocking scale.",
+        "Ops leaders making decisions from gut feel instead of reliable operational data.",
+      ],
+      outcomes: [
+        "Fewer manual touches per order, ticket, or install.",
+        "Clear roles, responsibilities, and SOPs across operations.",
+        "Faster ramp time for new hires with documented workflows and training.",
+        "Leadership dashboards that show live operational KPIs (onboarding, tickets, installs).",
+        "Ability to handle more customers without adding headcount linearly.",
+      ],
+      previewOutcome:
+        "Ability to handle more customers without adding headcount linearly...",
+      metadata: "SOPs · Scale · Leadership Dashboards",
+    },
+    {
+      id: "tooling-systems-integration",
+      icon: "🧩",
+      title: "Tooling & Systems Integration",
+      description:
+        "We unify your fragmented stack into one connected workflow — linking CRM, billing, NMS, field tools, and communication systems. No more duplicated data, scattered automations, or silent system failures. You get a clean architecture where every integration is stable, owned, and built to last.",
+      bottlenecks: [
+        "API keys, webhooks, and automations scattered across people and tools.",
+        "Shadow systems built by individual team members that break silently.",
+        "Tool sprawl: overlapping platforms with no coherent architecture.",
+      ],
+      outcomes: [
+        "One integrated workflow spanning NMS, CRM, billing, ticketing, field tools, and communication platforms.",
+        "Clean, automated data flows instead of CSV exports and manual updates.",
+        "Clear system ownership and change‑management processes.",
+      ],
+      previewOutcome:
+        "One integrated workflow spanning NMS, CRM, billing, ticketing, and field tools...",
+      metadata: "Integrations · Data Flows · Architecture",
+    },
+    {
+      id: "strategic-compliance",
+      icon: "📜",
+      title: "Strategic & Compliance",
+      description:
+        "Build a foundation of trust and control across your operations. We document your key processes for audit readiness, benchmark your performance, and establish a roadmap for continuous improvement — from onboarding to fulfillment to support. You gain measurable progress, predictable outcomes, and proof of ROI quarter after quarter.",
+      bottlenecks: [
+        "Inability to demonstrate consistent processes during audits or due diligence.",
+        "No ownership for continuous improvement of operations—only firefighting.",
+      ],
+      outcomes: [
+        "Documented, auditable processes for key regulatory/compliance requirements.",
+        "Operational benchmarks set at the start and tracked over time to prove ROI.",
+        "Clear roadmap for the next quarters of operational improvement (onboarding → fulfillment → support, etc.).",
+      ],
+      previewOutcome:
+        "Documented, auditable processes for key regulatory/compliance requirements...",
+      metadata: "Compliance · Strategy · Roadmapping",
+    },
+  ];
+
+  const commonStyles: React.CSSProperties = {
+    fontFamily: "system-ui, -apple-system, sans-serif",
+  };
+
+  const containerStyle: React.CSSProperties = {
+    ...commonStyles,
+    background: "transparent",
+    padding: isMobile ? "2.75rem 0 3.25rem 0" : "4rem 0 4.5rem 0",
+    margin: 0,
+    maxWidth: "100%",
+    width: "100%",
+    overflow: "visible",
+    position: "relative",
+  };
+
+  const headerContentWrapperStyle: React.CSSProperties = {
+    ...commonStyles,
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    padding: isMobile ? "0 1.1rem" : isTablet ? "0 1.25rem" : "0 2.5rem",
+    boxSizing: "border-box",
+    marginBottom: isMobile ? "1.75rem" : "2.5rem",
+  };
+
+  const textColumnStyle: React.CSSProperties = {
+    width: "100%",
+    maxWidth: "72rem",
+  };
+
+  const headingStyle: React.CSSProperties = {
+    ...commonStyles,
+    fontSize: isMobile ? "1.7rem" : isTablet ? "3.1rem" : "3.6rem",
+    fontWeight: 800,
+    color: "#111827",
+    lineHeight: isMobile ? 1.1 : 1.05,
+    letterSpacing: isMobile ? "-0.03em" : "-0.04em",
+    marginBottom: isMobile ? "0.7rem" : "1.1rem",
+  };
+
+  const gradientTextStyle: React.CSSProperties = {
+    background: "linear-gradient(90deg, #111827, #1f2937, #4b5563)",
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+    backgroundClip: "text",
+  };
+
+  const introStyle: React.CSSProperties = {
+    ...commonStyles,
+    fontSize: isMobile ? "0.95rem" : isTablet ? "1.05rem" : "1.2rem",
+    color: "#4b5563",
+    lineHeight: 1.7,
+    maxWidth: "42rem",
+    fontWeight: 500,
+    marginBottom: isMobile ? "0.6rem" : "0.75rem",
+  };
+
+  const hintStyle: React.CSSProperties = {
+    ...commonStyles,
+    fontSize: isMobile ? "0.85rem" : "0.95rem",
+    color: "#6b7280",
+    lineHeight: 1.6,
+  };
+
+  const gridWrapperStyle: React.CSSProperties = {
+    ...commonStyles,
+    display: "flex",
+    justifyContent: "center",
+    width: "100%",
+    padding: isMobile ? "0 1.1rem" : isTablet ? "0 1.5rem" : "0 2rem",
+    boxSizing: "border-box",
+  };
+
+  const servicesGridStyle: React.CSSProperties = {
+    display: "grid",
+    gridTemplateColumns: isMobile
+      ? "1fr"
+      : isTablet
+      ? "repeat(2, minmax(0, 1fr))"
+      : "repeat(2, minmax(0, 1fr))",
+    gap: isMobile ? "1.35rem" : "2rem",
+    maxWidth: "72rem",
+    width: "100%",
+    alignItems: "stretch",
+  };
+
+  const cardBasePadding = isMobile ? "1.35rem" : "2.1rem";
+
+  const iconContainerStyle: React.CSSProperties = {
+    flexShrink: 0,
+    padding: isMobile ? "0.6rem" : "0.7rem",
+    borderRadius: "0.85rem",
+    backgroundColor: "#f9fafb",
+    fontSize: isMobile ? "1.3rem" : "1.5rem",
+    width: isMobile ? "2.7rem" : "3rem",
+    height: isMobile ? "2.7rem" : "3rem",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  };
+
+  const serviceTitleStyle: React.CSSProperties = {
+    ...commonStyles,
+    fontWeight: 600,
+    color: "#111827",
+    fontSize: isMobile ? "1rem" : "1.15rem",
+    marginBottom: "0.4rem",
+  };
+
+  const serviceDescriptionStyle: React.CSSProperties = {
+    ...commonStyles,
+    color: "#6b7280",
+    fontSize: isMobile ? "0.85rem" : "0.95rem",
+    lineHeight: 1.7,
+  };
+
+  const layoutTransition = {
+    type: "spring" as const,
+    stiffness: 380,
+    damping: 36,
+    mass: 0.6,
+  };
+
   return (
-    <div className="relative py-20">
-      <div className="relative container mx-auto px-6 max-w-6xl">
-        {/* Header Section */}
-        <motion.div 
-          className="text-center mb-16"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-        >
-          <motion.div 
-            variants={itemVariants}
-            className="inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold text-blue-700 mb-6"
-          >
-            <div className="mr-2 h-2 w-2 rounded-full bg-blue-500 animate-pulse" />
-            Web Development
-          </motion.div>
-          
-          <motion.h2 
-            variants={itemVariants}
-            className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl mb-6"
-          >
-            Strategic{' '}
-            <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
-              Web Development
-            </span>
-          </motion.h2>
-          
-          <motion.p 
-            variants={itemVariants}
-            className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed"
-          >
-            Construct your core digital asset with logic and purpose. We engineer a website that serves as a stable, 
-            scalable foundation for all commercial activity.
-          </motion.p>
-        </motion.div>
+    <header style={containerStyle}>
+      {/* Backdrop */}
+      <AnimatePresence>
+        {current && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
+            style={{
+              position: "fixed",
+              inset: 0,
+              zIndex: 40,
+              backgroundColor: "rgba(255,255,255,0.5)",
+              backdropFilter: "blur(12px)",
+              WebkitBackdropFilter: "blur(12px)",
+              pointerEvents: "none",
+            }}
+          />
+        )}
+      </AnimatePresence>
 
-        {/* Features Grid */}
-        <motion.div 
-          className="grid md:grid-cols-3 gap-10"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-        >
-          {/* Digital Foundation */}
-          <motion.div 
-            variants={itemVariants}
-            className="p-8 hover:scale-105 transition-all duration-700 ease-out group text-center"
+      {/* Expanded modal */}
+      <AnimatePresence>
+        {current && (
+          <div
+            style={{
+              position: "fixed",
+              inset: 0,
+              zIndex: 50,
+              display: "grid",
+              placeItems: "center",
+              padding: isMobile ? "0.75rem" : "1rem",
+            }}
           >
-            <div className="mb-8">
-              <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 text-blue-600 group-hover:scale-110 transition-transform duration-500 mx-auto">
-                <BlueprintIcon />
+            <motion.div
+              layoutId={`service-card-${current.id}`}
+              layout
+              ref={ref}
+              initial={false}
+              animate={{ borderRadius: 16 }}
+              exit={{ borderRadius: 16 }}
+              transition={layoutTransition}
+              style={{
+                width: "100%",
+                maxWidth: "40rem",
+                backgroundColor: "#ffffff",
+                border: "1px solid #e5e7eb",
+                boxShadow: "0 25px 80px rgba(15, 23, 42, 0.18)",
+                padding: isMobile ? "1.4rem" : "1.75rem",
+                cursor: "pointer",
+                overflow: "hidden",
+                fontFamily: "system-ui, -apple-system, sans-serif",
+              }}
+              onClick={() => setCurrent(null)}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  gap: isMobile ? "0.9rem" : "1.1rem",
+                }}
+              >
+                <motion.div
+                  layoutId={`service-icon-${current.id}`}
+                  transition={layoutTransition}
+                  style={iconContainerStyle}
+                >
+                  {current.icon}
+                </motion.div>
+                <div style={{ flex: 1 }}>
+                  <motion.h3
+                    layoutId={`service-title-${current.id}`}
+                    transition={layoutTransition}
+                    style={serviceTitleStyle}
+                  >
+                    {current.title}
+                  </motion.h3>
+                  <motion.p
+                    layoutId={`service-desc-${current.id}`}
+                    transition={layoutTransition}
+                    style={serviceDescriptionStyle}
+                  >
+                    {current.description}
+                  </motion.p>
+                </div>
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors duration-300">Strategic Digital Foundation</h3>
-            </div>
-            <p className="text-gray-600 leading-relaxed text-lg">
-              We dont just build websites; we engineer your central digital asset. It;s the stable, reliable core from which all marketing and sales activities will operate.
-            </p>
-          </motion.div>
 
-          {/* Scalable Architecture */}
-          <motion.div 
-            variants={itemVariants}
-            className="p-8 hover:scale-105 transition-all duration-700 ease-out group text-center"
-          >
-            <div className="mb-8">
-              <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 text-blue-600 group-hover:scale-110 transition-transform duration-500 mx-auto">
-                <ScaleIcon />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors duration-300">Future-Proof Scalability</h3>
-            </div>
-            <p className="text-gray-600 leading-relaxed text-lg">
-              Your business will grow, and your website should grow with it. We build on a flexible foundation that handles increased traffic and new features without a complete rebuild.
-            </p>
-          </motion.div>
+              <motion.div
+                layout
+                initial={{ opacity: 0, filter: "blur(5px)" }}
+                animate={{ opacity: 1, filter: "blur(0px)" }}
+                exit={{
+                  opacity: 0,
+                  filter: "blur(3px)",
+                  transition: { duration: 0.1 },
+                }}
+                transition={{ duration: 0.2, ease: "easeInOut" }}
+                style={{
+                  marginTop: isMobile ? "1.1rem" : "1.4rem",
+                  paddingTop: isMobile ? "1.1rem" : "1.4rem",
+                  borderTop: "1px solid #f3f4f6",
+                }}
+              >
+                <div
+                  style={{
+                    display: "grid",
+                    gap: isMobile ? "1rem" : "1.4rem",
+                    gridTemplateColumns: isMobile
+                      ? "minmax(0,1fr)"
+                      : "minmax(0,1fr) minmax(0,1fr)",
+                  }}
+                >
+                  <div>
+                    <p
+                      style={{
+                        fontSize: isMobile ? "0.75rem" : "0.8rem",
+                        fontWeight: 600,
+                        letterSpacing: "0.08em",
+                        textTransform: "uppercase",
+                        color: "#6b7280",
+                        marginBottom: "0.4rem",
+                      }}
+                    >
+                      Bottlenecks you solve
+                    </p>
+                    <ul
+                      style={{
+                        paddingLeft: "1rem",
+                        color: "#374151",
+                        fontSize: isMobile ? "0.8rem" : "0.9rem",
+                        lineHeight: 1.7,
+                      }}
+                    >
+                      {current.bottlenecks.map((b, idx) => (
+                        <li key={idx} style={{ listStyleType: "disc" }}>
+                          {b}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
 
-          {/* Responsive Design */}
-          <motion.div 
-            variants={itemVariants}
-            className="p-8 hover:scale-105 transition-all duration-700 ease-out group text-center"
-          >
-            <div className="mb-8">
-              <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 text-blue-600 group-hover:scale-110 transition-transform duration-500 mx-auto">
-                <ResponsiveIcon />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors duration-300">Seamless User Experience</h3>
-            </div>
-            <p className="text-gray-600 leading-relaxed text-lg">
-              A seamless experience is non-negotiable. Your platform will be fully responsive, providing a perfect, intuitive user experience on desktops, tablets, and smartphones alike.
-            </p>
-          </motion.div>
-        </motion.div>
+                  <div>
+                    <p
+                      style={{
+                        fontSize: isMobile ? "0.75rem" : "0.8rem",
+                        fontWeight: 600,
+                        letterSpacing: "0.08em",
+                        textTransform: "uppercase",
+                        color: "#6b7280",
+                        marginBottom: "0.4rem",
+                      }}
+                    >
+                      High‑value improvements
+                    </p>
+                    <ul
+                      style={{
+                        paddingLeft: "1rem",
+                        color: "#374151",
+                        fontSize: isMobile ? "0.8rem" : "0.9rem",
+                        lineHeight: 1.7,
+                      }}
+                    >
+                      {current.outcomes.map((o, idx) => (
+                        <li key={idx} style={{ listStyleType: "disc" }}>
+                          {o}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
 
-        {/* CTA Section */}
-        <motion.div 
-          className="mt-20 text-center"
-          variants={itemVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.5 }}
-        >
-          <div className="p-12 rounded-3xl transform hover:scale-105 transition-all duration-500">
-            <h3 className="text-3xl font-bold text-gray-900 mb-6">Ready to Build Your Digital Foundation?</h3>
-            <p className="text-gray-600 mb-8 text-lg max-w-2xl mx-auto">
-              Let;s create a website that serves as the cornerstone of your digital growth strategy.
-            </p>
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:scale-105 hover:shadow-xl">
-              Start Your Project
-            </button>
+                <div
+                  style={{
+                    marginTop: "1rem",
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: "0.35rem",
+                  }}
+                >
+                  {current.metadata.split(" · ").map((tag, i) => (
+                    <span
+                      key={i}
+                      style={{
+                        display: "inline-block",
+                        backgroundColor: "#f3f4f6",
+                        color: "#6b7280",
+                        fontSize: "0.7rem",
+                        fontWeight: 500,
+                        padding: "0.2rem 0.55rem",
+                        borderRadius: "999px",
+                      }}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+            </motion.div>
           </div>
-        </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Heading + intro + hint */}
+      <div style={headerContentWrapperStyle}>
+        <div style={textColumnStyle}>
+          <h1 style={headingStyle}>
+            <span style={gradientTextStyle}>
+              Where We Drive The Most Impact
+            </span>
+          </h1>
+          <p style={introStyle}>
+            Integrate your tools, standardize your workflows, and engineer
+            back office systems that make onboarding, fulfillment, and support
+            predictable and measurable.
+          </p>
+          <p style={hintStyle}>
+            Each box shows the bottlenecks we solve and one high‑impact
+            improvement — tap a box to view the full set of outcomes and
+            details.
+          </p>
+        </div>
       </div>
-    </div>
+
+      {/* Services grid */}
+      <div style={gridWrapperStyle}>
+        <div style={servicesGridStyle}>
+          {services.map((service) => (
+            <motion.div
+              key={service.id}
+              layoutId={`service-card-${service.id}`}
+              layout
+              initial={false}
+              animate={{ borderRadius: 18 }}
+              transition={layoutTransition}
+              style={{
+                ...commonStyles,
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "flex-start",
+                gap: isMobile ? "1rem" : "1.25rem",
+                padding: cardBasePadding,
+                backgroundColor: "#ffffff",
+                border: "1px solid #e5e7eb",
+                boxShadow: "0 22px 70px rgba(15, 23, 42, 0.10)",
+                cursor: "pointer",
+                minHeight: isMobile ? "min(230px, auto)" : "260px",
+              }}
+              whileHover={
+                !current && !isMobile
+                  ? {
+                      y: -3,
+                      borderColor: "#d1d5db",
+                      boxShadow:
+                        "0 16px 40px -10px rgba(15, 23, 42, 0.22)",
+                    }
+                  : {}
+              }
+              onClick={() => setCurrent(service)}
+            >
+              <motion.div
+                layoutId={`service-icon-${service.id}`}
+                transition={layoutTransition}
+                style={iconContainerStyle}
+              >
+                {service.icon}
+              </motion.div>
+
+              <div>
+                <motion.h3
+                  layoutId={`service-title-${service.id}`}
+                  transition={layoutTransition}
+                  style={serviceTitleStyle}
+                >
+                  {service.title}
+                </motion.h3>
+                <motion.p
+                  layoutId={`service-desc-${service.id}`}
+                  transition={layoutTransition}
+                  style={serviceDescriptionStyle}
+                >
+                  {service.description}
+                </motion.p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </header>
   );
 };
 
-export default WebDev;
+export default Header;

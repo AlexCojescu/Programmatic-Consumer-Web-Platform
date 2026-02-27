@@ -12,12 +12,16 @@ const CalendlyWidget = () => {
     document.body.appendChild(script);
 
     return () => {
-      document.body.removeChild(script);
+      // Check if script still exists before removing
+      if (script && script.parentNode) {
+        script.parentNode.removeChild(script);
+      }
     };
   }, []);
 
   return (
-    <div className="calendly-container h-[700px] w-full">
+    <div className="calendly-container h-[750px] w-full">
+      {/* To adjust height: Change h-[850px] above to your desired height (e.g., h-[800px], h-[900px], h-[1000px]) */}
       <InlineWidget 
         url="https://calendly.com/programmaticit/programmatic-it-com"
         styles={{

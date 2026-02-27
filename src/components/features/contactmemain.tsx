@@ -59,7 +59,7 @@ export default function ContactFormMain() {
   }
 
   return (
-    <Card className="mx-auto w-full max-w-[95%] sm:max-w-md md:max-w-3xl border border-gray-100 bg-white shadow-xl hover:shadow-2xl transition-shadow">
+    <Card className="w-full border border-gray-100 bg-white shadow-xl hover:shadow-2xl transition-shadow">
       <CardContent className="px-3 sm:px-6 md:px-8 py-5 sm:py-8">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 sm:space-y-5">
