@@ -24,7 +24,7 @@ const AboutHub: React.FC = () => {
           </p>
           <h2 className="text-lg sm:text-3xl lg:text-4xl font-semibold text-slate-900 leading-relaxed sm:leading-snug max-w-5xl">
             We are systems integrators dedicated to fiber and wireless ISPs. We
-            don't just implament automations. We architect a scalable operating
+            don't just implement automations. We architect a scalable operating
             system that lives within your existing tools, workflows, and SOPs to
             turn operational chaos into a predictable, high-performance engine.
           </h2>
