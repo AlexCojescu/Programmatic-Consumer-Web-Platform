@@ -180,7 +180,7 @@ export default function HeroSection() {
                       <div className="relative w-full">
                         <VideoText
                           src="/HeroVid.mp4"
-                          fontSize={15.5}
+                          fontSize={22}
                           fontWeight="800"
                           textAnchor="middle"
                           dominantBaseline="middle"
@@ -190,10 +190,10 @@ export default function HeroSection() {
                           Production‑Grade
                         </VideoText>
                       </div>
-                      <div className="relative w-full -mt-24">
+                      <div className="relative w-full -mt-26">
                         <VideoText
                           src="/HeroVid.mp4"
-                          fontSize={15.5}
+                          fontSize={21.5}
                           fontWeight="800"
                           textAnchor="middle"
                           dominantBaseline="middle"
