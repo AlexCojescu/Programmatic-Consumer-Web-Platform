@@ -28,12 +28,9 @@ export default function ContactFormMain() {
       email: "",
       company: "",
       jobTitle: "",
-      companySize: "",
       solutionInterest: "",
       currentChallenge: "",
       existingSystems: "",
-      timeline: "",
-      transactionVolume: "",
       projectDetails: "",
     },
   });
@@ -177,167 +174,46 @@ export default function ContactFormMain() {
               />
             </div>
 
-            {/* Row 3: All 4 Dropdowns in 2x2 Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-5">
-              {/* Company Size */}
-              <FormField
-                control={form.control}
-                name="companySize"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <div className="relative">
-                        <select 
-                          {...field}
-                          id="companySize"
-                          disabled={isPending}
-                          className="h-11 sm:h-12 w-full rounded-md border border-gray-300 bg-white px-3 pt-4 pb-1 text-sm text-gray-900 focus:border-gray-500 focus:ring-2 focus:ring-gray-200 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 appearance-none transition-all"
-                        >
-                          <option value=""></option>
-                          <option value="1-50">1-50 employees</option>
-                          <option value="51-200">51-200 employees</option>
-                          <option value="201-500">201-500 employees</option>
-                          <option value="501-1000">501-1,000 employees</option>
-                          <option value="1000+">1,000+ employees</option>
-                        </select>
-                        <label 
-                          htmlFor="companySize"
-                          className="absolute left-3 top-1 text-gray-700 text-xs transition-all duration-200 pointer-events-none"
-                        >
-                          Company Size
-                        </label>
-                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
-                          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                          </svg>
-                        </div>
+            {/* Row 3: Primary Solution Interest (Full Width) */}
+            <FormField
+              control={form.control}
+              name="solutionInterest"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <div className="relative">
+                      <select 
+                        {...field}
+                        id="solutionInterest"
+                        disabled={isPending}
+                        className="h-11 sm:h-12 w-full rounded-md border border-gray-300 bg-white px-3 pt-4 pb-1 text-sm text-gray-900 focus:border-gray-500 focus:ring-2 focus:ring-gray-200 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 appearance-none transition-all"
+                      >
+                        <option value=""></option>
+                        <option value="workflow-automation">Digital Workflow Automation</option>
+                        <option value="process-automation">Custom Process Automation</option>
+                        <option value="chatbots">AI Chatbots & Conversational AI</option>
+                        <option value="voice-agents">Voice Agents & IVR Systems</option>
+                        <option value="rag-infrastructure">RAG Infrastructure & Knowledge Systems</option>
+                        <option value="multi-solution">Multi-Solution Integration</option>
+                        <option value="consultation">Not sure - need consultation</option>
+                      </select>
+                      <label 
+                        htmlFor="solutionInterest"
+                        className="absolute left-3 top-1 text-gray-700 text-xs transition-all duration-200 pointer-events-none"
+                      >
+                        Primary Solution Interest <span className="text-red-500">*</span>
+                      </label>
+                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
+                        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                        </svg>
                       </div>
-                    </FormControl>
-                    <FormMessage className="text-xs mt-1" />
-                  </FormItem>
-                )}
-              />
-
-              {/* Primary Solution Interest */}
-              <FormField
-                control={form.control}
-                name="solutionInterest"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <div className="relative">
-                        <select 
-                          {...field}
-                          id="solutionInterest"
-                          disabled={isPending}
-                          className="h-11 sm:h-12 w-full rounded-md border border-gray-300 bg-white px-3 pt-4 pb-1 text-sm text-gray-900 focus:border-gray-500 focus:ring-2 focus:ring-gray-200 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 appearance-none transition-all"
-                        >
-                          <option value=""></option>
-                          <option value="workflow-automation">Digital Workflow Automation</option>
-                          <option value="process-automation">Custom Process Automation</option>
-                          <option value="chatbots">AI Chatbots & Conversational AI</option>
-                          <option value="voice-agents">Voice Agents & IVR Systems</option>
-                          <option value="rag-infrastructure">RAG Infrastructure & Knowledge Systems</option>
-                          <option value="multi-solution">Multi-Solution Integration</option>
-                          <option value="consultation">Not sure - need consultation</option>
-                        </select>
-                        <label 
-                          htmlFor="solutionInterest"
-                          className="absolute left-3 top-1 text-gray-700 text-xs transition-all duration-200 pointer-events-none"
-                        >
-                          Primary Solution Interest <span className="text-red-500">*</span>
-                        </label>
-                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
-                          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                          </svg>
-                        </div>
-                      </div>
-                    </FormControl>
-                    <FormMessage className="text-xs mt-1" />
-                  </FormItem>
-                )}
-              />
-
-              {/* Monthly Transaction Volume */}
-              <FormField
-                control={form.control}
-                name="transactionVolume"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <div className="relative">
-                        <select 
-                          {...field}
-                          id="transactionVolume"
-                          disabled={isPending}
-                          className="h-11 sm:h-12 w-full rounded-md border border-gray-300 bg-white px-3 pt-4 pb-1 text-sm text-gray-900 focus:border-gray-500 focus:ring-2 focus:ring-gray-200 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 appearance-none transition-all"
-                        >
-                          <option value=""></option>
-                          <option value="under-1k">Under 1,000</option>
-                          <option value="1k-10k">1,000 - 10,000</option>
-                          <option value="10k-100k">10,000 - 100,000</option>
-                          <option value="100k-1m">100,000 - 1M</option>
-                          <option value="over-1m">Over 1M</option>
-                          <option value="not-applicable">Not applicable</option>
-                        </select>
-                        <label 
-                          htmlFor="transactionVolume"
-                          className="absolute left-3 top-1 text-gray-700 text-xs transition-all duration-200 pointer-events-none"
-                        >
-                          Monthly Transaction/Interaction Volume
-                        </label>
-                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
-                          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                          </svg>
-                        </div>
-                      </div>
-                    </FormControl>
-                    <FormMessage className="text-xs mt-1" />
-                  </FormItem>
-                )}
-              />
-
-              {/* Timeline */}
-              <FormField
-                control={form.control}
-                name="timeline"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <div className="relative">
-                        <select 
-                          {...field}
-                          id="timeline"
-                          disabled={isPending}
-                          className="h-11 sm:h-12 w-full rounded-md border border-gray-300 bg-white px-3 pt-4 pb-1 text-sm text-gray-900 focus:border-gray-500 focus:ring-2 focus:ring-gray-200 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 appearance-none transition-all"
-                        >
-                          <option value=""></option>
-                          <option value="immediate">Immediate (0-30 days)</option>
-                          <option value="short-term">Short-term (1-3 months)</option>
-                          <option value="mid-term">Mid-term (3-6 months)</option>
-                          <option value="long-term">Long-term (6+ months)</option>
-                          <option value="exploring">Exploring options</option>
-                        </select>
-                        <label 
-                          htmlFor="timeline"
-                          className="absolute left-3 top-1 text-gray-700 text-xs transition-all duration-200 pointer-events-none"
-                        >
-                          Timeline
-                        </label>
-                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
-                          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                          </svg>
-                        </div>
-                      </div>
-                    </FormControl>
-                    <FormMessage className="text-xs mt-1" />
-                  </FormItem>
-                )}
-              />
-            </div>
+                    </div>
+                  </FormControl>
+                  <FormMessage className="text-xs mt-1" />
+                </FormItem>
+              )}
+            />
 
             {/* Row 4: Current Challenge (Full Width) */}
             <FormField
@@ -358,7 +234,7 @@ export default function ContactFormMain() {
                         htmlFor="currentChallenge"
                         className="absolute left-3 top-3 text-gray-500 text-sm transition-all duration-200 peer-placeholder-shown:top-3 peer-placeholder-shown:text-sm peer-focus:top-1 peer-focus:text-xs peer-focus:text-gray-700 peer-[:not(:placeholder-shown)]:top-1 peer-[:not(:placeholder-shown)]:text-xs pointer-events-none"
                       >
-                        Current Challenge
+                        Current Challenge <span className="text-gray-400">*</span>
                       </label>
                     </div>
                   </FormControl>
@@ -386,7 +262,7 @@ export default function ContactFormMain() {
                         htmlFor="existingSystems"
                         className="absolute left-3 top-3 text-gray-500 text-sm transition-all duration-200 peer-placeholder-shown:top-3 peer-placeholder-shown:text-sm peer-focus:top-1 peer-focus:text-xs peer-focus:text-gray-700 peer-[:not(:placeholder-shown)]:top-1 peer-[:not(:placeholder-shown)]:text-xs pointer-events-none"
                       >
-                        Existing Systems/Integrations
+                        Existing Systems/Integrations <span className="text-gray-400">*</span>
                       </label>
                     </div>
                   </FormControl>

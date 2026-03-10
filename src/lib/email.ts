@@ -71,14 +71,11 @@ export const sendConsultation = async (emailFormData: z.infer<typeof formSchemaM
         <p><strong>Email:</strong> ${emailFormData.email}</p>
         <p><strong>Company:</strong> ${emailFormData.company}</p>
         <p><strong>Job Title:</strong> ${emailFormData.jobTitle}</p>
-        ${emailFormData.companySize ? `<p><strong>Company Size:</strong> ${emailFormData.companySize}</p>` : ''}
         
         <h3>Project Details</h3>
         <p><strong>Solution Interest:</strong> ${emailFormData.solutionInterest}</p>
-        <p><strong>Timeline:</strong> ${emailFormData.timeline}</p>
         ${emailFormData.currentChallenge ? `<p><strong>Current Challenge:</strong> ${emailFormData.currentChallenge}</p>` : ''}
         ${emailFormData.existingSystems ? `<p><strong>Existing Systems:</strong> ${emailFormData.existingSystems}</p>` : ''}
-        ${emailFormData.transactionVolume ? `<p><strong>Transaction Volume:</strong> ${emailFormData.transactionVolume}</p>` : ''}
         
         <h3>Project Description</h3>
         <p>${emailFormData.projectDetails.replace(/\n/g, '<br>')}</p>

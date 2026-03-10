@@ -10,7 +10,7 @@ const ContactHeader: React.FC = () => {
           mx-auto flex max-w-5xl flex-col items-center
           px-4 sm:px-6 lg:px-8
           pt-40 sm:pt-44 lg:pt-48
-          pb-6 lg:pb-8
+          pb-2
         "
       >
         <div className="w-full rounded-3xl px-6 py-8 text-center sm:px-10 sm:py-10">

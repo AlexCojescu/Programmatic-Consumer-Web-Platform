@@ -6,6 +6,7 @@ import React, { ReactNode, useEffect, useState } from "react";
 export interface VideoTextProps {
   src: string;
   className?: string;
+  style?: React.CSSProperties;
   autoPlay?: boolean;
   muted?: boolean;
   loop?: boolean;
@@ -22,6 +23,7 @@ export function VideoText({
   src,
   children,
   className = "",
+  style,
   autoPlay = true,
   muted = true,
   loop = true,
@@ -124,6 +126,7 @@ export function VideoText({
         `relative w-full h-full flex items-center ${justifyClass}`,
         className
       )}
+      style={style}
     >
       {/* Fallback text when mask isn't ready */}
       {!svgMask && (
@@ -151,12 +154,12 @@ export function VideoText({
         style={{
           maskImage: svgMask ? dataUrlMask : "none",
           WebkitMaskImage: svgMask ? dataUrlMask : "none",
-          maskSize: "contain",
-          WebkitMaskSize: "contain",
+          maskSize: "auto 100%",
+          WebkitMaskSize: "auto 100%",
           maskRepeat: "no-repeat",
           WebkitMaskRepeat: "no-repeat",
-          maskPosition: maskPosition,
-          WebkitMaskPosition: maskPosition,
+          maskPosition: "center center",
+          WebkitMaskPosition: "center center",
           opacity: svgMask ? 1 : 0,
           transition: "opacity 0.3s ease-in-out",
           visibility: svgMask ? "visible" : "hidden",

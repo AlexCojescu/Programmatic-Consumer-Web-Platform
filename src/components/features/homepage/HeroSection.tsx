@@ -177,33 +177,35 @@ export default function HeroSection() {
                 <div className="flex h-full w-full items-center justify-center">
                   <div className="flex w-full flex-col items-center text-center px-4 sm:px-6 lg:px-0">
                     <div className="flex w-full flex-col gap-[0px] max-w-6xl mx-auto">
-                      <div className="relative h-[160px] min-h-[160px] max-h-[160px] w-full px-2 sm:px-4 lg:px-8">
+                      <div className="relative w-full">
                         <VideoText
                           src="/HeroVid.mp4"
-                          fontSize={22}
+                          fontSize={15.5}
                           fontWeight="800"
                           textAnchor="middle"
                           dominantBaseline="middle"
-                          className="h-full w-full"
+                          className="w-full"
+                          style={{ height: '20vh', minHeight: '120px' }}
                         >
                           Production‑Grade
                         </VideoText>
                       </div>
-                      <div className="relative h-[160px] min-h-[160px] max-h-[160px] w-full px-2 sm:px-4 lg:px-8 -mt-8">
+                      <div className="relative w-full -mt-24">
                         <VideoText
                           src="/HeroVid.mp4"
-                          fontSize={22}
+                          fontSize={15.5}
                           fontWeight="800"
                           textAnchor="middle"
                           dominantBaseline="middle"
-                          className="h-full w-full"
+                          className="w-full"
+                          style={{ height: '20vh', minHeight: '120px' }}
                         >
                           Systems Integration
                         </VideoText>
                       </div>
                     </div>
 
-                    <p className="mt-2 max-w-xl text-base md:text-lg text-neutral-700 leading-relaxed">
+                    <p className="mt-0 max-w-xl text-base md:text-lg text-neutral-700 leading-relaxed">
                       Engineering the workflows behind your intake, sales,
                       onboarding, and support. We replace manual patchwork with a
                       production‑grade system built to handle pressure and
