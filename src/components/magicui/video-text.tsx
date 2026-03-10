@@ -32,7 +32,7 @@ export function VideoText({
   fontWeight = "bold",
   textAnchor = "middle",
   dominantBaseline = "middle",
-  fontFamily = "var(--font-geist-sans), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+  fontFamily = "Helvetica Neue, Helvetica, Arial, sans-serif",
 }: VideoTextProps) {
   const content = React.Children.toArray(children).join("");
   const [svgMask, setSvgMask] = useState("");
@@ -91,7 +91,7 @@ export function VideoText({
           font-weight='${fontWeight}'
           text-anchor='middle'
           dominant-baseline='${dominantBaseline}'
-          font-family='${resolvedFontFamily}'
+          font-family="${resolvedFontFamily}"
           letter-spacing='-0.02em'
           fill='white'
         >${content}</text>
