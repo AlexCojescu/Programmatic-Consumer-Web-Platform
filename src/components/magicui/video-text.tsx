@@ -32,7 +32,7 @@ export function VideoText({
   fontWeight = "bold",
   textAnchor = "middle",
   dominantBaseline = "middle",
-  fontFamily = "sans-serif",
+  fontFamily = "var(--font-geist-sans), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
 }: VideoTextProps) {
   const content = React.Children.toArray(children).join("");
   const [svgMask, setSvgMask] = useState("");
@@ -57,6 +57,19 @@ export function VideoText({
       const responsiveFontSize =
         typeof fontSize === "number" ? `${fontSize}vw` : fontSize;
   
+      // Resolve CSS variables to actual font family
+      let resolvedFontFamily = fontFamily;
+      if (fontFamily.includes('var(--')) {
+        const computedStyle = getComputedStyle(document.documentElement);
+        const match = fontFamily.match(/var\((--[\w-]+)\)/);
+        if (match) {
+          const varValue = computedStyle.getPropertyValue(match[1]).trim();
+          if (varValue) {
+            resolvedFontFamily = fontFamily.replace(/var\(--[\w-]+\)/, varValue);
+          }
+        }
+      }
+  
       // Increased padding to prevent text cutoff at edges
       const paddingX = width * 0.50;   // 50% left + right
       const paddingY = height * 0.35;  // 35% top + bottom
@@ -78,7 +91,7 @@ export function VideoText({
           font-weight='${fontWeight}'
           text-anchor='middle'
           dominant-baseline='${dominantBaseline}'
-          font-family='${fontFamily}'
+          font-family='${resolvedFontFamily}'
           letter-spacing='-0.02em'
           fill='white'
         >${content}</text>
