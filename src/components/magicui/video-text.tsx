@@ -167,8 +167,8 @@ export function VideoText({
         style={{
           maskImage: svgMask ? dataUrlMask : "none",
           WebkitMaskImage: svgMask ? dataUrlMask : "none",
-          maskSize: "auto 100%",
-          WebkitMaskSize: "auto 100%",
+          maskSize: "contain",
+          WebkitMaskSize: "contain",
           maskRepeat: "no-repeat",
           WebkitMaskRepeat: "no-repeat",
           maskPosition: "center center",
