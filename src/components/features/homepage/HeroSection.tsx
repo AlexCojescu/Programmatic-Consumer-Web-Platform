@@ -176,11 +176,11 @@ export default function HeroSection() {
               <div className="relative z-20 mx-auto flex w-full max-w-7xl flex-col pt-20 lg:pt-8">
                 <div className="flex h-full w-full items-center justify-center">
                   <div className="flex w-full flex-col items-center text-center px-4 sm:px-6 lg:px-0">
-                    <div className="flex w-full flex-col gap-[0px]">
-                      <div className="relative h-[120px] min-h-[120px] max-h-[120px] w-full px-4 sm:px-8 lg:px-12">
+                    <div className="flex w-full flex-col gap-[0px] max-w-6xl mx-auto">
+                      <div className="relative h-[160px] min-h-[160px] max-h-[160px] w-full px-2 sm:px-4 lg:px-8">
                         <VideoText
                           src="/HeroVid.mp4"
-                          fontSize={16}
+                          fontSize={22}
                           fontWeight="800"
                           textAnchor="middle"
                           dominantBaseline="middle"
@@ -189,10 +189,10 @@ export default function HeroSection() {
                           Production‑Grade
                         </VideoText>
                       </div>
-                      <div className="relative h-[120px] min-h-[120px] max-h-[120px] w-full px-4 sm:px-8 lg:px-12 -mt-1">
+                      <div className="relative h-[160px] min-h-[160px] max-h-[160px] w-full px-2 sm:px-4 lg:px-8 -mt-8">
                         <VideoText
                           src="/HeroVid.mp4"
-                          fontSize={16}
+                          fontSize={22}
                           fontWeight="800"
                           textAnchor="middle"
                           dominantBaseline="middle"

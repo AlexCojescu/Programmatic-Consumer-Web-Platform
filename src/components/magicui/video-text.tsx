@@ -55,9 +55,9 @@ export function VideoText({
       const responsiveFontSize =
         typeof fontSize === "number" ? `${fontSize}vw` : fontSize;
   
-      // Big safe padding inside the mask (this is your "border")
-      const paddingX = width * 0.3;   // 30% left + right
-      const paddingY = height * 0.2;  // 20% top + bottom
+      // Increased padding to prevent text cutoff at edges
+      const paddingX = width * 0.50;   // 50% left + right
+      const paddingY = height * 0.35;  // 35% top + bottom
   
       const viewBoxWidth = width + paddingX * 2;
       const viewBoxHeight = height + paddingY * 2;
@@ -77,6 +77,7 @@ export function VideoText({
           text-anchor='middle'
           dominant-baseline='${dominantBaseline}'
           font-family='${fontFamily}'
+          letter-spacing='-0.02em'
           fill='white'
         >${content}</text>
       </svg>`;
@@ -136,6 +137,7 @@ export function VideoText({
                 typeof fontSize === "number" ? `${fontSize}vw` : fontSize,
               fontWeight: fontWeight,
               fontFamily: fontFamily,
+              letterSpacing: '-0.02em',
             }}
           >
             {content}
@@ -149,8 +151,8 @@ export function VideoText({
         style={{
           maskImage: svgMask ? dataUrlMask : "none",
           WebkitMaskImage: svgMask ? dataUrlMask : "none",
-          maskSize: "100% 100%",
-          WebkitMaskSize: "100% 100%",
+          maskSize: "contain",
+          WebkitMaskSize: "contain",
           maskRepeat: "no-repeat",
           WebkitMaskRepeat: "no-repeat",
           maskPosition: maskPosition,
