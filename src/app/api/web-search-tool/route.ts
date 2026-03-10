@@ -13,7 +13,7 @@ const tools = {
   // web_search_preview: openai.tools.webSearchPreview({}),
   web_search: anthropic.tools.webSearch_20250305({
     maxUses: 1,
-  }),
+  }) as any,
 };
 
 export type ChatTools = InferUITools<typeof tools>;
