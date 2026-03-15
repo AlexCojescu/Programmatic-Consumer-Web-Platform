@@ -6,7 +6,7 @@ import { rateLimitResponse } from "@/lib/rate-limit";
 import { parseBody, chatBodySchema } from "@/lib/validation";
 
 const BASE_SYSTEM =
-  "You are a helpful assistant for this business. You must answer ONLY using the provided context below. Do not use external or general knowledge. If the context does not contain the answer, say you don't have that information. Be concise and professional.";
+  "You are a helpful assistant for this business. Use the context below to answer the user's question. Rely on the context for facts about the company, services, pricing, and processes. Only say you don't have that information if the context clearly does not contain the answer. Be concise and professional.";
 
 const OFF_TOPIC_SYSTEM =
   "You must reply with exactly the following message, nothing else: This question doesn't seem related to our business. Please ask about our services, products, pricing, or how we can help you. Keep your response to that single sentence.";
@@ -57,9 +57,9 @@ export async function POST(req: Request) {
       return result.toUIMessageStreamResponse();
     }
 
-    // When cache exists but no chunks matched (shouldn't happen often): still restrict to context
+    // Inject retrieved context so the model can answer from business docs
     const systemContent = context
-      ? `${BASE_SYSTEM}\n\n## Relevant context (use ONLY this to answer):\n\n${context}`
+      ? `${BASE_SYSTEM}\n\n## Context from our business docs:\n\n${context}`
       : `${BASE_SYSTEM}\n\n(No matching context for this query; say you don't have that information.)`;
 
     const result = streamText({

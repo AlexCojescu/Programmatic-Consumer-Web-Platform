@@ -6,8 +6,8 @@ import { loadMarkdownDocs } from "./docs";
 
 const CACHE_PATH = path.join(process.cwd(), "content-cache", "embeddings.json");
 const EMBEDDING_MODEL = "text-embedding-3-small";
-const TOP_K = 6;
-const MAX_CONTEXT_CHARS = 6000;
+const TOP_K = 8;
+const MAX_CONTEXT_CHARS = 8000;
 
 export type CachedEmbedding = {
   text: string;
@@ -46,8 +46,8 @@ export type RetrieveResult = {
   topScore: number | null;
 };
 
-/** Minimum similarity to consider a question "related to the business". Tune between 0.4–0.7. */
-export const RELEVANCE_THRESHOLD = 0.5;
+/** Minimum similarity to consider a question "related to the business". Lower = more permissive (avoids blocking valid questions). */
+export const RELEVANCE_THRESHOLD = 0.38;
 
 /**
  * Retrieve the most relevant chunks for a query. Uses cache if available;
