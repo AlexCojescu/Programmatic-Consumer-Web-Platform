@@ -34,30 +34,28 @@ const contentPartSchema = z
   .passthrough();
 
 /**
- * Single chat message (strict: only id, role, content, parts at top level).
- * Matches AI SDK UIMessage shape so convertToModelMessages accepts validated output.
- * Content may be string or array of parts; parts is optional (SDK may send either).
+ * Single chat message. Validates id, role, content, parts; allows extra keys so AI SDK
+ * payloads (e.g. experimental_attachments, toolInvocations) are not rejected.
  */
-export const chatMessageSchema = z
-  .object({
-    id: z.string().max(200).optional(),
-    role: roleSchema,
-    content: z
-      .union([
-        z.string().max(LIMITS.MAX_MESSAGE_CONTENT_LENGTH),
-        z.array(contentPartSchema).max(100),
-      ])
-      .optional(),
-    parts: z.array(z.record(z.unknown())).max(100).optional(),
-  })
-  .strict();
+export const chatMessageSchema = z.object({
+  id: z.string().max(200).optional(),
+  role: roleSchema,
+  content: z
+    .union([
+      z.string().max(LIMITS.MAX_MESSAGE_CONTENT_LENGTH),
+      z.array(contentPartSchema).max(100),
+    ])
+    .optional(),
+  parts: z.array(z.record(z.unknown())).max(100).optional(),
+});
 
-/** Body for chat-style endpoints: messages array only; reject unexpected top-level keys. */
-export const chatBodySchema = z
-  .object({
-    messages: z.array(chatMessageSchema).min(0).max(LIMITS.MAX_MESSAGES_COUNT),
-  })
-  .strict();
+/**
+ * Body for chat-style endpoints. Requires messages; allows other top-level keys (id, etc.)
+ * so @ai-sdk/react useChat request body is accepted while we still validate and limit messages.
+ */
+export const chatBodySchema = z.object({
+  messages: z.array(chatMessageSchema).min(0).max(LIMITS.MAX_MESSAGES_COUNT),
+});
 
 /** Body with a single prompt (completion, stream, generate-image, etc.). */
 export const promptBodySchema = z
