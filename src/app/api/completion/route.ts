@@ -1,9 +1,16 @@
 import { generateText } from "ai";
 import { openai } from "@ai-sdk/openai";
+import { rateLimitResponse } from "@/lib/rate-limit";
+import { parseBody, promptBodySchema } from "@/lib/validation";
 
 export async function POST(req: Request) {
   try {
-    const { prompt } = await req.json();
+    const rateLimited = rateLimitResponse(req);
+    if (rateLimited) return rateLimited;
+
+    const parsed = await parseBody(req, promptBodySchema);
+    if (parsed instanceof Response) return parsed;
+    const { prompt } = parsed;
 
     const { text } = await generateText({
       model: openai("gpt-5-nano"),

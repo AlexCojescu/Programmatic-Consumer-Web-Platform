@@ -1,12 +1,17 @@
 import { streamObject } from "ai";
 import { openai } from "@ai-sdk/openai";
 import { recipeSchema } from "./schema";
+import { rateLimitResponse } from "@/lib/rate-limit";
+import { parseBody, dishBodySchema } from "@/lib/validation";
 
 export async function POST(req: Request) {
   try {
-    const { dish } = await req.json();
+    const rateLimited = rateLimitResponse(req);
+    if (rateLimited) return rateLimited;
 
-    console.log({ dish });
+    const parsed = await parseBody(req, dishBodySchema);
+    if (parsed instanceof Response) return parsed;
+    const { dish } = parsed;
 
     const result = streamObject({
       model: openai("gpt-5-nano"),

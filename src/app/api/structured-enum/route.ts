@@ -1,12 +1,19 @@
 import { generateObject } from "ai";
 import { openai } from "@ai-sdk/openai";
+import { rateLimitResponse } from "@/lib/rate-limit";
+import { parseBody, textBodySchema } from "@/lib/validation";
 
 export async function POST(req: Request) {
   try {
-    const { text } = await req.json();
+    const rateLimited = rateLimitResponse(req);
+    if (rateLimited) return rateLimited;
+
+    const parsed = await parseBody(req, textBodySchema);
+    if (parsed instanceof Response) return parsed;
+    const { text } = parsed;
 
     const result = await generateObject({
-      model: openai("gpt-5-mini"), // gpt-5-mini supports enum better
+      model: openai("gpt-5-mini"),
       output: "enum",
       enum: ["positive", "negative", "neutral"],
       prompt: `Classify the sentiment in this text: "${text}"`,

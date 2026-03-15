@@ -1,21 +1,20 @@
 import { openai } from "@ai-sdk/openai";
 import { experimental_transcribe as transcribe } from "ai";
+import { rateLimitResponse } from "@/lib/rate-limit";
+import { parseTranscribeForm } from "@/lib/validation";
 
 export async function POST(req: Request) {
   try {
-    // Get the audio file from the request
-    const formData = await req.formData();
-    const audioFile = formData.get("audio") as File;
+    const rateLimited = rateLimitResponse(req);
+    if (rateLimited) return rateLimited;
 
-    if (!audioFile) {
-      return new Response("No audio file provided", { status: 400 });
-    }
+    const formResult = await parseTranscribeForm(req);
+    if (formResult instanceof Response) return formResult;
+    const { audio: audioFile } = formResult;
 
-    // Convert File to Uint8Array
     const arrayBuffer = await audioFile.arrayBuffer();
     const uint8Array = new Uint8Array(arrayBuffer);
 
-    // Transcribe the audio
     const transcript = await transcribe({
       model: openai.transcription("whisper-1"),
       audio: uint8Array,

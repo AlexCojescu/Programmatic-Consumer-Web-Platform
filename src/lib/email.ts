@@ -3,26 +3,24 @@
 import { z } from "zod";
 import { formSchema } from "./schemas";
 import { formSchemaMain } from "./schemasmain";
-import { Resend } from 'resend';
+import { Resend } from "resend";
+import { getResendApiKey, getResendFromEmail, getYourEmail } from "@/lib/env";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Lazy Resend client so env is read at call time (no keys at module load).
+function getResend() {
+  return new Resend(getResendApiKey());
+}
 
 // Simple contact form sender
 export const send = async (emailFormData: z.infer<typeof formSchema>) => {
-  if (!process.env.RESEND_API_KEY) {
-    throw new Error("RESEND_API_KEY environment variable is not set");
-  }
-  if (!process.env.RESEND_FROM_EMAIL) {
-    throw new Error("RESEND_FROM_EMAIL environment variable is not set");
-  }
-  if (!process.env.YOUR_EMAIL) {
-    throw new Error("YOUR_EMAIL environment variable is not set");
-  }
+  getResendApiKey();
+  getResendFromEmail();
+  getYourEmail();
 
   try {
-    const { data, error } = await resend.emails.send({
-      from: `Contact Form <${process.env.RESEND_FROM_EMAIL}>`,
-      to: [process.env.YOUR_EMAIL],
+    const { data, error } = await getResend().emails.send({
+      from: `Contact Form <${getResendFromEmail()}>`,
+      to: [getYourEmail()],
       subject: `New Contact Form Submission from ${emailFormData.firstName} ${emailFormData.lastName}`,
       html: `
         <h2>New Contact Form Submission</h2>
@@ -48,20 +46,14 @@ export const send = async (emailFormData: z.infer<typeof formSchema>) => {
 
 // Advanced consultation form sender
 export const sendConsultation = async (emailFormData: z.infer<typeof formSchemaMain>) => {
-  if (!process.env.RESEND_API_KEY) {
-    throw new Error("RESEND_API_KEY environment variable is not set");
-  }
-  if (!process.env.RESEND_FROM_EMAIL) {
-    throw new Error("RESEND_FROM_EMAIL environment variable is not set");
-  }
-  if (!process.env.YOUR_EMAIL) {
-    throw new Error("YOUR_EMAIL environment variable is not set");
-  }
+  getResendApiKey();
+  getResendFromEmail();
+  getYourEmail();
 
   try {
-    const { data, error } = await resend.emails.send({
-      from: `Consultation Request <${process.env.RESEND_FROM_EMAIL}>`,
-      to: [process.env.YOUR_EMAIL],
+    const { data, error } = await getResend().emails.send({
+      from: `Consultation Request <${getResendFromEmail()}>`,
+      to: [getYourEmail()],
       subject: `New Consultation Request from ${emailFormData.name} - ${emailFormData.company}`,
       html: `
         <h2>New Technical Consultation Request</h2>

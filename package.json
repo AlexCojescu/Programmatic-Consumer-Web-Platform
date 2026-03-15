@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev --webpack",
     "build": "next build --webpack",
-    "start": "next start --webpack"
+    "start": "next start --webpack",
+    "ingest": "npx tsx scripts/ingest-docs.ts"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^2.0.2",
@@ -56,6 +57,7 @@
     "eslint-config-next": "^16.1.6",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.13",
+    "tsx": "^4.19.2",
     "typescript": "^5"
   }
 }

@@ -12,19 +12,18 @@ import {
 } from "ai";
 import { openai } from "@ai-sdk/openai";
 import { z } from "zod";
-
 import ImageKit from "imagekit";
+import { rateLimitResponse } from "@/lib/rate-limit";
+import { parseBody, chatBodySchema } from "@/lib/validation";
+import { getImageKitConfig } from "@/lib/env";
 
 const uploadImage = async (image: string) => {
-  const imagekit = new ImageKit({
-    publicKey: process.env.IMAGEKIT_PUBLIC_KEY as string,
-    privateKey: process.env.IMAGEKIT_PRIVATE_KEY as string,
-    urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT as string,
-  });
+  const { publicKey, privateKey, urlEndpoint } = getImageKitConfig();
+  const imagekit = new ImageKit({ publicKey, privateKey, urlEndpoint });
 
   const response = await imagekit.upload({
-    file: image, // File content to upload
-    fileName: "my_file_name.jpg", // Desired file name
+    file: image,
+    fileName: "my_file_name.jpg",
   });
 
   return response.url;
@@ -78,11 +77,16 @@ export type ChatMessage = UIMessage<never, UIDataTypes, ChatTools>;
 
 export async function POST(req: Request) {
   try {
-    const { messages }: { messages: ChatMessage[] } = await req.json();
+    const rateLimited = rateLimitResponse(req);
+    if (rateLimited) return rateLimited;
+
+    const parsed = await parseBody(req, chatBodySchema);
+    if (parsed instanceof Response) return parsed;
+    const { messages } = parsed;
 
     const result = streamText({
       model: openai("gpt-5-nano"),
-      messages: convertToModelMessages(messages),
+      messages: convertToModelMessages(messages as ChatMessage[]),
       tools,
       stopWhen: stepCountIs(3),
     });

@@ -9,12 +9,14 @@ import {
 } from "ai";
 import { openai } from "@ai-sdk/openai";
 import { z } from "zod";
+import { rateLimitResponse } from "@/lib/rate-limit";
+import { parseBody, chatBodySchema } from "@/lib/validation";
 
 const tools = {
   getWeather: tool({
     description: "Get the weather for a location",
     inputSchema: z.object({
-      city: z.string().describe("The city to get the weather for"),
+      city: z.string().max(200).describe("The city to get the weather for"),
     }),
     execute: async ({ city }) => {
       if (city === "Gotham City") {
@@ -33,11 +35,16 @@ export type ChatMessage = UIMessage<never, UIDataTypes, ChatTools>;
 
 export async function POST(req: Request) {
   try {
-    const { messages }: { messages: ChatMessage[] } = await req.json();
+    const rateLimited = rateLimitResponse(req);
+    if (rateLimited) return rateLimited;
+
+    const parsed = await parseBody(req, chatBodySchema);
+    if (parsed instanceof Response) return parsed;
+    const { messages } = parsed;
 
     const result = streamText({
       model: openai("gpt-5-mini"),
-      messages: convertToModelMessages(messages),
+      messages: convertToModelMessages(messages as ChatMessage[]),
       tools,
       stopWhen: stepCountIs(2),
     });
