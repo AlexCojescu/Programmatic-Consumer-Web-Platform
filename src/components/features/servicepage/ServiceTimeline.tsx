@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { CheckCircleIcon } from "@heroicons/react/24/solid";
+import { CheckCircle2 } from "lucide-react";
 import { useScroll, useTransform, motion } from "motion/react";
 import FadedGridBackground from "@/components/ui/FadedGridBackground";
 
@@ -206,7 +206,7 @@ const ServiceTimeline: React.FC = () => {
               <ul className="space-y-1.5 text-sm text-slate-700 leading-relaxed">
                 {stage.outputs.map((output) => (
                   <li key={output} className="flex items-start gap-2">
-                    <CheckCircleIcon className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" />
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" />
                     <span>{output}</span>
                   </li>
                 ))}
@@ -335,7 +335,7 @@ const ServiceTimeline: React.FC = () => {
                           <ul className="space-y-1.5 text-sm text-slate-700 leading-relaxed">
                             {stage.outputs.map((output) => (
                               <li key={output} className="flex items-start gap-2">
-                                <CheckCircleIcon className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" />
+                                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" />
                                 <span>{output}</span>
                               </li>
                             ))}

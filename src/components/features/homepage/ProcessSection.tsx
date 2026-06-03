@@ -1,9 +1,18 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import dynamic from "next/dynamic";
 import { AnimatePresence, motion } from "motion/react";
-import SalesOverview from "@/components/ui/line-chart";
 import FadedGridBackground from "@/components/ui/FadedGridBackground";
+
+const SalesOverview = dynamic(() => import("@/components/ui/line-chart"), {
+  loading: () => (
+    <div className="flex min-h-[560px] w-full items-center justify-center">
+      <div className="h-[420px] w-full max-w-xl rounded-lg bg-white/30 animate-pulse" />
+    </div>
+  ),
+  ssr: false,
+});
 
 interface Service {
   id: string;

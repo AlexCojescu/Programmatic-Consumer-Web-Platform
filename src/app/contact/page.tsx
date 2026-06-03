@@ -3,7 +3,6 @@ import CalendlyWidget from "@/components/features/homepage/CalendlyWidget";
 import ContactHeader from "@/components/features/ContactHeader";
 import ContactFooter from "@/components/features/ContactFooter";
 
-import ChatbotWidget from "../../components/chatbotui/chat-widget/page";
 import ContactFormMain from "@/components/features/contactmemain";
 
 export default function Page() {
@@ -42,10 +41,6 @@ export default function Page() {
         
       </div>
       <ContactFooter />
-
-      <ChatbotWidget />
-
-     
     </div>
   );
 }

@@ -1,6 +1,8 @@
 "use client"
 import React, { forwardRef, useRef } from "react"
+import Image from "next/image"
 import { cn } from "@/lib/utils"
+import { IMAGE_SIZES } from "@/lib/image-sizes"
 import { AnimatedBeam } from "@/components/features/aboutuspage/Animated-Beam"
 const Circle = forwardRef<
   HTMLDivElement,
@@ -95,12 +97,13 @@ const Icons = {
     </svg>
   ),
   openai: () => (
-    <img
+    <Image
       src="/SystemsIntegrator.png"
       alt="Systems Integrator"
+      width={100}
+      height={100}
+      sizes={IMAGE_SIZES.beamIcon}
       className="w-full h-full object-contain"
-      width="100"
-      height="100"
     />
   ),
   googleDrive: () => (
@@ -137,12 +140,13 @@ const Icons = {
     </svg>
   ),
   whatsapp: () => (
-    <img
+    <Image
       src="/Slack.png"
       alt="Slack"
+      width={100}
+      height={100}
+      sizes={IMAGE_SIZES.beamIcon}
       className="w-full h-full object-contain"
-      width="100"
-      height="100"
     />
   ),
   googleDocs: () => (
@@ -368,12 +372,13 @@ const Icons = {
     </svg>
   ),
   messenger: () => (
-    <img
+    <Image
       src="/shopify.png"
       alt="Shopify"
+      width={100}
+      height={100}
+      sizes={IMAGE_SIZES.beamIcon}
       className="w-full h-full object-contain"
-      width="100"
-      height="100"
     />
   ),
 }

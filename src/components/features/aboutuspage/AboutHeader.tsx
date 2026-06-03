@@ -2,7 +2,6 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import BotDetection from "@/components/ui/BotDetection";
 import FadedGridBackground from "@/components/ui/FadedGridBackground";
 

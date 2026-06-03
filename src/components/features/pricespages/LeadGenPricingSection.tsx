@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import { IMAGE_SIZES } from '@/lib/image-sizes';
 
 const LeadGenPricingSection = () => {
   // A reusable checkmark icon
@@ -39,8 +40,8 @@ const LeadGenPricingSection = () => {
           <div className="bg-white/15 backdrop-blur-sm rounded-2xl p-8 border border-white/30 inline-block">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Our Tech Stack</h3>
             <div className="flex items-center justify-center space-x-8">
-              <Image src="/apollo-logo.png" alt="Apollo" width={80} height={40} className="opacity-70" />
-              <Image src="/clay-logo.png" alt="Clay" width={80} height={40} className="opacity-70" />
+              <Image src="/apollo-logo.png" alt="Apollo" width={80} height={40} sizes={IMAGE_SIZES.pricingLogo} className="opacity-70" />
+              <Image src="/clay-logo.png" alt="Clay" width={80} height={40} sizes={IMAGE_SIZES.pricingLogo} className="opacity-70" />
             </div>
           </div>
         </div>

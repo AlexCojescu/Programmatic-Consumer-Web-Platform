@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import { IMAGE_SIZES } from '@/lib/image-sizes';
 
 interface StrategyTechnologyConsultingProps {
   imageSource?: string;
@@ -27,6 +28,7 @@ const StrategyTechnologyConsulting: React.FC<StrategyTechnologyConsultingProps> 
                 alt={imageAlt}
                 width={200}
                 height={150}
+                sizes={IMAGE_SIZES.scsTopImage}
                 className="top-image"
               />
               <div className="saucer-shadow"></div>

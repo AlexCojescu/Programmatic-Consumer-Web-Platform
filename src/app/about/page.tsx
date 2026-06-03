@@ -7,21 +7,10 @@ import {
   m,
   Transition,
   Variants,
-} from "framer-motion";
-import dynamic from "next/dynamic";
+} from "motion/react";
 import Navbar from "@/components/features/Navbar";
 import AboutHeader from "@/components/features/aboutuspage/AboutHeader";
 import AboutHub from "@/components/features/aboutuspage/AboutHub";
-
-const ChatbotWidget = dynamic(
-  () => import("@/components/chatbotui/chat-widget/page"),
-  {
-    loading: () => (
-      <div className="animate-pulse bg-blue-100 rounded-lg h-12 w-32 mx-auto" />
-    ),
-    ssr: false,
-  }
-);
 
 // Animation variants
 const fadeInVariants: Variants = {
@@ -91,16 +80,6 @@ export default function Page() {
         </m.header>
 
         <main>
-          {/* Chatbot fades in slightly later */}
-          <m.div
-            variants={memoizedAnimations.fadeIn.variants}
-            initial="initial"
-            animate="animate"
-            transition={{ ...memoizedAnimations.fadeIn.transition, delay: 0.3 }}
-          >
-            <ChatbotWidget />
-          </m.div>
-
           {/* Placeholder future section with slide-up on scroll */}
           <m.section
             variants={memoizedAnimations.slideUp.variants}

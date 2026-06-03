@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import Image from 'next/image';
-import { motion, useInView, useAnimation, Variants } from 'framer-motion';
+import { motion, useInView, useAnimation, Variants } from "motion/react";
+import { IMAGE_SIZES } from '@/lib/image-sizes';
 
 interface CalmImageProps {
   src: string;
@@ -121,6 +122,7 @@ const CalmImageSection: React.FC<CalmImageProps> = ({
             alt={alt}
             width={width}
             height={height}
+            sizes={IMAGE_SIZES.calmHero}
             priority={priority}
             onLoad={() => setIsLoaded(true)}
             className={`transition-opacity duration-500 ${

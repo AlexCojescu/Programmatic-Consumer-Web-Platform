@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
+import { IMAGE_SIZES } from "@/lib/image-sizes";
 
 const QuoteSection = () => {
   const bannerRef = useRef<HTMLDivElement | null>(null);
@@ -68,6 +69,8 @@ const QuoteSection = () => {
                   alt="Left wreath"
                   width={140}
                   height={140}
+                  sizes={IMAGE_SIZES.wreath}
+                  priority
                   className="h-full w-auto object-contain"
                 />
               </div>
@@ -85,6 +88,8 @@ const QuoteSection = () => {
                   alt="Right wreath"
                   width={140}
                   height={140}
+                  sizes={IMAGE_SIZES.wreath}
+                  priority
                   className="h-full w-auto object-contain"
                 />
               </div>
@@ -98,6 +103,7 @@ const QuoteSection = () => {
                   alt="Left wreath"
                   width={140}
                   height={140}
+                  sizes={IMAGE_SIZES.wreath}
                   className="h-full w-auto object-contain"
                 />
               </div>
@@ -115,6 +121,7 @@ const QuoteSection = () => {
                   alt="Right wreath"
                   width={140}
                   height={140}
+                  sizes={IMAGE_SIZES.wreath}
                   className="h-full w-auto object-contain"
                 />
               </div>
@@ -128,6 +135,7 @@ const QuoteSection = () => {
                   alt="Left wreath"
                   width={140}
                   height={140}
+                  sizes={IMAGE_SIZES.wreath}
                   className="h-full w-auto object-contain"
                 />
               </div>
@@ -145,6 +153,7 @@ const QuoteSection = () => {
                   alt="Right wreath"
                   width={140}
                   height={140}
+                  sizes={IMAGE_SIZES.wreath}
                   className="h-full w-auto object-contain"
                 />
               </div>

@@ -1,7 +1,7 @@
 "use client"; // This component will need client-side interactivity
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion'; // For smooth animations
+import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils"; // Assuming you have a utility for combining class names
 
 interface AccordionItemProps {

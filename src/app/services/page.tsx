@@ -21,16 +21,6 @@ const WebDev = dynamic(
   }
 );
 
-const ChatbotWidget = dynamic(
-  () => import("../../components/chatbotui/chat-widget/page"),
-  {
-    loading: () => (
-      <div className="h-12 w-32 rounded-lg bg-blue-100/30 backdrop-blur-sm animate-pulse" />
-    ),
-    ssr: false,
-  }
-);
-
 // Shared fade-in variants
 const sectionVariants: Variants = {
   initial: { opacity: 0, y: 16 },
@@ -115,17 +105,6 @@ export default function Page() {
 </FadeInSection>
 
           </div>
-
-          {/* Chatbot fade-in */}
-          <FadeInSection className="mt-20 flex justify-center">
-            <Suspense
-              fallback={
-                <div className="h-12 w-32 rounded-lg bg-blue-100/30 backdrop-blur-sm animate-pulse" />
-              }
-            >
-              <ChatbotWidget />
-            </Suspense>
-          </FadeInSection>
         </main>
       </div>
     </LazyMotion>

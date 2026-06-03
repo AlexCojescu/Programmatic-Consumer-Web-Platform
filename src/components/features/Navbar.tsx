@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { IMAGE_SIZES } from '@/lib/image-sizes';
 // REMOVED: AnimatePresence, motion, and ChevronDown are no longer needed.
 
 // REMOVED: The `services` data array is no longer necessary.
@@ -45,6 +46,7 @@ const Navbar = () => {
               alt="Slute Logo"
               width={130}
               height={78}
+              sizes={IMAGE_SIZES.navbarLogo}
               className="h-12 w-auto hover:scale-105 transition-transform duration-300"
               priority
             />

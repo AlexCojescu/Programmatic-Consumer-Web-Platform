@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { motion, type Variants } from "framer-motion";
+import { motion, type Variants } from "motion/react";
 
 const serviceLinks = [
   { name: "Revenue OS", href: "#ai-solutions", isFeatured: true },

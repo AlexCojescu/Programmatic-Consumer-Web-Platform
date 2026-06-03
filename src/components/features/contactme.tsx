@@ -56,7 +56,10 @@ export default function ContactForm() {
         console.error("Error submitting form:", error);
         setSubmissionStatus({
           success: false,
-          message: "Something went wrong. Please try again, or email us directly.",
+          message:
+            error instanceof Error
+              ? error.message
+              : "Something went wrong. Please try again, or email us directly.",
         });
       }
     });

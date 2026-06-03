@@ -56,14 +56,12 @@ export default function WorldMap({
       className="relative mx-auto bg-transparent font-sans"
       style={{ width: 1000, height: 500 }} // or 1200x600 if you prefer
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={`data:image/svg+xml;utf8,${encodeURIComponent(svgMap)}`}
-        className="pointer-events-none h-full w-full select-none"
-        alt="world map"
-        height={CANVAS_HEIGHT}
-        width={CANVAS_WIDTH}
-        draggable={false}
+      {/* Inline SVG map — data URIs cannot use next/image optimization */}
+      <div
+        className="pointer-events-none h-full w-full select-none [&>svg]:h-full [&>svg]:w-full"
+        role="img"
+        aria-label="world map"
+        dangerouslySetInnerHTML={{ __html: svgMap }}
       />
 
       <svg

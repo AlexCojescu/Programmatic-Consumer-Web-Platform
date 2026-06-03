@@ -3,6 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { IMAGE_SIZES } from '@/lib/image-sizes';
 import styles from './SCS.module.css';
 
 interface DigitalSEOSolutionsProps {
@@ -35,6 +36,7 @@ const DigitalSEOSolutions: React.FC<DigitalSEOSolutionsProps> = ({
                 alt={imageAlt}
                 width={250}
                 height={130}
+                sizes={IMAGE_SIZES.scsTopImage}
                 className={styles.topImage}
               />
               <div className={styles.saucerShadow}></div>

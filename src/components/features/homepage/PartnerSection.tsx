@@ -1,6 +1,7 @@
 "use client";
 import Image from 'next/image';
 import React from 'react';
+import { IMAGE_SIZES } from '@/lib/image-sizes';
 
 const PartnerSection = () => {
   return (
@@ -26,6 +27,7 @@ const PartnerSection = () => {
                   alt="A portrait of Alex"
                   width={400}
                   height={400}
+                  sizes={IMAGE_SIZES.partnerPortrait}
                   className="rounded-full object-cover w-full h-full shadow-lg ring-2 sm:ring-4 ring-offset-2 sm:ring-offset-4 ring-offset-black-100 ring-blue-100/90"
                   priority
                 />
@@ -80,6 +82,7 @@ const PartnerSection = () => {
                 alt="A portrait of Alex"
                 width={400}
                 height={400}
+                sizes={IMAGE_SIZES.partnerPortrait}
                 className="rounded-full object-cover w-full h-full shadow-lg ring-4 ring-offset-4 ring-offset-black-100 ring-blue-100/90"
               />
             </div>

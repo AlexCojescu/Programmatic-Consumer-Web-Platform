@@ -49,7 +49,10 @@ export default function ContactFormMain() {
         console.error('Error submitting form:', error);
         setSubmissionStatus({ 
           success: false, 
-          message: "Failed to send message. Please try again or email us directly." 
+          message:
+            error instanceof Error
+              ? error.message
+              : "Failed to send message. Please try again or email us directly.",
         });
       }
     });

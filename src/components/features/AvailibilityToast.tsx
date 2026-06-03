@@ -31,7 +31,7 @@ const AvailabilityToast = () => {
   }
 
   return (
-    // Positioned to avoid chatbot overlap (bottom-left instead of bottom-right)[150][152]
+    // Bottom-left toast placement
     <div
       className={`fixed bottom-5 left-5 z-40 w-full max-w-sm transform transition-all duration-700 ease-out ${
         isVisible ? 'translate-x-0 opacity-100 scale-100' : '-translate-x-full opacity-0 scale-95'

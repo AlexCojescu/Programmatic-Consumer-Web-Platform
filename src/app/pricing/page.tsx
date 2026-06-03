@@ -28,10 +28,6 @@ const LeadGenPricingSection = dynamic(() => import("@/components/features/prices
   loading: () => <div className="animate-pulse bg-white/20 backdrop-blur-sm h-96 rounded-lg" />
 });
 
-const ChatbotWidget = dynamic(() => import("../../components/chatbotui/chat-widget/page"), {
-  ssr: false
-});
-
 // Memoized Arrow SVG component to prevent unnecessary re-renders
 const ArrowIcon = React.memo(({ direction = 'left' }: { direction?: 'left' | 'right' }) => (
   <svg className="w-8 h-8 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -93,14 +89,6 @@ export default function Page() {
           <PartnerProgram />
         </div>
         
-        
-        {/* Main Content Container - Reduced top padding since header provides spacing */}
-        <div className="relative w-full pt-8 pb-4">
-          
-  
-            <ChatbotWidget />
-    
-        </div>
       </div>
     </>
   );

@@ -3,8 +3,7 @@
 import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
-import { IoMdCheckmark } from "react-icons/io";
-import { LuLoader } from "react-icons/lu";
+import { Check, Loader2 } from "lucide-react";
 
 interface OnboardCardProps {
   duration?: number;
@@ -44,7 +43,7 @@ const OnboardCard = ({
       <div className="flex min-w-[250px] scale-[0.9] flex-col justify-center gap-2 rounded-md border bg-gradient-to-br from-neutral-100 to-neutral-50 py-2 pl-3 pr-16 opacity-80 dark:from-neutral-800 dark:to-neutral-950">
         <div className="flex items-center justify-start gap-2 text-xs text-primary">
           <div>
-            <LuLoader />
+            <Loader2 />
           </div>
           <div>{step3}</div>
         </div>
@@ -55,7 +54,7 @@ const OnboardCard = ({
       <div className="flex min-w-[250px] flex-col justify-center gap-2 rounded-md border bg-gradient-to-br from-neutral-100 to-neutral-50 py-2 pl-3 pr-16 dark:from-neutral-800 dark:to-neutral-950">
         <div className="flex items-center justify-start gap-1.5 text-xs text-primary">
           <div className="animate-spin">
-            <LuLoader />
+            <Loader2 />
           </div>
           <div>{step2}</div>
         </div>
@@ -78,7 +77,7 @@ const OnboardCard = ({
               <circle cx="10" cy="10" r="5" fill="#22c55e" />
             </svg>
             <div className="absolute inset-0 flex items-center justify-center text-background">
-              <IoMdCheckmark className="size-2" />
+              <Check className="size-2" />
             </div>
           </div>
           <div>{step1}</div>
