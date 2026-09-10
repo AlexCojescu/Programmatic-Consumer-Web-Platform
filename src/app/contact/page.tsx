@@ -1,9 +1,10 @@
-import Navbar from "@/components/features/Navbar";
-import CalendlyWidget from "@/components/features/homepage/CalendlyWidget";
-import ContactHeader from "@/components/features/ContactHeader";
-import ContactFooter from "@/components/features/ContactFooter";
-
-import ContactFormMain from "@/components/features/contactmemain";
+import { Navbar } from "@/features/shell";
+import {
+  CalendlyWidget,
+  ContactHeader,
+  ContactFooter,
+  ContactFormMain,
+} from "@/features/contact";
 
 export default function Page() {
   return (

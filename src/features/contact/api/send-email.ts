@@ -1,15 +1,15 @@
 "use server";
 
-import { formSchema } from "./schemas";
-import { formSchemaMain } from "./schemasmain";
-import { assertRateLimit } from "./rate-limit";
+import { formSchema } from "../schemas/contact.schema";
+import { formSchemaMain } from "../schemas/consultation.schema";
+import { assertRateLimit } from "@/core/security/rate-limit";
 import {
   escapeHtml,
   escapeHtmlMultiline,
   sanitizeEmailSubject,
-} from "./html-escape";
+} from "@/core/security/html-escape";
 import { Resend } from "resend";
-import { getResendApiKey, getResendFromEmail, getYourEmail } from "@/lib/env";
+import { getResendApiKey, getResendFromEmail, getYourEmail } from "@/core/env/env";
 
 // Lazy Resend client so env is read at call time (no keys at module load).
 function getResend() {

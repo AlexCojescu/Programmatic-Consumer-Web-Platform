@@ -10,9 +10,9 @@ import {
   type HeroPictureSources,
   type HeroSlide,
   type HeroVideoSlide,
-} from "@/lib/hero-slides";
-import { ResponsivePicture } from "@/components/ui/responsive-picture";
-import styles from "@/components/features/homepage/HeroMediaCarousel.module.css";
+} from "@/features/home/data/hero-slides";
+import { ResponsivePicture } from "@/shared/ui/responsive-picture";
+import styles from "@/features/home/styles/hero-media-carousel.module.css";
 
 function HeroPicture({
   picture,

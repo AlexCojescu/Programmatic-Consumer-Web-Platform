@@ -1,9 +1,9 @@
 import React from "react";
-import { FooterLinkColumn } from "@/components/ui/footer-link-column";
-import { FooterNavLink } from "@/components/ui/footer-nav-link";
-import { FooterLegalLink } from "@/components/ui/footer-legal-link";
-import { FooterSocialLink } from "@/components/ui/footer-social-link";
-import { FooterContactRow } from "@/components/ui/footer-contact-row";
+import { FooterLinkColumn } from "@/features/shell/components/footer-link-column";
+import { FooterNavLink } from "@/features/shell/components/footer-nav-link";
+import { FooterLegalLink } from "@/features/shell/components/footer-legal-link";
+import { FooterSocialLink } from "@/features/shell/components/footer-social-link";
+import { FooterContactRow } from "@/features/shell/components/footer-contact-row";
 
 const RESOURCE_LINKS = [
   { href: "/about", label: "About Us" },

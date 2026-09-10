@@ -2,9 +2,9 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import BotDetection from "@/components/ui/BotDetection";
-import FadedGridBackground from "@/components/ui/FadedGridBackground";
-import { AboutHeroColumns } from "@/components/layouts/about-hero-columns";
+import BotDetection from "@/features/about/components/bot-detection";
+import FadedGridBackground from "@/shared/ui/faded-grid-background";
+import { AboutHeroColumns } from "@/features/about/components/about-hero-columns";
 
 const AboutHeader: React.FC = () => {
   const router = useRouter();

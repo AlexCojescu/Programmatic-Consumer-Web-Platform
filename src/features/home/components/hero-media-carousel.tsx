@@ -14,10 +14,10 @@ import {
   HERO_AUTOPLAY_DELAY_MS,
   HERO_AUTOPLAY_PAUSE_AFTER_INTERACTION_MS,
   HERO_SLIDES,
-} from "@/lib/hero-slides";
-import { HeroSlideContent } from "@/components/ui/hero-carousel-slide";
-import { HeroCarouselControls } from "@/components/ui/hero-carousel-controls";
-import styles from "./HeroMediaCarousel.module.css";
+} from "@/features/home/data/hero-slides";
+import { HeroSlideContent } from "@/features/home/components/hero-carousel-slide";
+import { HeroCarouselControls } from "@/features/home/components/hero-carousel-controls";
+import styles from "../styles/hero-media-carousel.module.css";
 
 function usePrefersReducedMotion() {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);

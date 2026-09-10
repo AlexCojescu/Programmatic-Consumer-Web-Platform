@@ -1,12 +1,12 @@
 import React from 'react';
-import { GlassPricingFrame } from '@/components/layouts/glass-pricing-frame';
-import { PricingSectionHeader } from '@/components/ui/pricing-section-header';
-import { PricingFeatureItem } from '@/components/ui/pricing-feature-list';
+import { GlassPricingFrame } from '@/features/pricing/components/glass-pricing-frame';
+import { PricingSectionHeader } from '@/features/pricing/components/pricing-section-header';
+import { PricingFeatureItem } from '@/features/pricing/components/pricing-feature-list';
 import {
   RetainerPlanCard,
   type RetainerPlanCardProps,
-} from '@/components/ui/retainer-plan-card';
-import { PricingCtaPanel } from '@/components/ui/pricing-cta-panel';
+} from '@/features/pricing/components/retainer-plan-card';
+import { PricingCtaPanel } from '@/features/pricing/components/pricing-cta-panel';
 
 const PROJECT_FEATURES = [
   'Custom website development',

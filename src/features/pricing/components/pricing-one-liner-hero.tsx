@@ -1,6 +1,6 @@
 "use client";
 
-import { Highlighter } from "@/components/magicui/Highlighter";
+import { Highlighter } from "@/shared/motion/highlighter";
 import React from "react";
 
 const PricingOneLinerHero: React.FC = () => {

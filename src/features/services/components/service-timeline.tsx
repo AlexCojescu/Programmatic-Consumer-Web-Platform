@@ -1,15 +1,15 @@
 "use client";
 
 import React from "react";
-import FadedGridBackground from "@/components/ui/FadedGridBackground";
+import FadedGridBackground from "@/shared/ui/faded-grid-background";
 import {
   ServiceTimelineRail,
   type ServiceTimelineRailEntry,
-} from "@/components/ui/service-timeline-rail";
+} from "@/features/services/components/service-timeline-rail";
 import {
   ServiceStageCard,
   type ServiceStage,
-} from "@/components/ui/service-stage-card";
+} from "@/features/services/components/service-stage-card";
 
 const stages: ServiceStage[] = [
   {

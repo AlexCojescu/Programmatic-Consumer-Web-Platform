@@ -2,8 +2,8 @@
 
 import React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { HERO_SLIDES } from "@/lib/hero-slides";
-import styles from "@/components/features/homepage/HeroMediaCarousel.module.css";
+import { HERO_SLIDES } from "@/features/home/data/hero-slides";
+import styles from "@/features/home/styles/hero-media-carousel.module.css";
 
 interface HeroCarouselControlsProps {
   selectedIndex: number;

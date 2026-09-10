@@ -1,14 +1,14 @@
 "use client";
 
-import { Button } from "@/components/contactui/button";
+import { Button } from "@/shared/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/contactui/card";
-import { Textarea } from "@/components/contactui/textarea";
+} from "@/shared/ui/card";
+import { Textarea } from "@/shared/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import {
@@ -18,12 +18,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/contactui/form";
+} from "@/shared/ui/form";
 import { z } from "zod";
-import { formSchema } from "@/lib/schemas";
-import { send } from "@/lib/email";
+import { formSchema } from "@/features/contact/schemas/contact.schema";
+import { send } from "@/features/contact/api/send-email";
 import { useState, useTransition } from "react";
-import { ContactTextField } from "@/components/ui/contact-text-field";
+import { ContactTextField } from "@/features/contact/components/contact-text-field";
 
 export default function ContactForm() {
   const [isPending, startTransition] = useTransition();

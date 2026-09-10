@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { IMAGE_QUALITY, IMAGE_SIZES } from '@/lib/image-sizes';
+import { IMAGE_QUALITY, IMAGE_SIZES } from '@/shared/lib/image-sizes';
 
 interface StrategyTechnologyConsultingProps {
   imageSource?: string;

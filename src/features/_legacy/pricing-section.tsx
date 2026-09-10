@@ -2,7 +2,7 @@ import React from 'react';
 import {
   PricingPlanCard,
   type PricingPlanCardProps,
-} from '@/components/ui/pricing-plan-card';
+} from '@/features/pricing/components/pricing-plan-card';
 
 const PLANS: PricingPlanCardProps[] = [
   {

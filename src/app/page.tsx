@@ -2,11 +2,9 @@
 
 import dynamic from "next/dynamic";
 import { useState, useEffect, useRef, type ReactNode } from "react";
-import HeroSection from "@/components/features/homepage/HeroSection";
-import Navbar from "@/components/features/Navbar";
-import QuoteSection from "@/components/features/homepage/QuoteSection";
-import FadedGridBackground from "@/components/ui/FadedGridBackground";
-import { DeferredMount } from "@/components/ui/deferred-mount";
+import { HeroSection, QuoteSection } from "@/features/home";
+import { Navbar } from "@/features/shell";
+import { FadedGridBackground, DeferredMount } from "@/shared/ui";
 
 function SectionSkeleton({ className }: { className: string }) {
   return (
@@ -18,7 +16,8 @@ function SectionSkeleton({ className }: { className: string }) {
 }
 
 const ProcessSection = dynamic(
-  () => import("@/components/features/homepage/ProcessSection"),
+  () =>
+    import("@/features/home").then((mod) => ({ default: mod.ProcessSection })),
   {
     loading: () => <SectionSkeleton className="min-h-[640px] w-full" />,
     ssr: true,
@@ -26,7 +25,8 @@ const ProcessSection = dynamic(
 );
 
 const ServiceFilter = dynamic(
-  () => import("@/components/features/homepage/Service-filter"),
+  () =>
+    import("@/features/home").then((mod) => ({ default: mod.ServiceFilter })),
   {
     loading: () => <SectionSkeleton className="min-h-[650px] w-full max-w-6xl mx-auto" />,
     ssr: true,
@@ -34,7 +34,8 @@ const ServiceFilter = dynamic(
 );
 
 const ContactHeader = dynamic(
-  () => import("@/components/features/ContactHeader"),
+  () =>
+    import("@/features/contact").then((mod) => ({ default: mod.ContactHeader })),
   {
     loading: () => <SectionSkeleton className="h-36 w-full max-w-4xl mx-auto" />,
     ssr: true,
@@ -42,7 +43,10 @@ const ContactHeader = dynamic(
 );
 
 const ContactFormMain = dynamic(
-  () => import("@/components/features/contactmemain"),
+  () =>
+    import("@/features/contact").then((mod) => ({
+      default: mod.ContactFormMain,
+    })),
   {
     loading: () => <SectionSkeleton className="min-h-[520px] w-full" />,
     ssr: true,
@@ -50,7 +54,10 @@ const ContactFormMain = dynamic(
 );
 
 const CalendlyWidget = dynamic(
-  () => import("@/components/features/homepage/CalendlyWidget"),
+  () =>
+    import("@/features/contact").then((mod) => ({
+      default: mod.CalendlyWidget,
+    })),
   {
     loading: () => <SectionSkeleton className="h-[750px] w-full" />,
     ssr: false,
@@ -58,7 +65,10 @@ const CalendlyWidget = dynamic(
 );
 
 const ContactFooter = dynamic(
-  () => import("@/components/features/ContactFooter"),
+  () =>
+    import("@/features/contact").then((mod) => ({
+      default: mod.ContactFooter,
+    })),
   {
     loading: () => <SectionSkeleton className="h-28 w-full" />,
     ssr: true,

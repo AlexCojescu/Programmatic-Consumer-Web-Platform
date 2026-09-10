@@ -1,1 +1,10 @@
-export {};
+export { default as PricingOneLinerHero } from "./components/pricing-one-liner-hero";
+export { default as OperationalAudit } from "./components/operational-audit";
+export { default as TieredArchitecture } from "./components/tsa";
+export { default as ComplexityMatrix } from "./components/complexity-matrix";
+export { default as InvestmentPaths } from "./components/investment-paths";
+export { default as PartnerProgram } from "./components/partner-program";
+export { default as WebDevPricingSection } from "./components/web-dev-pricing-section";
+export { default as AutomationPricingSection } from "./components/automation-pricing-section";
+export { default as LeadGenPricingSection } from "./components/lead-gen-pricing-section";
+export { default as AiContentPricingSection } from "./components/ai-content-pricing-section";

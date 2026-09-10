@@ -1,17 +1,17 @@
 "use client";
 
 import React from "react";
-import { AnimatedBeamDemo } from "@/components/magicui/animated-beam";
-import { SectionShell } from "@/components/layouts/section-shell";
-import { SplitColumns } from "@/components/layouts/split-columns";
-import { ContentMediaColumns } from "@/components/layouts/content-media-columns";
-import { GridBackground } from "@/components/ui/grid-background";
-import { SectionIntro } from "@/components/ui/section-intro";
-import { SectionHeading } from "@/components/ui/section-heading";
-import { CheckList } from "@/components/ui/check-list";
-import { PrincipleCardGrid } from "@/components/ui/principle-card-grid";
-import { StepTimeline } from "@/components/ui/step-timeline";
-import { CtaButton } from "@/components/ui/cta-button";
+import { AnimatedBeamDemo } from "./animated-beam-demo";
+import { SectionShell } from "@/shared/layouts/section-shell";
+import { SplitColumns } from "@/shared/layouts/split-columns";
+import { ContentMediaColumns } from "@/shared/layouts/content-media-columns";
+import { GridBackground } from "@/shared/ui/grid-background";
+import { SectionIntro } from "@/shared/ui/section-intro";
+import { SectionHeading } from "@/shared/ui/section-heading";
+import { CheckList } from "@/shared/ui/check-list";
+import { PrincipleCardGrid } from "@/features/about/components/principle-card-grid";
+import { StepTimeline } from "@/features/about/components/step-timeline";
+import { CtaButton } from "@/shared/ui/cta-button";
 
 const WHAT_WE_DO_ITEMS = [
   "Your processes are mapped and visible end‑to‑end.",

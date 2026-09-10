@@ -1,4 +1,4 @@
-import { HERO_SRCSET_WIDTHS, IMAGE_SIZES } from "@/lib/image-sizes";
+import { HERO_SRCSET_WIDTHS, IMAGE_SIZES } from "@/shared/lib/image-sizes";
 
 export type HeroSlideContent = {
   title: string;

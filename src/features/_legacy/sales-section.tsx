@@ -1,5 +1,5 @@
 import React from 'react';
-import { SalesFeatureItem } from '@/components/ui/sales-feature-item';
+import { SalesFeatureItem } from '@/features/_legacy/sales-feature-item';
 
 const SALES_FEATURES = [
   {

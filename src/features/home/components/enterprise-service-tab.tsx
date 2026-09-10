@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import styles from "@/components/features/homepage/EnterpriseServicesHub.module.css";
+import styles from "@/features/home/styles/enterprise-services-hub.module.css";
 
 export interface EnterpriseServiceOption {
   id: string;

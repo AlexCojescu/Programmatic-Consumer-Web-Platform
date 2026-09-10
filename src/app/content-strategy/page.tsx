@@ -1,5 +1,5 @@
 
-import Navbar from "@/components/features/Navbar";
+import { Navbar } from "@/features/shell";
 
 export default function Page() {
   return (

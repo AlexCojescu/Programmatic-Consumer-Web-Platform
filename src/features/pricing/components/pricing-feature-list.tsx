@@ -1,5 +1,5 @@
 import React from "react";
-import { PricingCheckIcon } from "@/components/ui/pricing-check-icon";
+import { PricingCheckIcon } from "@/features/pricing/components/pricing-check-icon";
 
 interface PricingFeatureItemProps {
   feature: string;

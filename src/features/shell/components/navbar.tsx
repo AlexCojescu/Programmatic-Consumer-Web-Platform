@@ -3,9 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { IMAGE_QUALITY, IMAGE_SIZES } from '@/lib/image-sizes';
-import { NavbarUnderlineLink } from '@/components/ui/navbar-underline-link';
-import { NavbarMobileLink } from '@/components/ui/navbar-mobile-link';
+import { IMAGE_QUALITY, IMAGE_SIZES } from '@/shared/lib/image-sizes';
+import { NavbarUnderlineLink } from '@/features/shell/components/navbar-underline-link';
+import { NavbarMobileLink } from '@/features/shell/components/navbar-mobile-link';
 // REMOVED: AnimatePresence, motion, and ChevronDown are no longer needed.
 
 // REMOVED: The `services` data array is no longer necessary.

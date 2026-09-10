@@ -1,6 +1,6 @@
 "use client";
 
-import HeroMediaCarousel from "./HeroMediaCarousel";
+import HeroMediaCarousel from "./hero-media-carousel";
 
 export default function HeroSection() {
   return (

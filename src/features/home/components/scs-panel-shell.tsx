@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "@/components/features/homepage/SCS.module.css";
+import styles from "@/features/home/styles/scs.module.css";
 
 interface ScsPanelShellProps {
   className: string;

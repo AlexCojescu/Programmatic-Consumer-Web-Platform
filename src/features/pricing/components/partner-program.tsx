@@ -2,10 +2,10 @@
 
 import React from "react";
 import Link from "next/link";
-import { PricingSectionBand } from "@/components/layouts/pricing-section-band";
-import { PricingCenteredHeader } from "@/components/ui/pricing-centered-header";
-import { PricingEyebrow } from "@/components/ui/pricing-eyebrow";
-import { PartnerBenefit } from "@/components/ui/partner-benefit";
+import { PricingSectionBand } from "@/features/pricing/components/pricing-section-band";
+import { PricingCenteredHeader } from "@/features/pricing/components/pricing-centered-header";
+import { PricingEyebrow } from "@/features/pricing/components/pricing-eyebrow";
+import { PartnerBenefit } from "@/features/pricing/components/partner-benefit";
 
 const TOP_BENEFITS = [
   {

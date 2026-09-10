@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from "motion/react";
-import { cn } from "@/lib/utils"; // Assuming you have a utility for combining class names
+import { cn } from "@/shared/lib/utils"; // Assuming you have a utility for combining class names
 
 interface AccordionItemProps {
   title: string;

@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { PricingEyebrow } from "@/components/ui/pricing-eyebrow";
+import { PricingEyebrow } from "@/features/pricing/components/pricing-eyebrow";
 
 const AUDIT_DELIVERABLES = [
   "• Inventory of your current tool stack, data flows, and handoffs.",

@@ -3,18 +3,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import { AnimatePresence } from "motion/react";
-import FadedGridBackground from "@/components/ui/FadedGridBackground";
-import { HomeProcessColumns } from "@/components/layouts/home-process-columns";
-import { HomeProcessHeading } from "@/components/ui/home-process-heading";
-import { HomeProcessCtaButton } from "@/components/ui/home-process-cta-button";
-import { HomeServiceBackdrop } from "@/components/ui/home-service-backdrop";
-import { HomeServiceModal } from "@/components/ui/home-service-modal";
+import FadedGridBackground from "@/shared/ui/faded-grid-background";
+import { HomeProcessColumns } from "@/features/home/components/home-process-columns";
+import { HomeProcessHeading } from "@/features/home/components/home-process-heading";
+import { HomeProcessCtaButton } from "@/features/home/components/home-process-cta-button";
+import { HomeServiceBackdrop } from "@/features/home/components/home-service-backdrop";
+import { HomeServiceModal } from "@/features/home/components/home-service-modal";
 import {
   HomeServiceSpotlightCard,
   type HomeServiceData,
-} from "@/components/ui/home-service-spotlight-card";
+} from "@/features/home/components/home-service-spotlight-card";
 
-const SalesOverview = dynamic(() => import("@/components/ui/line-chart"), {
+const SalesOverview = dynamic(() => import("@/shared/ui/line-chart"), {
   loading: () => (
     <div className="flex min-h-[560px] w-full items-center justify-center">
       <div className="h-[420px] w-full max-w-xl rounded-lg bg-white/30 animate-pulse" />

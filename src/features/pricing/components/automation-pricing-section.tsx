@@ -1,12 +1,12 @@
 import React from 'react';
-import { GlassPricingFrame } from '@/components/layouts/glass-pricing-frame';
-import { PricingSectionHeader } from '@/components/ui/pricing-section-header';
-import { PricingTechStack } from '@/components/ui/pricing-tech-stack';
+import { GlassPricingFrame } from '@/features/pricing/components/glass-pricing-frame';
+import { PricingSectionHeader } from '@/features/pricing/components/pricing-section-header';
+import { PricingTechStack } from '@/features/pricing/components/pricing-tech-stack';
 import {
   PricingTierCard,
   type PricingTierCardProps,
-} from '@/components/ui/pricing-tier-card';
-import { PricingCtaPanel } from '@/components/ui/pricing-cta-panel';
+} from '@/features/pricing/components/pricing-tier-card';
+import { PricingCtaPanel } from '@/features/pricing/components/pricing-cta-panel';
 
 const TECH_LOGOS = [
   { src: '/zapier.webp', alt: 'Zapier' },

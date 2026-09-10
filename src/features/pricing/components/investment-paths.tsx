@@ -1,12 +1,12 @@
 "use client";
 
 import React from "react";
-import { PricingSectionBand } from "@/components/layouts/pricing-section-band";
-import { PricingCenteredHeader } from "@/components/ui/pricing-centered-header";
+import { PricingSectionBand } from "@/features/pricing/components/pricing-section-band";
+import { PricingCenteredHeader } from "@/features/pricing/components/pricing-centered-header";
 import {
   InvestmentPathCard,
   type InvestmentPathCardProps,
-} from "@/components/ui/investment-path-card";
+} from "@/features/pricing/components/investment-path-card";
 
 const PATHS: InvestmentPathCardProps[] = [
   {

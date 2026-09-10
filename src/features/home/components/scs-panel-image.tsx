@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
-import { IMAGE_QUALITY, IMAGE_SIZES } from "@/lib/image-sizes";
-import styles from "@/components/features/homepage/SCS.module.css";
+import { IMAGE_QUALITY, IMAGE_SIZES } from "@/shared/lib/image-sizes";
+import styles from "@/features/home/styles/scs.module.css";
 
 interface ScsPanelImageProps {
   src: string;

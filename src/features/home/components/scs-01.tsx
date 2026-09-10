@@ -2,14 +2,14 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import { ScsPanelShell } from '@/components/layouts/scs-panel-shell';
-import { ScsPanelImage } from '@/components/ui/scs-panel-image';
-import { ScsPanelIntro } from '@/components/ui/scs-panel-intro';
-import { ScsLearnMoreButton } from '@/components/ui/scs-learn-more-button';
+import { ScsPanelShell } from '@/features/home/components/scs-panel-shell';
+import { ScsPanelImage } from '@/features/home/components/scs-panel-image';
+import { ScsPanelIntro } from '@/features/home/components/scs-panel-intro';
+import { ScsLearnMoreButton } from '@/features/home/components/scs-learn-more-button';
 import {
   ScsContentBlock,
   type ScsContentBlockData,
-} from '@/components/ui/scs-content-block';
+} from '@/features/home/components/scs-content-block';
 
 const MAIN_TITLE = "Revenue‑Grade Data Infrastructure";
 

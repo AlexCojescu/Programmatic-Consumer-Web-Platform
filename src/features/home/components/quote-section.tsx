@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { WreathBadge } from "@/components/ui/wreath-badge";
+import { WreathBadge } from "@/features/home/components/wreath-badge";
 
 const WREATH_BADGES = [
   {

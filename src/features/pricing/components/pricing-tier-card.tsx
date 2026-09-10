@@ -1,5 +1,5 @@
 import React from "react";
-import { PricingFeatureList } from "@/components/ui/pricing-feature-list";
+import { PricingFeatureList } from "@/features/pricing/components/pricing-feature-list";
 
 const STANDARD_CONTAINER_CLASS =
   "bg-white/15 backdrop-blur-sm rounded-2xl p-8 border border-white/30 shadow-sm hover:bg-white/20 transition-all duration-300";

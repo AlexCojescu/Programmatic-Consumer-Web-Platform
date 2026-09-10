@@ -1,12 +1,12 @@
 import React from 'react';
-import { GlassPricingFrame } from '@/components/layouts/glass-pricing-frame';
-import { PricingSectionHeader } from '@/components/ui/pricing-section-header';
-import { PricingTechStack } from '@/components/ui/pricing-tech-stack';
+import { GlassPricingFrame } from '@/features/pricing/components/glass-pricing-frame';
+import { PricingSectionHeader } from '@/features/pricing/components/pricing-section-header';
+import { PricingTechStack } from '@/features/pricing/components/pricing-tech-stack';
 import {
   PricingTierCard,
   type PricingTierCardProps,
-} from '@/components/ui/pricing-tier-card';
-import { PricingProcessSteps } from '@/components/ui/pricing-process-steps';
+} from '@/features/pricing/components/pricing-tier-card';
+import { PricingProcessSteps } from '@/features/pricing/components/pricing-process-steps';
 
 const TECH_LOGOS = [
   { src: '/Apollo.webp', alt: 'Apollo' },

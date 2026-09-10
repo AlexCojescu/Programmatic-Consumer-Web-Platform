@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion, type Variants } from "motion/react";
-import { ServiceNavLink } from "@/components/ui/service-nav-link";
+import { ServiceNavLink } from "@/features/services/components/service-nav-link";
 
 const serviceLinks = [
   { name: "Revenue OS", href: "#ai-solutions", isFeatured: true },

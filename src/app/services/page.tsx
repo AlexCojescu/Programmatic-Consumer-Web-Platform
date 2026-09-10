@@ -4,15 +4,17 @@ import React, { useMemo, Suspense } from "react";
 import { LazyMotion, domAnimation, m, Variants, Transition } from "motion/react";
 import dynamic from "next/dynamic";
 
-import Navbar from "@/components/features/Navbar";
-import ServicesHeader from "@/components/features/servicepage/ServicesHeader";
-import HowWeHelp from "@/components/features/servicepage/HowWeHelp";
-import ServiceTimeline from "@/components/features/servicepage/ServiceTimeline";
-import SFAQ from "@/components/features/servicepage/SFAQ";
-import FadedGridBackground from "@/components/ui/FadedGridBackground";
+import { Navbar } from "@/features/shell";
+import {
+  ServicesHeader,
+  HowWeHelp,
+  ServiceTimeline,
+  SFAQ,
+} from "@/features/services";
+import { FadedGridBackground } from "@/shared/ui";
 
 const WebDev = dynamic(
-  () => import("@/components/features/servicepage/WebDev"),
+  () => import("@/features/services").then((mod) => ({ default: mod.WebDev })),
   {
     loading: () => (
       <div className="h-36 rounded-lg bg-white/20 backdrop-blur-sm animate-pulse" />

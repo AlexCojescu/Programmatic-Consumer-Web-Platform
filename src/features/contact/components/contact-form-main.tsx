@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@/components/contactui/button";
-import { Card, CardContent } from "@/components/contactui/card";
+import { Button } from "@/shared/ui/button";
+import { Card, CardContent } from "@/shared/ui/card";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import {
@@ -10,14 +10,14 @@ import {
   FormField,
   FormItem,
   FormMessage,
-} from "@/components/contactui/form";
+} from "@/shared/ui/form";
 import { z } from 'zod';
-import { sendConsultation } from "@/lib/email";
-import { formSchemaMain } from "@/lib/schemasmain";
+import { sendConsultation } from "@/features/contact/api/send-email";
+import { formSchemaMain } from "@/features/contact/schemas/consultation.schema";
 import { useState, useTransition } from "react";
 import { Send } from "lucide-react";
-import { ContactFormRow } from "@/components/layouts/contact-form-row";
-import { FloatingLabelField } from "@/components/ui/floating-label-field";
+import { ContactFormRow } from "@/features/contact/components/contact-form-row";
+import { FloatingLabelField } from "@/features/contact/components/floating-label-field";
 
 export default function ContactFormMain() {
   const [isPending, startTransition] = useTransition();

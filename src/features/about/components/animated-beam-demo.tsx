@@ -1,9 +1,9 @@
 "use client"
 import React, { forwardRef, useRef } from "react"
 import Image from "next/image"
-import { cn } from "@/lib/utils"
-import { IMAGE_QUALITY, IMAGE_SIZES } from "@/lib/image-sizes"
-import { AnimatedBeam } from "@/components/features/aboutuspage/Animated-Beam"
+import { cn } from "@/shared/lib/utils"
+import { IMAGE_QUALITY, IMAGE_SIZES } from "@/shared/lib/image-sizes"
+import { AnimatedBeam } from "@/shared/motion/animated-beam"
 const Circle = forwardRef<
   HTMLDivElement,
   { className?: string; children?: React.ReactNode }

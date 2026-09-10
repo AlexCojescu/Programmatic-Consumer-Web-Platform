@@ -1,15 +1,15 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import SCS01 from "./SCS01";
-import SCS03 from "./SCS03";
-import SCS04 from "./SCS04";
-import { EnterpriseHeroShell } from "@/components/layouts/enterprise-hero-shell";
+import SCS01 from "./scs-01";
+import SCS03 from "./scs-03";
+import SCS04 from "./scs-04";
+import { EnterpriseHeroShell } from "@/features/home/components/enterprise-hero-shell";
 import {
   EnterpriseServiceTab,
   type EnterpriseServiceOption,
-} from "@/components/ui/enterprise-service-tab";
-import styles from "./EnterpriseServicesHub.module.css";
+} from "@/features/home/components/enterprise-service-tab";
+import styles from "../styles/enterprise-services-hub.module.css";
 
 interface EnterpriseServicesHubProps {
   className?: string;

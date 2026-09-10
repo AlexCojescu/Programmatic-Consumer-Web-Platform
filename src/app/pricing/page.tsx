@@ -2,29 +2,31 @@
 
 import React, { useState, useCallback, useMemo } from 'react';
 import dynamic from 'next/dynamic';
-import Navbar from "@/components/features/Navbar";
-import PricingOneLinerHero from '@/components/features/pricespages/PricingOneLinerHero';
-import OperationalAudit from '@/components/features/pricespages/OperationalAudit';
-import TieredArchitecture from '@/components/features/pricespages/TSA';
-import ComplexityMatrix from '@/components/features/pricespages/ComplexityMatrix';
-import InvestmentPaths from '@/components/features/pricespages/InvestmentPaths';
-import PartnerProgram from '@/components/features/pricespages/PartnerProgram';
-import FadedGridBackground from "@/components/ui/FadedGridBackground";
+import { Navbar } from "@/features/shell";
+import {
+  PricingOneLinerHero,
+  OperationalAudit,
+  TieredArchitecture,
+  ComplexityMatrix,
+  InvestmentPaths,
+  PartnerProgram,
+} from "@/features/pricing";
+import { FadedGridBackground } from "@/shared/ui";
 
 // Dynamically import pricing sections to reduce initial bundle size
-const WebDevPricingSection = dynamic(() => import("@/components/features/pricespages/WebDevPricingSection"), {
+const WebDevPricingSection = dynamic(() => import("@/features/pricing").then((mod) => ({ default: mod.WebDevPricingSection })), {
   loading: () => <div className="animate-pulse bg-white/20 backdrop-blur-sm h-96 rounded-lg" />
 });
 
-const AutomationPricingSection = dynamic(() => import("@/components/features/pricespages/AutomationPricingSection"), {
+const AutomationPricingSection = dynamic(() => import("@/features/pricing").then((mod) => ({ default: mod.AutomationPricingSection })), {
   loading: () => <div className="animate-pulse bg-white/20 backdrop-blur-sm h-96 rounded-lg" />
 });
 
-const AiContentPricingSection = dynamic(() => import("@/components/features/pricespages/AIContentPricingSection"), {
+const AiContentPricingSection = dynamic(() => import("@/features/pricing").then((mod) => ({ default: mod.AiContentPricingSection })), {
   loading: () => <div className="animate-pulse bg-white/20 backdrop-blur-sm h-96 rounded-lg" />
 });
 
-const LeadGenPricingSection = dynamic(() => import("@/components/features/pricespages/LeadGenPricingSection"), {
+const LeadGenPricingSection = dynamic(() => import("@/features/pricing").then((mod) => ({ default: mod.LeadGenPricingSection })), {
   loading: () => <div className="animate-pulse bg-white/20 backdrop-blur-sm h-96 rounded-lg" />
 });
 

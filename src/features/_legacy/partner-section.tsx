@@ -1,6 +1,6 @@
 "use client";
 import React from 'react';
-import { PartnerPortraitImage } from '@/components/ui/partner-portrait-image';
+import { PartnerPortraitImage } from '@/features/pricing/components/partner-portrait-image';
 
 const PartnerSection = () => {
   return (

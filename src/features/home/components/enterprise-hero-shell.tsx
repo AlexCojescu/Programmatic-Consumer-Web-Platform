@@ -1,6 +1,6 @@
 import React from "react";
-import FadedGridBackground from "@/components/ui/FadedGridBackground";
-import styles from "@/components/features/homepage/EnterpriseServicesHub.module.css";
+import FadedGridBackground from "@/shared/ui/faded-grid-background";
+import styles from "@/features/home/styles/enterprise-services-hub.module.css";
 
 interface EnterpriseHeroShellProps {
   isVisible: boolean;

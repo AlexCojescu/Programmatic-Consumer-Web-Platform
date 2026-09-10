@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import { ServiceContentShell } from "@/components/layouts/service-content-shell";
-import { ServiceBulletList } from "@/components/ui/service-bullet-list";
-import { ServiceMetricColumn } from "@/components/ui/service-metric-column";
+import { ServiceContentShell } from "@/features/services/components/service-content-shell";
+import { ServiceBulletList } from "@/features/services/components/service-bullet-list";
+import { ServiceMetricColumn } from "@/features/services/components/service-metric-column";
 
 const WORK_WITH_US_ITEMS = [
   "Onboarding new customers takes too long and install dates slip.",

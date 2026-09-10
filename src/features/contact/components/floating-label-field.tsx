@@ -5,7 +5,7 @@ import {
   FormControl,
   FormItem,
   FormMessage,
-} from "@/components/contactui/form";
+} from "@/shared/ui/form";
 
 interface FloatingLabelFieldProps {
   /** Field bindings from a react-hook-form Controller render prop. */

@@ -5,8 +5,8 @@ import { AnimatePresence, motion } from "motion/react";
 import {
   ServiceImpactCard,
   type ServiceImpactItem,
-} from "@/components/ui/service-impact-card";
-import { ServiceImpactModal } from "@/components/ui/service-impact-modal";
+} from "@/features/services/components/service-impact-card";
+import { ServiceImpactModal } from "@/features/services/components/service-impact-modal";
 
 const SERVICES: ServiceImpactItem[] = [
   {

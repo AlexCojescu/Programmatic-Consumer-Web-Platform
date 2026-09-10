@@ -2,8 +2,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { AvailabilityToastShell } from '@/components/layouts/availability-toast-shell';
-import { AvailabilityLiveDot } from '@/components/ui/availability-live-dot';
+import { AvailabilityToastShell } from '@/features/shell/components/availability-toast-shell';
+import { AvailabilityLiveDot } from '@/features/shell/components/availability-live-dot';
 
 const AvailabilityToast = () => {
   const [isVisible, setIsVisible] = useState(false);

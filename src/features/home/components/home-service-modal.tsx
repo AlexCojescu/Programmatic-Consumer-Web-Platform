@@ -3,7 +3,7 @@
 import React from "react";
 import { motion } from "motion/react";
 import type { Transition } from "motion/react";
-import type { HomeServiceData } from "@/components/ui/home-service-spotlight-card";
+import type { HomeServiceData } from "@/features/home/components/home-service-spotlight-card";
 
 interface HomeServiceModalProps {
   service: HomeServiceData;

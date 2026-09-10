@@ -1,13 +1,13 @@
 "use client";
 
 import React from "react";
-import { PricingSectionBand } from "@/components/layouts/pricing-section-band";
-import { PricingEyebrow } from "@/components/ui/pricing-eyebrow";
+import { PricingSectionBand } from "@/features/pricing/components/pricing-section-band";
+import { PricingEyebrow } from "@/features/pricing/components/pricing-eyebrow";
 import {
   ComplexityLeverGrid,
   type ComplexityLever,
-} from "@/components/ui/complexity-lever-grid";
-import { OperationalGuaranteeBanner } from "@/components/ui/operational-guarantee-banner";
+} from "@/features/pricing/components/complexity-lever-grid";
+import { OperationalGuaranteeBanner } from "@/features/pricing/components/operational-guarantee-banner";
 
 const LEVERS: ComplexityLever[] = [
   {

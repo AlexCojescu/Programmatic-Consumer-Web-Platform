@@ -8,9 +8,8 @@ import {
   Transition,
   Variants,
 } from "motion/react";
-import Navbar from "@/components/features/Navbar";
-import AboutHeader from "@/components/features/aboutuspage/AboutHeader";
-import AboutHub from "@/components/features/aboutuspage/AboutHub";
+import { Navbar } from "@/features/shell";
+import { AboutHeader, AboutHub } from "@/features/about";
 
 // Animation variants
 const fadeInVariants: Variants = {

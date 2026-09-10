@@ -1,13 +1,13 @@
 "use client";
 
 import React from "react";
-import { Input } from "@/components/contactui/input";
+import { Input } from "@/shared/ui/input";
 import {
   FormControl,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/contactui/form";
+} from "@/shared/ui/form";
 
 interface ContactTextFieldProps {
   label: React.ReactNode;

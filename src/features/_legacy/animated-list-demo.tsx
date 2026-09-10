@@ -1,11 +1,11 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-import { AnimatedList } from "@/components/magicui/animated-list";
+import { cn } from "@/shared/lib/utils";
+import { AnimatedList } from "@/shared/motion/animated-list";
 import {
   HomeNotificationCard,
   type HomeNotificationItem,
-} from "@/components/ui/home-notification-card";
+} from "@/features/_legacy/home-notification-card";
 
 let notifications: HomeNotificationItem[] = [
   {

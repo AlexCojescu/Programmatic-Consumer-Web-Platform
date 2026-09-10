@@ -1,7 +1,6 @@
 
-import Navbar from "@/components/features/Navbar";
-
-import WebDev from "@/components/features/servicepage/WebDev";
+import { Navbar } from "@/features/shell";
+import { WebDev } from "@/features/services";
 
 export default function Page() {
   return (

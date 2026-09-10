@@ -1,12 +1,12 @@
 "use client";
 
 import React from "react";
-import { PricingSectionBand } from "@/components/layouts/pricing-section-band";
-import { PricingEyebrow } from "@/components/ui/pricing-eyebrow";
+import { PricingSectionBand } from "@/features/pricing/components/pricing-section-band";
+import { PricingEyebrow } from "@/features/pricing/components/pricing-eyebrow";
 import {
   ServiceTierCard,
   type ServiceTier,
-} from "@/components/ui/service-tier-card";
+} from "@/features/pricing/components/service-tier-card";
 
 const tiers: ServiceTier[] = [
   {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ServiceOfferCard } from '@/components/ui/service-offer-card';
+import { ServiceOfferCard } from '@/features/services/components/service-offer-card';
 
 const SERVICES = [
   {

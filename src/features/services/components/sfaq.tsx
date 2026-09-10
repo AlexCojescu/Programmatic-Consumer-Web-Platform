@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import FadedGridBackground from "@/components/ui/FadedGridBackground";
-import { ServiceFaqCard } from "@/components/ui/service-faq-card";
+import FadedGridBackground from "@/shared/ui/faded-grid-background";
+import { ServiceFaqCard } from "@/features/services/components/service-faq-card";
 
 const faqs = [
   {
