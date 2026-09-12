@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { useRouter } from 'next/navigation';
 import { ScsPanelShell } from '@/features/home/components/scs-panel-shell';
 import { ScsPanelImage } from '@/features/home/components/scs-panel-image';
 import { ScsPanelIntro } from '@/features/home/components/scs-panel-intro';
@@ -49,12 +48,6 @@ const StrategyConsultingSection: React.FC<StrategyConsultingSectionProps> = ({
   imageAlt = "Revenue-grade data infrastructure illustration",
   className = ""
 }) => {
-  const router = useRouter();
-
-  const handleLearnMoreClick = () => {
-    router.push('/services');
-  };
-
   return (
     <ScsPanelShell
       className={className}
@@ -70,7 +63,7 @@ const StrategyConsultingSection: React.FC<StrategyConsultingSectionProps> = ({
             title={MAIN_TITLE}
             subtitle={SUBTITLE}
             description={DESCRIPTION}
-            action={<ScsLearnMoreButton onClick={handleLearnMoreClick} />}
+            action={<ScsLearnMoreButton />}
           />
         </>
       }

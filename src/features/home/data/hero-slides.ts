@@ -41,7 +41,7 @@ export type HeroSlide = HeroImageSlide | HeroVideoSlide;
  * Bump this number whenever you replace a file in /public/hero/ with the same
  * filename — forces browsers to fetch the new asset instead of a cached copy.
  */
-export const HERO_MEDIA_REVISION = 2;
+export const HERO_MEDIA_REVISION = 3;
 
 export function heroAssetUrl(path: string): string {
   return `${path}?v=${HERO_MEDIA_REVISION}`;

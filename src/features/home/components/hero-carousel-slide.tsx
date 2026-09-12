@@ -75,13 +75,31 @@ const HeroSlideVideo = memo(function HeroSlideVideo({
 }: HeroSlideVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [hasVideoSource, setHasVideoSource] = useState(true);
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
+
+  useEffect(() => {
+    if (!isActive || prefersReducedMotion) return;
+
+    const schedule =
+      typeof window.requestIdleCallback === "function"
+        ? window.requestIdleCallback
+        : (cb: IdleRequestCallback) =>
+            window.setTimeout(() => cb({ didTimeout: true, timeRemaining: () => 0 }), 1);
+
+    const cancel =
+      typeof window.cancelIdleCallback === "function"
+        ? window.cancelIdleCallback
+        : window.clearTimeout;
+
+    const id = schedule(() => setShouldLoadVideo(true), { timeout: 2500 });
+    return () => cancel(id as number);
+  }, [isActive, prefersReducedMotion]);
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video || !hasVideoSource) return;
+    if (!video || !hasVideoSource || !shouldLoadVideo) return;
 
     if (isActive && !prefersReducedMotion) {
-      video.preload = "metadata";
       const playPromise = video.play();
       if (playPromise) {
         playPromise.catch(() => {
@@ -92,9 +110,8 @@ const HeroSlideVideo = memo(function HeroSlideVideo({
     }
 
     video.pause();
-    video.preload = "none";
     video.currentTime = 0;
-  }, [hasVideoSource, isActive, prefersReducedMotion]);
+  }, [hasVideoSource, isActive, prefersReducedMotion, shouldLoadVideo]);
 
   return (
     <>
@@ -104,7 +121,7 @@ const HeroSlideVideo = memo(function HeroSlideVideo({
         isActive={isActive}
         priority={slide.priority}
       />
-      {hasVideoSource ? (
+      {hasVideoSource && shouldLoadVideo ? (
         <video
           ref={videoRef}
           className={styles.media}
@@ -151,14 +168,12 @@ const HeroSlideOverlay = memo(function HeroSlideOverlay({
           <Link
             href={content.primaryCta.href}
             className={styles.primaryButton}
-            prefetch={false}
           >
             {content.primaryCta.label}
           </Link>
           <Link
             href={content.secondaryCta.href}
             className={styles.secondaryButton}
-            prefetch={false}
           >
             {content.secondaryCta.label}
           </Link>

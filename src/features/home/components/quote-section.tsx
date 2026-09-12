@@ -8,7 +8,6 @@ const WREATH_BADGES = [
     title: "Systems Integration",
     subtitle: "Production‑grade workflows.",
     delayClass: "fade-in-delay-1",
-    priority: true,
   },
   {
     title: "Client Experience",
@@ -85,7 +84,6 @@ const QuoteSection = () => {
                 title={badge.title}
                 subtitle={badge.subtitle}
                 delayClass={badge.delayClass}
-                priority={badge.priority}
               />
             ))}
           </div>

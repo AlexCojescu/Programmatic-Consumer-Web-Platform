@@ -1,22 +1,12 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import BotDetection from "@/features/about/components/bot-detection";
-import FadedGridBackground from "@/shared/ui/faded-grid-background";
+import { FadedGridBackground } from "@/shared/ui/faded-grid-background";
 import { AboutHeroColumns } from "@/features/about/components/about-hero-columns";
 
 const AboutHeader: React.FC = () => {
-  const router = useRouter();
-
-  const handleServicesClick = () => {
-    router.push("/services");
-  };
-
-  const handleLearnMoreClick = () => {
-    router.push("/pricing");
-  };
-
   return (
     <header className="relative overflow-hidden">
       <FadedGridBackground />
@@ -46,8 +36,8 @@ const AboutHeader: React.FC = () => {
           </p>
 
           <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4 pt-1 sm:pt-2">
-            <button
-              onClick={handleServicesClick}
+            <Link
+              href="/services"
               className="bg-black px-6 sm:px-8 py-2.5 sm:py-3 text-xs sm:text-sm font-medium text-white
                              transition hover:-translate-y-0.5 hover:bg-neutral-900
                              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black
@@ -57,13 +47,12 @@ const AboutHeader: React.FC = () => {
                 boxShadow:
                   "0 26px 70px rgba(0,0,0,0.45), 0 8px 22px rgba(0,0,0,0.45)",
               }}
-              type="button"
             >
               View System Outcomes
-            </button>
+            </Link>
 
-            <button
-              onClick={handleLearnMoreClick}
+            <Link
+              href="/pricing"
               className="bg-white px-6 sm:px-8 py-2.5 sm:py-3 text-xs sm:text-sm font-medium text-black border border-black/10
                              transition hover:-translate-y-0.5 hover:bg-neutral-50
                              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black
@@ -72,10 +61,9 @@ const AboutHeader: React.FC = () => {
                 borderRadius: "14px",
                 boxShadow: "0 8px 22px rgba(0,0,0,0.16)",
               }}
-              type="button"
             >
               Our 4-Stage Methodology
-            </button>
+            </Link>
           </div>
         </AboutHeroColumns>
       </div>

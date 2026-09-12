@@ -1,9 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import SCS01 from "./scs-01";
-import SCS03 from "./scs-03";
-import SCS04 from "./scs-04";
+import dynamic from "next/dynamic";
 import { EnterpriseHeroShell } from "@/features/home/components/enterprise-hero-shell";
 import {
   EnterpriseServiceTab,
@@ -15,12 +13,17 @@ interface EnterpriseServicesHubProps {
   className?: string;
 }
 
+const ServicePanels = {
+  inbound: dynamic(() => import("./scs-01")),
+  process: dynamic(() => import("./scs-03")),
+  onboarding: dynamic(() => import("./scs-04")),
+} as const;
+
 const SERVICE_OPTIONS: EnterpriseServiceOption[] = [
   {
     id: "inbound",
     label: "Inbound Revenue & Intake Systems",
     shortLabel: "Inbound",
-    component: SCS01,
     description:
       "Align your inbound channels, routing rules, and handoffs into a clear, trackable intake process.",
     icon: (
@@ -39,7 +42,6 @@ const SERVICE_OPTIONS: EnterpriseServiceOption[] = [
     id: "process",
     label: "Process Management & Fulfillment Systems",
     shortLabel: "Fulfillment",
-    component: SCS03,
     description:
       "Turn delivery into a repeatable system instead of a series of one-off projects.",
     icon: (
@@ -58,7 +60,6 @@ const SERVICE_OPTIONS: EnterpriseServiceOption[] = [
     id: "onboarding",
     label: "Client Onboarding Architecture",
     shortLabel: "Onboarding",
-    component: SCS04,
     description:
       "Design onboarding experiences that are simple for clients and straightforward for your team to run.",
     icon: (
@@ -122,8 +123,8 @@ const EnterpriseServicesHub: React.FC<EnterpriseServicesHubProps> = ({
   };
 
   const ActiveComponent =
-    SERVICE_OPTIONS.find((option) => option.id === activeService)?.component ||
-    SCS01;
+    ServicePanels[activeService as keyof typeof ServicePanels] ??
+    ServicePanels.inbound;
 
   return (
     <div className={`${styles.enterpriseServicesHub} ${className}`}>

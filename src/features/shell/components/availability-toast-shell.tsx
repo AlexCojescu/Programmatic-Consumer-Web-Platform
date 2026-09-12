@@ -18,11 +18,13 @@ export const AvailabilityToastShell: React.FC<AvailabilityToastShellProps> = ({
     // Bottom-left toast placement
     <div
       className={`fixed bottom-5 left-5 z-40 w-full max-w-sm transform transition-all duration-700 ease-out ${
-        isVisible ? 'translate-x-0 opacity-100 scale-100' : '-translate-x-full opacity-0 scale-95'
+        isVisible ? 'translate-x-0 opacity-100 scale-100' : '-translate-x-full opacity-0 scale-95 pointer-events-none'
       }`}
       role="alert"
       aria-live="polite"
       aria-label="Project availability notification"
+      aria-hidden={!isVisible}
+      inert={!isVisible ? true : undefined}
     >
       {/* Premium white theme with enhanced shadows and gradients[140][155] */}
       <div className="relative overflow-hidden rounded-2xl bg-white shadow-xl ring-1 ring-black/[0.08] backdrop-blur-sm border border-gray-100/80">

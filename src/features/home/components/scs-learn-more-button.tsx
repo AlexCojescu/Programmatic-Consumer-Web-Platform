@@ -1,20 +1,21 @@
 "use client";
 
+import Link from "next/link";
 import React from "react";
 import styles from "@/features/home/styles/scs.module.css";
 
 interface ScsLearnMoreButtonProps {
-  onClick: () => void;
+  href?: string;
 }
 
 /**
- * "Learn More" button with trailing arrow used in the SCS service panels.
+ * "Learn More" control with trailing arrow used in the SCS service panels.
  */
 export const ScsLearnMoreButton: React.FC<ScsLearnMoreButtonProps> = ({
-  onClick,
+  href = "/services",
 }) => {
   return (
-    <button type="button" className={styles.learnMoreBtn} onClick={onClick}>
+    <Link href={href} className={styles.learnMoreBtn}>
       <span>Learn More</span>
       <svg
         className={styles.arrowIcon}
@@ -32,6 +33,6 @@ export const ScsLearnMoreButton: React.FC<ScsLearnMoreButtonProps> = ({
           strokeLinejoin="round"
         />
       </svg>
-    </button>
+    </Link>
   );
 };

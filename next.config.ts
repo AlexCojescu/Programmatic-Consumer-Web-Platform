@@ -7,7 +7,10 @@ const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
 });
 
-const nextConfig: NextConfig = {
+const nextConfig = {
+  poweredByHeader: false,
+  agentRules: false,
+  allowedDevOrigins: ["localhost:3000", "127.0.0.1:3000"],
   images: {
     formats: ["image/avif", "image/webp"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920],
@@ -22,6 +25,7 @@ const nextConfig: NextConfig = {
       "recharts",
       "@radix-ui/react-label",
       "@radix-ui/react-slot",
+      "embla-carousel-react",
     ],
   },
   async headers() {
@@ -43,6 +47,6 @@ const nextConfig: NextConfig = {
     };
     return config;
   },
-};
+} satisfies NextConfig;
 
 export default withBundleAnalyzer(nextConfig);

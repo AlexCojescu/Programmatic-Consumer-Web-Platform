@@ -1,12 +1,14 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import {
   ServiceImpactCard,
   type ServiceImpactItem,
 } from "@/features/services/components/service-impact-card";
 import { ServiceImpactModal } from "@/features/services/components/service-impact-modal";
+import { useBreakpoint } from "@/shared/hooks/use-breakpoint";
+import { useOutsideClick } from "@/shared/hooks/use-outside-click";
 
 const SERVICES: ServiceImpactItem[] = [
   {
@@ -141,52 +143,29 @@ const SERVICES: ServiceImpactItem[] = [
   },
 ];
 
-const useOutsideClick = (callback: () => void) => {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleClick = (event: MouseEvent) => {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
-        callback();
-      }
-    };
-    document.addEventListener("click", handleClick);
-    return () => document.removeEventListener("click", handleClick);
-  }, [callback]);
-
-  return ref;
-};
-
 const Header: React.FC = () => {
-  const [isMobile, setIsMobile] = useState(false);
-  const [isTablet, setIsTablet] = useState(false);
+  const { isMobile, isTablet } = useBreakpoint(
+    "(max-width: 480px)",
+    "(min-width: 481px) and (max-width: 1024px)"
+  );
   const [current, setCurrent] = useState<ServiceImpactItem | null>(null);
-
-  const ref = useOutsideClick(() => setCurrent(null));
-
-  useEffect(() => {
-    const handleResize = () => {
-      const width = window.innerWidth;
-      setIsMobile(width <= 480);
-      setIsTablet(width <= 1024 && width > 480);
-    };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  const close = useCallback(() => setCurrent(null), []);
+  const ref = useOutsideClick<HTMLDivElement>(close);
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setCurrent(null);
+      if (e.key === "Escape") close();
     };
     document.addEventListener("keydown", handleKey);
     return () => document.removeEventListener("keydown", handleKey);
-  }, []);
+  }, [close]);
 
-  const commonStyles: React.CSSProperties = {
-    fontFamily: "system-ui, -apple-system, sans-serif",
-  };
+  const commonStyles: React.CSSProperties = useMemo(
+    () => ({
+      fontFamily: "system-ui, -apple-system, sans-serif",
+    }),
+    []
+  );
 
   const containerStyle: React.CSSProperties = {
     ...commonStyles,
@@ -300,13 +279,6 @@ const Header: React.FC = () => {
     lineHeight: 1.7,
   };
 
-  const layoutTransition = {
-    type: "spring" as const,
-    stiffness: 380,
-    damping: 36,
-    mass: 0.6,
-  };
-
   return (
     <header style={containerStyle}>
       {/* Backdrop */}
@@ -336,12 +308,11 @@ const Header: React.FC = () => {
           <ServiceImpactModal
             service={current}
             isMobile={isMobile}
-            layoutTransition={layoutTransition}
             containerRef={ref}
             iconContainerStyle={iconContainerStyle}
             titleStyle={serviceTitleStyle}
             descriptionStyle={serviceDescriptionStyle}
-            onClose={() => setCurrent(null)}
+            onClose={close}
           />
         )}
       </AnimatePresence>
@@ -374,7 +345,6 @@ const Header: React.FC = () => {
             <ServiceImpactCard
               key={service.id}
               service={service}
-              layoutTransition={layoutTransition}
               style={{
                 ...commonStyles,
                 display: "flex",
@@ -388,16 +358,7 @@ const Header: React.FC = () => {
                 cursor: "pointer",
                 minHeight: isMobile ? "min(230px, auto)" : "260px",
               }}
-              whileHover={
-                !current && !isMobile
-                  ? {
-                      y: -3,
-                      borderColor: "#d1d5db",
-                      boxShadow:
-                        "0 16px 40px -10px rgba(15, 23, 42, 0.22)",
-                    }
-                  : {}
-              }
+              isHoverEnabled={!current && !isMobile}
               iconContainerStyle={iconContainerStyle}
               titleStyle={serviceTitleStyle}
               descriptionStyle={serviceDescriptionStyle}

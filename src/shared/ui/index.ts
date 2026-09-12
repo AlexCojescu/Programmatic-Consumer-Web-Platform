@@ -11,7 +11,6 @@ export { GridBackground } from "./grid-background";
 export { PopularPill } from "./popular-pill";
 export { SectionHeading } from "./section-heading";
 export { SectionIntro } from "./section-intro";
-export { default as SalesOverview } from "./line-chart";
 export { SkipLink } from "./skip-link";
 export { ResponsivePicture } from "./responsive-picture";
 export {

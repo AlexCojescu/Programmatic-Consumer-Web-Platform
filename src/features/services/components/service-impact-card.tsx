@@ -1,8 +1,6 @@
 "use client";
 
 import React from "react";
-import { motion } from "motion/react";
-import type { TargetAndTransition, Transition } from "motion/react";
 
 export interface ServiceImpactItem {
   id: string;
@@ -17,9 +15,8 @@ export interface ServiceImpactItem {
 
 interface ServiceImpactCardProps {
   service: ServiceImpactItem;
-  layoutTransition: Transition;
   style: React.CSSProperties;
-  whileHover: TargetAndTransition;
+  isHoverEnabled: boolean;
   iconContainerStyle: React.CSSProperties;
   titleStyle: React.CSSProperties;
   descriptionStyle: React.CSSProperties;
@@ -27,54 +24,33 @@ interface ServiceImpactCardProps {
 }
 
 /**
- * Grid card for one service impact area. Shares layoutIds with the expanded
- * modal so framer-motion can morph between the two.
+ * Grid card for one service impact area. CSS/compositor hover only — no layout projection.
  */
 export const ServiceImpactCard: React.FC<ServiceImpactCardProps> = ({
   service,
-  layoutTransition,
   style,
-  whileHover,
+  isHoverEnabled,
   iconContainerStyle,
   titleStyle,
   descriptionStyle,
   onSelect,
 }) => {
   return (
-    <motion.div
-      layoutId={`service-card-${service.id}`}
-      layout
-      initial={false}
-      animate={{ borderRadius: 18 }}
-      transition={layoutTransition}
-      style={style}
-      whileHover={whileHover}
+    <button
+      type="button"
       onClick={onSelect}
+      className={`w-full text-left rounded-[18px] transition-[transform,box-shadow,border-color] duration-200 ${
+        isHoverEnabled
+          ? "hover:-translate-y-[3px] hover:border-gray-300 hover:shadow-[0_16px_40px_-10px_rgba(15,23,42,0.22)]"
+          : ""
+      }`}
+      style={style}
     >
-      <motion.div
-        layoutId={`service-icon-${service.id}`}
-        transition={layoutTransition}
-        style={iconContainerStyle}
-      >
-        {service.icon}
-      </motion.div>
-
+      <div style={iconContainerStyle}>{service.icon}</div>
       <div>
-        <motion.h3
-          layoutId={`service-title-${service.id}`}
-          transition={layoutTransition}
-          style={titleStyle}
-        >
-          {service.title}
-        </motion.h3>
-        <motion.p
-          layoutId={`service-desc-${service.id}`}
-          transition={layoutTransition}
-          style={descriptionStyle}
-        >
-          {service.description}
-        </motion.p>
+        <h3 style={titleStyle}>{service.title}</h3>
+        <p style={descriptionStyle}>{service.description}</p>
       </div>
-    </motion.div>
+    </button>
   );
 };

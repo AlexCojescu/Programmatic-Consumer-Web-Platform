@@ -2,8 +2,8 @@
 
 import React from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { IMAGE_QUALITY, IMAGE_SIZES } from "@/shared/lib/image-sizes";
+import { ScsLearnMoreButton } from "@/features/home/components/scs-learn-more-button";
 import styles from "@/features/home/styles/scs.module.css";
 
 interface ShowcaseBlock {
@@ -39,12 +39,6 @@ export const SplitShowcaseCard: React.FC<SplitShowcaseCardProps> = ({
   description,
   blocks,
 }) => {
-  const router = useRouter();
-
-  const handleLearnMoreClick = () => {
-    router.push("/services");
-  };
-
   return (
     <section className={`${styles.strategyConsultingContainer} ${className}`}>
       <div className={styles.strategyConsultingCard}>
@@ -70,24 +64,7 @@ export const SplitShowcaseCard: React.FC<SplitShowcaseCardProps> = ({
             <h2 className={styles.mainTitle}>{title}</h2>
             <h3 className={styles.subtitle}>{subtitle}</h3>
             <p className={styles.description}>{description}</p>
-            <button type="button" className={styles.learnMoreBtn} onClick={handleLearnMoreClick}>
-              <span>Learn More</span>
-              <svg
-                className={styles.arrowIcon}
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-              >
-                <path
-                  d="M1 8h14m-7-7l7 7-7 7"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
+            <ScsLearnMoreButton />
           </div>
         </div>
 

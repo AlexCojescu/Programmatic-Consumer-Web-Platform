@@ -2,13 +2,11 @@
 
 import React from "react";
 import { motion } from "motion/react";
-import type { Transition } from "motion/react";
 import type { ServiceImpactItem } from "./service-impact-card";
 
 interface ServiceImpactModalProps {
   service: ServiceImpactItem;
   isMobile: boolean;
-  layoutTransition: Transition;
   containerRef: React.RefObject<HTMLDivElement | null>;
   iconContainerStyle: React.CSSProperties;
   titleStyle: React.CSSProperties;
@@ -17,14 +15,11 @@ interface ServiceImpactModalProps {
 }
 
 /**
- * Expanded modal for a selected service impact area: full description,
- * bottlenecks/improvements lists, and metadata tags. Shares layoutIds with
- * the grid card so framer-motion morphs between them.
+ * Expanded modal for a selected service impact area. Fade/scale only — no layout projection.
  */
 export const ServiceImpactModal: React.FC<ServiceImpactModalProps> = ({
   service,
   isMobile,
-  layoutTransition,
   containerRef,
   iconContainerStyle,
   titleStyle,
@@ -43,18 +38,20 @@ export const ServiceImpactModal: React.FC<ServiceImpactModalProps> = ({
       }}
     >
       <motion.div
-        layoutId={`service-card-${service.id}`}
-        layout
         ref={containerRef}
-        initial={false}
-        animate={{ borderRadius: 16 }}
-        exit={{ borderRadius: 16 }}
-        transition={layoutTransition}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={`service-impact-title-${service.id}`}
+        initial={{ opacity: 0, scale: 0.96 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.98 }}
+        transition={{ duration: 0.18, ease: "easeOut" }}
         style={{
           width: "100%",
           maxWidth: "40rem",
           backgroundColor: "#ffffff",
           border: "1px solid #e5e7eb",
+          borderRadius: 16,
           boxShadow: "0 25px 80px rgba(15, 23, 42, 0.18)",
           padding: isMobile ? "1.4rem" : "1.75rem",
           cursor: "pointer",
@@ -70,40 +67,19 @@ export const ServiceImpactModal: React.FC<ServiceImpactModalProps> = ({
             gap: isMobile ? "0.9rem" : "1.1rem",
           }}
         >
-          <motion.div
-            layoutId={`service-icon-${service.id}`}
-            transition={layoutTransition}
-            style={iconContainerStyle}
-          >
-            {service.icon}
-          </motion.div>
+          <div style={iconContainerStyle}>{service.icon}</div>
           <div style={{ flex: 1 }}>
-            <motion.h3
-              layoutId={`service-title-${service.id}`}
-              transition={layoutTransition}
-              style={titleStyle}
-            >
+            <h3 id={`service-impact-title-${service.id}`} style={titleStyle}>
               {service.title}
-            </motion.h3>
-            <motion.p
-              layoutId={`service-desc-${service.id}`}
-              transition={layoutTransition}
-              style={descriptionStyle}
-            >
-              {service.description}
-            </motion.p>
+            </h3>
+            <p style={descriptionStyle}>{service.description}</p>
           </div>
         </div>
 
         <motion.div
-          layout
-          initial={{ opacity: 0, filter: "blur(5px)" }}
-          animate={{ opacity: 1, filter: "blur(0px)" }}
-          exit={{
-            opacity: 0,
-            filter: "blur(3px)",
-            transition: { duration: 0.1 },
-          }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0, transition: { duration: 0.1 } }}
           transition={{ duration: 0.2, ease: "easeInOut" }}
           style={{
             marginTop: isMobile ? "1.1rem" : "1.4rem",
@@ -141,8 +117,8 @@ export const ServiceImpactModal: React.FC<ServiceImpactModalProps> = ({
                   lineHeight: 1.7,
                 }}
               >
-                {service.bottlenecks.map((b, idx) => (
-                  <li key={idx} style={{ listStyleType: "disc" }}>
+                {service.bottlenecks.map((b) => (
+                  <li key={b} style={{ listStyleType: "disc" }}>
                     {b}
                   </li>
                 ))}
@@ -170,8 +146,8 @@ export const ServiceImpactModal: React.FC<ServiceImpactModalProps> = ({
                   lineHeight: 1.7,
                 }}
               >
-                {service.outcomes.map((o, idx) => (
-                  <li key={idx} style={{ listStyleType: "disc" }}>
+                {service.outcomes.map((o) => (
+                  <li key={o} style={{ listStyleType: "disc" }}>
                     {o}
                   </li>
                 ))}
@@ -187,9 +163,9 @@ export const ServiceImpactModal: React.FC<ServiceImpactModalProps> = ({
               gap: "0.35rem",
             }}
           >
-            {service.metadata.split(" · ").map((tag, i) => (
+            {service.metadata.split(" · ").map((tag) => (
               <span
-                key={i}
+                key={tag}
                 style={{
                   display: "inline-block",
                   backgroundColor: "#f3f4f6",

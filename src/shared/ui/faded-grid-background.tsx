@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 
 const FadedGridBackground: React.FC = () => {
@@ -15,7 +13,5 @@ const FadedGridBackground: React.FC = () => {
   );
 };
 
+export { FadedGridBackground };
 export default FadedGridBackground;
-
-
-

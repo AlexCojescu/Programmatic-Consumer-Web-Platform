@@ -1,40 +1,36 @@
 "use client";
 
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { InlineWidget } from "react-calendly";
 
-const CalendlyWidget = () => {
-  useEffect(() => {
-    // Ensure Calendly script is loaded
-    const script = document.createElement('script');
-    script.src = 'https://calendly.com/programmaticit/programmatic-it-com';
-    script.async = true;
-    document.body.appendChild(script);
+const CALENDLY_URL = "https://calendly.com/programmaticit/programmatic-it-com";
 
-    return () => {
-      // Check if script still exists before removing
-      if (script && script.parentNode) {
-        script.parentNode.removeChild(script);
-      }
-    };
+const CalendlyWidget = () => {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
   }, []);
+
+  if (!isMounted) {
+    return <div className="calendly-container h-[750px] w-full" aria-hidden="true" />;
+  }
 
   return (
     <div className="calendly-container h-[750px] w-full">
-      {/* To adjust height: Change h-[850px] above to your desired height (e.g., h-[800px], h-[900px], h-[1000px]) */}
-      <InlineWidget 
-        url="https://calendly.com/programmaticit/programmatic-it-com"
+      <InlineWidget
+        url={CALENDLY_URL}
         styles={{
-          height: '100%',
-          width: '100%',
-          minWidth: '320px'
+          height: "100%",
+          width: "100%",
+          minWidth: "320px",
         }}
         pageSettings={{
-          backgroundColor: 'ffffff',
+          backgroundColor: "ffffff",
           hideEventTypeDetails: false,
           hideLandingPageDetails: false,
-          primaryColor: '00a2ff',
-          textColor: '4d5055'
+          primaryColor: "00a2ff",
+          textColor: "4d5055",
         }}
       />
     </div>
