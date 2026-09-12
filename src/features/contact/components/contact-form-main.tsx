@@ -11,79 +11,51 @@ import {
   FormItem,
   FormMessage,
 } from "@/shared/ui/form";
+import { z } from 'zod';
 import { sendConsultation } from "@/features/contact/api/send-email";
-import {
-  formSchemaMain,
-  SOLUTION_INTEREST_OPTIONS,
-  type ConsultationFormValues,
-} from "@/features/contact/schemas/consultation.schema";
+import { formSchemaMain } from "@/features/contact/schemas/consultation.schema";
 import { useState, useTransition } from "react";
 import { Send } from "lucide-react";
 import { ContactFormRow } from "@/features/contact/components/contact-form-row";
 import { FloatingLabelField } from "@/features/contact/components/floating-label-field";
-import { TurnstileField } from "@/features/contact/components/turnstile-field";
-
-const GENERIC_ERROR =
-  "Failed to send message. Please try again or email us directly.";
-
-const CLIENT_SAFE_ERRORS = new Set([
-  "Too many submissions. Please wait a few minutes before trying again.",
-  "Invalid form data.",
-  "Please complete the verification challenge.",
-  GENERIC_ERROR,
-  "Failed to send message. Please try again later.",
-]);
-
-const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "";
-
-function clientErrorMessage(error: unknown): string {
-  if (error instanceof Error && CLIENT_SAFE_ERRORS.has(error.message)) {
-    return error.message;
-  }
-  return GENERIC_ERROR;
-}
 
 export default function ContactFormMain() {
   const [isPending, startTransition] = useTransition();
-  const [challengeKey, setChallengeKey] = useState(0);
-  const [submissionStatus, setSubmissionStatus] = useState<{
-    success: boolean;
-    message: string;
-  } | null>(null);
+  const [submissionStatus, setSubmissionStatus] = useState<{ success: boolean; message: string } | null>(null);
 
-  const form = useForm<ConsultationFormValues>({
+  const form = useForm<z.infer<typeof formSchemaMain>>({
     resolver: zodResolver(formSchemaMain),
     defaultValues: {
       name: "",
       email: "",
       company: "",
       jobTitle: "",
-      solutionInterest: "" as ConsultationFormValues["solutionInterest"],
+      solutionInterest: "",
       currentChallenge: "",
       existingSystems: "",
       projectDetails: "",
-      turnstileToken: "",
     },
   });
 
-  async function onSubmit(values: ConsultationFormValues) {
+  async function onSubmit(values: z.infer<typeof formSchemaMain>) {
     setSubmissionStatus(null);
     startTransition(async () => {
       try {
         await sendConsultation(values);
-        setSubmissionStatus({
-          success: true,
-          message:
-            "Thank you! Our team will reach out within 24 hours to discuss your automation needs.",
+        setSubmissionStatus({ 
+          success: true, 
+          message: "Thank you! Our team will reach out within 24 hours to discuss your automation needs." 
         });
         form.reset();
-        setChallengeKey((key) => key + 1);
       } catch (error) {
-        setSubmissionStatus({
-          success: false,
-          message: clientErrorMessage(error),
+        console.error('Error submitting form:', error);
+        setSubmissionStatus({ 
+          success: false, 
+          message:
+            error instanceof Error
+              ? error.message
+              : "Failed to send message. Please try again or email us directly.",
         });
-        setChallengeKey((key) => key + 1);
       }
     });
   }
@@ -161,17 +133,18 @@ export default function ContactFormMain() {
                     <div className="relative">
                       <select 
                         {...field}
-                        value={field.value ?? ""}
                         id="solutionInterest"
                         disabled={isPending}
                         className="h-11 sm:h-12 w-full rounded-md border border-gray-300 bg-white px-3 pt-4 pb-1 text-sm text-gray-900 focus:border-gray-500 focus:ring-2 focus:ring-gray-200 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 appearance-none transition-all"
                       >
                         <option value=""></option>
-                        {SOLUTION_INTEREST_OPTIONS.map((option) => (
-                          <option key={option.value} value={option.value}>
-                            {option.label}
-                          </option>
-                        ))}
+                        <option value="workflow-automation">Digital Workflow Automation</option>
+                        <option value="process-automation">Custom Process Automation</option>
+                        <option value="chatbots">AI Chatbots & Conversational AI</option>
+                        <option value="voice-agents">Voice Agents & IVR Systems</option>
+                        <option value="rag-infrastructure">RAG Infrastructure & Knowledge Systems</option>
+                        <option value="multi-solution">Multi-Solution Integration</option>
+                        <option value="consultation">Not sure - need consultation</option>
                       </select>
                       <label 
                         htmlFor="solutionInterest"
@@ -248,23 +221,6 @@ export default function ContactFormMain() {
               )}
             />
 
-            {TURNSTILE_SITE_KEY ? (
-              <TurnstileField
-                key={challengeKey}
-                siteKey={TURNSTILE_SITE_KEY}
-                onToken={(token) => form.setValue("turnstileToken", token)}
-              />
-            ) : process.env.NODE_ENV !== "production" ? (
-              <p className="text-xs text-center text-gray-500">
-                Bot verification is skipped in local development when
-                NEXT_PUBLIC_TURNSTILE_SITE_KEY is unset.
-              </p>
-            ) : (
-              <p className="text-xs text-center text-rose-700">
-                This form is temporarily unavailable.
-              </p>
-            )}
-
             {/* Submission Status */}
             {submissionStatus && (
               <div className={`text-xs sm:text-sm p-3 sm:p-4 rounded-lg border-l-4 ${
@@ -281,10 +237,7 @@ export default function ContactFormMain() {
               <Button 
                 type="submit" 
                 className="w-full sm:w-2/3 md:w-1/2 h-11 sm:h-12 text-sm sm:text-base font-semibold bg-gray-900 hover:bg-gray-800 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center gap-2" 
-                disabled={
-                  isPending ||
-                  (process.env.NODE_ENV === "production" && !TURNSTILE_SITE_KEY)
-                }
+                disabled={isPending}
               >
                 {isPending ? (
                   <>

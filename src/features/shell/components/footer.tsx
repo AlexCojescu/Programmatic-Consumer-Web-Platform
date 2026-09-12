@@ -7,17 +7,22 @@ import { FooterContactRow } from "@/features/shell/components/footer-contact-row
 
 const RESOURCE_LINKS = [
   { href: "/about", label: "About Us" },
-  { href: "/services", label: "Services" },
-  { href: "/pricing", label: "Pricing" },
+  { href: "/projects", label: "Our Projects" },
   { href: "/contact", label: "Get in Touch" },
+  { href: "/services", label: "Services" },
 ];
 
 const SUPPORT_LINKS = [
-  { href: "/services", label: "FAQ" },
-  { href: "/contact", label: "Schedule a call" },
+  { href: "/help", label: "Help Center" },
+  { href: "/faq", label: "FAQ" },
+  { href: "/status", label: "System Status" },
 ];
 
-const LEGAL_LINKS: { href: string; label: string }[] = [];
+const LEGAL_LINKS = [
+  { href: "/privacy", label: "Privacy Policy" },
+  { href: "/terms", label: "Terms of Service" },
+  { href: "/cookies", label: "Cookie Policy" },
+];
 
 const Footer = () => {
   return (
@@ -110,10 +115,10 @@ const Footer = () => {
                         }
                       >
                         <a
-                          href="mailto:support@programmatic.com"
+                          href="mailto:alexchen@myprogrammatic.com"
                           className="text-gray-600 hover:text-gray-900 text-sm transition-colors"
                         >
-                          support@programmatic.com
+                          [support@programmatic.com](mailto:support@programmatic.com)
                         </a>
                       </FooterContactRow>
                       <FooterContactRow

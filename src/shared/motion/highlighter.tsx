@@ -70,26 +70,20 @@ export function Highlighter({
     annotationRef.current = annotation
     annotationRef.current.show()
 
-    let frame = 0;
-    let lastWidth = element.offsetWidth;
     const resizeObserver = new ResizeObserver(() => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        const nextWidth = element.offsetWidth;
-        if (Math.abs(nextWidth - lastWidth) < 2) return;
-        lastWidth = nextWidth;
-        annotation.hide();
-        annotation.show();
-      });
-    });
+      annotation.hide()
+      annotation.show()
+    })
 
-    resizeObserver.observe(element);
+    resizeObserver.observe(element)
+    resizeObserver.observe(document.body)
 
     return () => {
-      cancelAnimationFrame(frame);
-      annotation.remove();
-      resizeObserver.disconnect();
-    };
+      if (element) {
+        annotate(element, { type: action }).remove()
+        resizeObserver.disconnect()
+      }
+    }
   }, [
     shouldShow,
     action,

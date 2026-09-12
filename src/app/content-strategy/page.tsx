@@ -1,5 +1,15 @@
-import { redirect } from "next/navigation";
+
+import { Navbar } from "@/features/shell";
 
 export default function Page() {
-  redirect("/services");
+  return (
+   
+      <>
+      
+      <Navbar />
+      
+      </>
+     
+ 
+  );
 }

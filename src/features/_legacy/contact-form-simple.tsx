@@ -21,11 +21,12 @@ import {
 } from "@/shared/ui/form";
 import { z } from "zod";
 import { formSchema } from "@/features/contact/schemas/contact.schema";
-import { useState } from "react";
+import { send } from "@/features/contact/api/send-email";
+import { useState, useTransition } from "react";
 import { ContactTextField } from "@/features/contact/components/contact-text-field";
 
 export default function ContactForm() {
-  const isPending = false;
+  const [isPending, startTransition] = useTransition();
   const [submissionStatus, setSubmissionStatus] = useState<{
     success: boolean;
     message: string;
@@ -41,11 +42,26 @@ export default function ContactForm() {
     },
   });
 
-  async function onSubmit(_values: z.infer<typeof formSchema>) {
-    setSubmissionStatus({
-      success: false,
-      message:
-        "This form is retired. Use the consultation form on the contact page.",
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setSubmissionStatus(null);
+    startTransition(async () => {
+      try {
+        await send(values);
+        setSubmissionStatus({
+          success: true,
+          message: "Your message has been sent. We’ll follow up within one business day.",
+        });
+        form.reset();
+      } catch (error) {
+        console.error("Error submitting form:", error);
+        setSubmissionStatus({
+          success: false,
+          message:
+            error instanceof Error
+              ? error.message
+              : "Something went wrong. Please try again, or email us directly.",
+        });
+      }
     });
   }
 

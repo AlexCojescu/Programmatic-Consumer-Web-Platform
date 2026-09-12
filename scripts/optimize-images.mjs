@@ -101,11 +101,6 @@ async function main() {
   await optimizeStatic("zapier.png", "zapier.webp", { width: 160, height: 80 });
   await optimizeStatic("make.png", "make.webp", { width: 160, height: 80 });
   await optimizeStatic("Apollo.png", "Apollo.webp", { width: 160, height: 80 });
-  await optimizeStatic("Creator.png", "Creator.webp", { width: 400, height: 400 });
-  await sharp(path.join(PUBLIC_DIR, "programmatic-social-card.png"))
-    .resize(1200, 630, { fit: "cover" })
-    .webp({ quality: 80 })
-    .toFile(path.join(PUBLIC_DIR, "programmatic-social-card.webp"));
 
   const manifest = {
     heroWidths: HERO_WIDTHS,

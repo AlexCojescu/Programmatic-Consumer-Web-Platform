@@ -56,7 +56,7 @@ const ServicesHeader = () => {
         <div className="pt-28 sm:pt-48 pb-0 px-4 sm:px-20 lg:px-64 xl:px-80">
           {/* Main "Services" Title */}
           <motion.h1
-            initial={false}
+            variants={itemVariants}
             className="text-4xl sm:text-8xl lg:text-8xl font-light text-gray-900 tracking-tight sm:tracking-tighter leading-snug sm:leading-[1.05]"
           >
             Operational systems for serious operators, <br className="sm:hidden" />Not AI theatre

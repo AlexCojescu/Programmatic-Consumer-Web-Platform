@@ -23,11 +23,6 @@
 # misc
 .DS_Store
 *.pem
-*.key
-*.p12
-*.sqlite
-*.db
-credentials.json
 
 # debug
 npm-debug.log*
@@ -39,18 +34,6 @@ yarn-error.log*
 .env*
 !.env.example
 
-# .env files
-.env
-.env.local
-.env.development
-.env.production
-.env.test
-.env.test.local
-.env.test.local.example
-.env.test.local.example
-.env.test.local.example
-.env.test.local.example 
-.note.txt
 # vercel
 .vercel
 

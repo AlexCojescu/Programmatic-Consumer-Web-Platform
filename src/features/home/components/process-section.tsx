@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import { AnimatePresence } from "motion/react";
 import FadedGridBackground from "@/shared/ui/faded-grid-background";
@@ -13,8 +13,6 @@ import {
   HomeServiceSpotlightCard,
   type HomeServiceData,
 } from "@/features/home/components/home-service-spotlight-card";
-import { useBreakpoint } from "@/shared/hooks/use-breakpoint";
-import { useOutsideClick } from "@/shared/hooks/use-outside-click";
 
 const SalesOverview = dynamic(() => import("@/shared/ui/line-chart"), {
   loading: () => (
@@ -76,26 +74,59 @@ const INTRO_TEXT =
 
 const CTA_LABEL = "Learn more about our process";
 
+const layoutTransition = {
+  type: "spring" as const,
+  stiffness: 380,
+  damping: 36,
+  mass: 0.6,
+};
+
+const useOutsideClick = (callback: () => void) => {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClick = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        callback();
+      }
+    };
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
+  }, [callback]);
+
+  return ref;
+};
+
 const Header: React.FC = () => {
-  const { isMobile, isTablet } = useBreakpoint();
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
   const [current, setCurrent] = useState<HomeServiceData | null>(null);
-  const close = useCallback(() => setCurrent(null), []);
-  const ref = useOutsideClick<HTMLDivElement>(close);
+
+  const ref = useOutsideClick(() => setCurrent(null));
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      setIsMobile(width <= 480);
+      setIsTablet(width <= 768 && width > 480);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") close();
+      if (e.key === "Escape") setCurrent(null);
     };
     document.addEventListener("keydown", handleKey);
     return () => document.removeEventListener("keydown", handleKey);
-  }, [close]);
+  }, []);
 
-  const commonStyles: React.CSSProperties = useMemo(
-    () => ({
-      fontFamily: "system-ui, -apple-system, sans-serif",
-    }),
-    []
-  );
+  const commonStyles: React.CSSProperties = {
+    fontFamily: "system-ui, -apple-system, sans-serif",
+  };
 
   const containerStyle: React.CSSProperties = {
     ...commonStyles,
@@ -167,6 +198,10 @@ const Header: React.FC = () => {
     boxShadow: "0 26px 70px rgba(0,0,0,0.45), 0 8px 22px rgba(0,0,0,0.45)",
   };
 
+  const handleLearnMoreClick = () => {
+    window.location.href = "/services";
+  };
+
   return (
     <header style={containerStyle}>
       <FadedGridBackground />
@@ -182,8 +217,9 @@ const Header: React.FC = () => {
             isMobile={isMobile}
             titleStyle={serviceTitleStyle}
             descriptionStyle={serviceDescriptionStyle}
+            transition={layoutTransition}
             containerRef={ref}
-            onClose={close}
+            onClose={() => setCurrent(null)}
           />
         )}
       </AnimatePresence>
@@ -213,13 +249,17 @@ const Header: React.FC = () => {
                   isHoverEnabled={!current}
                   titleStyle={serviceTitleStyle}
                   descriptionStyle={serviceDescriptionStyle}
+                  transition={layoutTransition}
                   onSelect={() => setCurrent(service)}
                 />
               ))}
             </div>
 
             <div style={ctaWrapperStyle}>
-              <HomeProcessCtaButton style={ctaButtonStyle} href="/services">
+              <HomeProcessCtaButton
+                style={ctaButtonStyle}
+                onClick={handleLearnMoreClick}
+              >
                 <span>{CTA_LABEL}</span>
               </HomeProcessCtaButton>
             </div>

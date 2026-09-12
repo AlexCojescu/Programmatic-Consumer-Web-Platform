@@ -2,6 +2,7 @@
 
 import React from "react";
 import { motion } from "motion/react";
+import type { Transition } from "motion/react";
 import type { HomeServiceData } from "@/features/home/components/home-service-spotlight-card";
 
 interface HomeServiceModalProps {
@@ -9,18 +10,21 @@ interface HomeServiceModalProps {
   isMobile: boolean;
   titleStyle: React.CSSProperties;
   descriptionStyle: React.CSSProperties;
+  transition: Transition;
   containerRef: React.RefObject<HTMLDivElement | null>;
   onClose: () => void;
 }
 
 /**
- * Expanded homepage service card modal with a lightweight fade/scale entrance.
+ * Expanded homepage service card modal. Shares layout ids with
+ * HomeServiceSpotlightCard for the shared-layout expand animation.
  */
 export const HomeServiceModal: React.FC<HomeServiceModalProps> = ({
   service,
   isMobile,
   titleStyle,
   descriptionStyle,
+  transition,
   containerRef,
   onClose,
 }) => {
@@ -36,20 +40,18 @@ export const HomeServiceModal: React.FC<HomeServiceModalProps> = ({
       }}
     >
       <motion.div
+        layoutId={`service-card-${service.id}`}
+        layout
         ref={containerRef}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={`home-service-title-${service.id}`}
-        initial={{ opacity: 0, scale: 0.96 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.98 }}
-        transition={{ duration: 0.18, ease: "easeOut" }}
+        initial={false}
+        animate={{ borderRadius: 16 }}
+        exit={{ borderRadius: 16 }}
+        transition={transition}
         style={{
           width: "100%",
           maxWidth: isMobile ? "20rem" : "32rem",
           backgroundColor: "#ffffff",
           border: "1px solid #e5e7eb",
-          borderRadius: 16,
           boxShadow: "0 25px 80px rgba(15, 23, 42, 0.18)",
           padding: isMobile ? "0.9rem" : "1.5rem",
           cursor: "pointer",
@@ -65,29 +67,38 @@ export const HomeServiceModal: React.FC<HomeServiceModalProps> = ({
             gap: isMobile ? "0.3rem" : "0.4rem",
           }}
         >
-          <h3
-            id={`home-service-title-${service.id}`}
+          <motion.h3
+            layoutId={`service-title-${service.id}`}
+            transition={transition}
             style={{
               ...titleStyle,
               fontSize: isMobile ? "0.85rem" : titleStyle.fontSize,
             }}
           >
             {service.title}
-          </h3>
-          <p
+          </motion.h3>
+          <motion.p
+            layoutId={`service-desc-${service.id}`}
+            transition={transition}
             style={{
               ...descriptionStyle,
               fontSize: isMobile ? "0.7rem" : descriptionStyle.fontSize,
             }}
           >
             {service.description}
-          </p>
+          </motion.p>
         </div>
 
+        {/* Details blur-in */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0, transition: { duration: 0.1 } }}
+          layout
+          initial={{ opacity: 0, filter: "blur(5px)" }}
+          animate={{ opacity: 1, filter: "blur(0px)" }}
+          exit={{
+            opacity: 0,
+            filter: "blur(3px)",
+            transition: { duration: 0.1 },
+          }}
           transition={{ duration: 0.2, ease: "easeInOut" }}
           style={{
             marginTop: isMobile ? "0.75rem" : "1rem",
@@ -113,9 +124,9 @@ export const HomeServiceModal: React.FC<HomeServiceModalProps> = ({
               gap: isMobile ? "0.25rem" : "0.35rem",
             }}
           >
-            {service.metadata.split(" · ").map((tag) => (
+            {service.metadata.split(" · ").map((tag, i) => (
               <span
-                key={tag}
+                key={i}
                 style={{
                   display: "inline-block",
                   backgroundColor: "#f3f4f6",
@@ -124,7 +135,8 @@ export const HomeServiceModal: React.FC<HomeServiceModalProps> = ({
                   fontWeight: 500,
                   padding: isMobile ? "0.15rem 0.45rem" : "0.2rem 0.55rem",
                   borderRadius: "999px",
-                  fontFamily: "system-ui, -apple-system, sans-serif",
+                  fontFamily:
+                    "system-ui, -apple-system, sans-serif",
                 }}
               >
                 {tag}

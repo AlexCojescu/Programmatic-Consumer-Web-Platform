@@ -7,6 +7,7 @@ export interface EnterpriseServiceOption {
   id: string;
   label: string;
   shortLabel?: string;
+  component: React.ComponentType;
   description: string;
   icon: React.ReactNode;
 }

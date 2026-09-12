@@ -26,26 +26,15 @@ const BotDetection = ({
   cardDescription = "We turn the invisible parts of your business SOPs, tools, and handoffs into a single, documented system your team can actually run.",
 }: BotDetectionProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   useEffect(() => {
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => setPrefersReducedMotion(media.matches);
-    update();
-    media.addEventListener("change", update);
-    return () => media.removeEventListener("change", update);
-  }, []);
-
-  useEffect(() => {
-    if (prefersReducedMotion) return;
-
     setCurrentIndex(1);
-    const interval = setInterval(() => {
-      if (document.visibilityState === "hidden") return;
-      setCurrentIndex((prev) => (prev + 1) % positions.length);
-    }, 3000);
+    const interval = setInterval(
+      () => setCurrentIndex((prev) => (prev + 1) % positions.length),
+      3000,
+    );
     return () => clearInterval(interval);
-  }, [prefersReducedMotion]);
+  }, []);
 
   return (
     <div
@@ -65,23 +54,15 @@ const BotDetection = ({
                 "radial-gradient(circle at 0% 100%, transparent 0, transparent 48px, rgba(15,23,42,0.35) 70px, transparent 65%)",
             }}
             initial={{ opacity: 0.8, rotate: -55 }}
-            animate={
-              prefersReducedMotion
-                ? { opacity: 0.8, rotate: -55 }
-                : {
-                    opacity: [0.7, 1, 0.7],
-                    rotate: [-55, -40, -50, -45, -55, -50, -45, -50, -45, -55],
-                  }
-            }
-            transition={
-              prefersReducedMotion
-                ? { duration: 0 }
-                : {
-                    duration: 18,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }
-            }
+            animate={{
+              opacity: [0.7, 1, 0.7],
+              rotate: [-55, -40, -50, -45, -55, -50, -45, -50, -45, -55],
+            }}
+            transition={{
+              duration: 18,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
           />
 
           <ContainerMask />
@@ -107,44 +88,37 @@ const BotDetection = ({
           </svg>
 
           <motion.div
+            layoutId="highlight-dot"
             className="absolute flex h-[6.5px] w-[6.5px] -translate-x-[0.5px] -translate-y-[0.5px] items-center justify-center rounded-[1px] border-t border-emerald-400 bg-emerald-500 shadow-[0_0_10px_4px_rgba(16,185,129,0.7)]"
             style={positions[currentIndex]}
-            transition={
-              prefersReducedMotion
-                ? { duration: 0 }
-                : {
-                    type: "spring",
-                    stiffness: 300,
-                    damping: 70,
-                  }
-            }
+            transition={{
+              type: "spring",
+              stiffness: 300,
+              damping: 70,
+            }}
           >
-            {!prefersReducedMotion ? (
-              <>
-                <motion.div
-                  key={`pulse-${currentIndex}`}
-                  className="absolute -left-1.5 -top-1.5 h-[300%] w-[270%] rounded-full border border-emerald-400"
-                  initial={{ scale: 1, opacity: 0.7 }}
-                  animate={{ scale: 1.7, opacity: [0.7, 1, 0] }}
-                  transition={{
-                    duration: 1.2,
-                    ease: "easeOut",
-                    delay: 1.3,
-                  }}
-                />
-                <motion.div
-                  key={currentIndex}
-                  initial={{ scale: 1 }}
-                  animate={{ scale: [1, 1.15, 1] }}
-                  transition={{
-                    duration: 1,
-                    ease: "easeInOut",
-                    delay: 1.3,
-                  }}
-                  className="absolute -left-1.5 -top-1.5 h-[300%] w-[270%] scale-[1.3] rounded-full border border-emerald-500 shadow-[0_0_20px_4px_rgba(16,185,129,0.6)]"
-                />
-              </>
-            ) : null}
+            <motion.div
+              key={`pulse-${currentIndex}`}
+              className="absolute -left-1.5 -top-1.5 h-[300%] w-[270%] rounded-full border border-emerald-400"
+              initial={{ scale: 1, opacity: 0.7 }}
+              animate={{ scale: 1.7, opacity: [0.7, 1, 0] }}
+              transition={{
+                duration: 1.2,
+                ease: "easeOut",
+                delay: 1.3,
+              }}
+            />
+            <motion.div
+              key={currentIndex}
+              initial={{ scale: 1 }}
+              animate={{ scale: [1, 1.15, 1] }}
+              transition={{
+                duration: 1,
+                ease: "easeInOut",
+                delay: 1.3,
+              }}
+              className="absolute -left-1.5 -top-1.5 h-[300%] w-[270%] scale-[1.3] rounded-full border border-emerald-500 shadow-[0_0_20px_4px_rgba(16,185,129,0.6)]"
+            />
           </motion.div>
 
           {/* central node – uses same gradient as page background */}

@@ -1,92 +1,102 @@
 "use server";
 
+import { formSchema } from "../schemas/contact.schema";
 import { formSchemaMain } from "../schemas/consultation.schema";
-import { assertRateLimit, RateLimitError } from "@/core/security/rate-limit";
-import { assertSameOrigin } from "@/core/security/origin";
-import { verifyTurnstile } from "@/core/security/turnstile";
-import { getClientIdentifier } from "@/core/security/rate-limit";
+import { assertRateLimit } from "@/core/security/rate-limit";
 import {
   escapeHtml,
   escapeHtmlMultiline,
   sanitizeEmailSubject,
 } from "@/core/security/html-escape";
 import { Resend } from "resend";
-import { headers } from "next/headers";
-import {
-  getResendApiKey,
-  getResendFromEmail,
-  getYourEmail,
-} from "@/core/env/env";
+import { getResendApiKey, getResendFromEmail, getYourEmail } from "@/core/env/env";
 
-const GENERIC_FAILURE = "Failed to send message. Please try again later.";
-
-let resendClient: Resend | null = null;
-
+// Lazy Resend client so env is read at call time (no keys at module load).
 function getResend() {
-  if (!resendClient) {
-    resendClient = new Resend(getResendApiKey());
-  }
-  return resendClient;
+  return new Resend(getResendApiKey());
 }
 
-function toClientError(error: unknown): never {
-  if (error instanceof RateLimitError) {
-    throw error;
+// Simple contact form sender
+export const send = async (input: unknown) => {
+  await assertRateLimit("contact-form");
+
+  const parsed = formSchema.safeParse(input);
+  if (!parsed.success) {
+    throw new Error("Invalid form data.");
   }
+  const emailFormData = parsed.data;
 
-  if (
-    error instanceof Error &&
-    (error.message === "Invalid form data." ||
-      error.message === "Please complete the verification challenge." ||
-      error.message === GENERIC_FAILURE)
-  ) {
-    throw error;
-  }
+  getResendApiKey();
+  getResendFromEmail();
+  getYourEmail();
 
-  console.error("Consultation send failed");
-  throw new Error(GENERIC_FAILURE);
-}
+  const firstName = escapeHtml(emailFormData.firstName);
+  const lastName = escapeHtml(emailFormData.lastName);
+  const email = escapeHtml(emailFormData.email);
+  const message = escapeHtmlMultiline(emailFormData.message);
 
-export const sendConsultation = async (input: unknown) => {
   try {
-    await assertSameOrigin();
-    await assertRateLimit("consultation-form");
+    const { data, error } = await getResend().emails.send({
+      from: `Contact Form <${getResendFromEmail()}>`,
+      to: [getYourEmail()],
+      subject: `New Contact Form Submission from ${sanitizeEmailSubject(emailFormData.firstName)} ${sanitizeEmailSubject(emailFormData.lastName)}`,
+      html: `
+        <h2>New Contact Form Submission</h2>
+        <p><strong>Name:</strong> ${firstName} ${lastName}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Message:</strong></p>
+        <p>${message}</p>
+      `
+    });
 
-    const parsed = formSchemaMain.safeParse(input);
-    if (!parsed.success) {
-      throw new Error("Invalid form data.");
+    if (error) {
+      console.error("Resend API error:", error);
+      throw new Error("Failed to send email. Please try again later.");
     }
+    
+    return data;
 
-    const headerList = await headers();
-    await verifyTurnstile(
-      parsed.data.turnstileToken,
-      getClientIdentifier(headerList)
-    );
+  } catch (e) {
+    console.error("An unexpected error occurred:", e);
+    throw new Error("An unexpected error occurred while sending the email.");
+  }
+};
 
-    const emailFormData = parsed.data;
-    const fromEmail = getResendFromEmail();
-    const toEmail = getYourEmail();
+// Advanced consultation form sender
+export const sendConsultation = async (input: unknown) => {
+  await assertRateLimit("consultation-form");
 
-    const name = escapeHtml(emailFormData.name);
-    const email = escapeHtml(emailFormData.email);
-    const company = escapeHtml(emailFormData.company ?? "");
-    const jobTitle = escapeHtml(emailFormData.jobTitle ?? "");
-    const solutionInterest = escapeHtml(emailFormData.solutionInterest);
-    const currentChallenge = emailFormData.currentChallenge
-      ? escapeHtml(emailFormData.currentChallenge)
-      : "";
-    const existingSystems = emailFormData.existingSystems
-      ? escapeHtml(emailFormData.existingSystems)
-      : "";
-    const projectDetails = escapeHtmlMultiline(emailFormData.projectDetails);
+  const parsed = formSchemaMain.safeParse(input);
+  if (!parsed.success) {
+    throw new Error("Invalid form data.");
+  }
+  const emailFormData = parsed.data;
 
-    const subjectCompany = emailFormData.company
-      ? ` - ${sanitizeEmailSubject(emailFormData.company)}`
-      : "";
+  getResendApiKey();
+  getResendFromEmail();
+  getYourEmail();
 
-    const { error } = await getResend().emails.send({
-      from: `Consultation Request <${fromEmail}>`,
-      to: [toEmail],
+  const name = escapeHtml(emailFormData.name);
+  const email = escapeHtml(emailFormData.email);
+  const company = escapeHtml(emailFormData.company ?? "");
+  const jobTitle = escapeHtml(emailFormData.jobTitle ?? "");
+  const solutionInterest = escapeHtml(emailFormData.solutionInterest);
+  const currentChallenge = emailFormData.currentChallenge
+    ? escapeHtml(emailFormData.currentChallenge)
+    : "";
+  const existingSystems = emailFormData.existingSystems
+    ? escapeHtml(emailFormData.existingSystems)
+    : "";
+  const projectDetails = escapeHtmlMultiline(emailFormData.projectDetails);
+
+  const subjectCompany = emailFormData.company
+    ? ` - ${sanitizeEmailSubject(emailFormData.company)}`
+    : "";
+
+  try {
+    const { data, error } = await getResend().emails.send({
+      from: `Consultation Request <${getResendFromEmail()}>`,
+      to: [getYourEmail()],
       subject: `New Consultation Request from ${sanitizeEmailSubject(emailFormData.name)}${subjectCompany}`,
       html: `
         <h2>New Technical Consultation Request</h2>
@@ -104,16 +114,18 @@ export const sendConsultation = async (input: unknown) => {
         
         <h3>Project Description</h3>
         <p>${projectDetails}</p>
-      `,
+      `
     });
 
     if (error) {
-      console.error("Resend API error");
-      throw new Error(GENERIC_FAILURE);
+      console.error("Resend API error:", error);
+      throw new Error("Failed to send email. Please try again later.");
     }
+    
+    return data;
 
-    return { ok: true as const };
-  } catch (error) {
-    toClientError(error);
+  } catch (e) {
+    console.error("An unexpected error occurred:", e);
+    throw new Error("An unexpected error occurred while sending the email.");
   }
 };

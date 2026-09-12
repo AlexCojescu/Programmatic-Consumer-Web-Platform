@@ -1,16 +1,11 @@
 /**
  * Security headers for all public responses.
- * Static headers are applied via next.config.ts `headers()`.
- * CSP is applied in middleware with a per-request nonce.
+ * Applied via next.config.ts `headers()`.
  */
 
 const isDev = process.env.NODE_ENV === "development";
 
-/**
- * Build a nonce-based Content-Security-Policy.
- * Script `'unsafe-inline'` is omitted; `'unsafe-eval'` is development-only (webpack HMR).
- */
-export function buildContentSecurityPolicy(nonce: string): string {
+function buildContentSecurityPolicy(): string {
   const directives: Record<string, string[]> = {
     "default-src": ["'self'"],
     "base-uri": ["'self'"],
@@ -19,9 +14,8 @@ export function buildContentSecurityPolicy(nonce: string): string {
     "object-src": ["'none'"],
     "script-src": [
       "'self'",
-      `'nonce-${nonce}'`,
+      "'unsafe-inline'",
       "https://assets.calendly.com",
-      "https://challenges.cloudflare.com",
       ...(isDev ? ["'unsafe-eval'"] : []),
     ],
     "style-src": [
@@ -48,9 +42,8 @@ export function buildContentSecurityPolicy(nonce: string): string {
       "'self'",
       "https://calendly.com",
       "https://assets.calendly.com",
-      "https://challenges.cloudflare.com",
     ],
-    "frame-src": ["https://calendly.com", "https://challenges.cloudflare.com"],
+    "frame-src": ["https://calendly.com"],
     "worker-src": ["'self'", "blob:"],
   };
 
@@ -65,9 +58,12 @@ export function buildContentSecurityPolicy(nonce: string): string {
     .join("; ");
 }
 
-/** Non-CSP headers. CSP is set per-request in middleware so it can include a nonce. */
 export function getSecurityHeaders(): { key: string; value: string }[] {
   const headers: { key: string; value: string }[] = [
+    {
+      key: "Content-Security-Policy",
+      value: buildContentSecurityPolicy(),
+    },
     {
       key: "X-Frame-Options",
       value: "DENY",
@@ -82,7 +78,7 @@ export function getSecurityHeaders(): { key: string; value: string }[] {
     },
     {
       key: "X-DNS-Prefetch-Control",
-      value: "on",
+      value: "off",
     },
     {
       key: "Permissions-Policy",
@@ -91,10 +87,6 @@ export function getSecurityHeaders(): { key: string; value: string }[] {
     {
       key: "Cross-Origin-Opener-Policy",
       value: "same-origin-allow-popups",
-    },
-    {
-      key: "Cross-Origin-Resource-Policy",
-      value: "same-origin",
     },
   ];
 

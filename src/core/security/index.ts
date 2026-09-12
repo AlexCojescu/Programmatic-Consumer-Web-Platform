@@ -1,8 +1,9 @@
-export { getSecurityHeaders, buildContentSecurityPolicy } from "./security-headers";
+export { getSecurityHeaders } from "./security-headers";
 export {
   CONTACT_FORM_RATE_LIMIT,
   checkRateLimit,
   getClientIdentifier,
+  getUserIdentifier,
   getRateLimitKey,
   getClientIdentifierFromRequest,
   getRateLimitKeyFromRequest,
@@ -17,5 +18,3 @@ export {
   escapeHtmlMultiline,
   sanitizeEmailSubject,
 } from "./html-escape";
-export { assertSameOrigin, getAllowedOrigins } from "./origin";
-export { verifyTurnstile } from "./turnstile";

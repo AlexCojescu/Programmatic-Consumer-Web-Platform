@@ -1,9 +1,10 @@
+"use client";
+
 import dynamic from "next/dynamic";
-import HeroSection from "@/features/home/components/hero-section";
-import QuoteSection from "@/features/home/components/quote-section";
-import { FadedGridBackground } from "@/shared/ui/faded-grid-background";
-import { DeferredMount } from "@/shared/ui/deferred-mount";
-import { HERO_MEDIA_REVISION } from "@/features/home/data/hero-slides";
+import { useState, useEffect, useRef, type ReactNode } from "react";
+import { HeroSection, QuoteSection } from "@/features/home";
+import { Navbar } from "@/features/shell";
+import { FadedGridBackground, DeferredMount } from "@/shared/ui";
 
 function SectionSkeleton({ className }: { className: string }) {
   return (
@@ -15,63 +16,153 @@ function SectionSkeleton({ className }: { className: string }) {
 }
 
 const ProcessSection = dynamic(
-  () => import("@/features/home/components/process-section"),
+  () =>
+    import("@/features/home").then((mod) => ({ default: mod.ProcessSection })),
   {
     loading: () => <SectionSkeleton className="min-h-[640px] w-full" />,
+    ssr: true,
   }
 );
 
 const ServiceFilter = dynamic(
-  () => import("@/features/home/components/enterprise-services-hub"),
+  () =>
+    import("@/features/home").then((mod) => ({ default: mod.ServiceFilter })),
   {
-    loading: () => (
-      <SectionSkeleton className="min-h-[650px] w-full max-w-6xl mx-auto" />
-    ),
+    loading: () => <SectionSkeleton className="min-h-[650px] w-full max-w-6xl mx-auto" />,
+    ssr: true,
   }
 );
 
 const ContactHeader = dynamic(
-  () => import("@/features/contact/components/contact-header"),
+  () =>
+    import("@/features/contact").then((mod) => ({ default: mod.ContactHeader })),
   {
     loading: () => <SectionSkeleton className="h-36 w-full max-w-4xl mx-auto" />,
+    ssr: true,
   }
 );
 
 const ContactFormMain = dynamic(
-  () => import("@/features/contact/components/contact-form-main"),
+  () =>
+    import("@/features/contact").then((mod) => ({
+      default: mod.ContactFormMain,
+    })),
   {
     loading: () => <SectionSkeleton className="min-h-[520px] w-full" />,
+    ssr: true,
   }
 );
 
 const CalendlyWidget = dynamic(
-  () => import("@/features/contact/components/calendly-widget"),
+  () =>
+    import("@/features/contact").then((mod) => ({
+      default: mod.CalendlyWidget,
+    })),
   {
     loading: () => <SectionSkeleton className="h-[750px] w-full" />,
+    ssr: false,
   }
 );
 
 const ContactFooter = dynamic(
-  () => import("@/features/contact/components/contact-footer"),
+  () =>
+    import("@/features/contact").then((mod) => ({
+      default: mod.ContactFooter,
+    })),
   {
     loading: () => <SectionSkeleton className="h-28 w-full" />,
+    ssr: true,
   }
 );
 
-export default function Page() {
-  const posterVersion = HERO_MEDIA_REVISION;
+function useFadeInOnScroll(
+  threshold = 0.1,
+  rootMargin = "0px 0px -50px 0px"
+) {
+  const [isVisible, setIsVisible] = useState(false);
+  const elementRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !isVisible) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold, rootMargin }
+    );
+
+    const currentElement = elementRef.current;
+    if (currentElement) {
+      observer.observe(currentElement);
+    }
+
+    return () => {
+      if (currentElement) {
+        observer.unobserve(currentElement);
+      }
+    };
+  }, [threshold, rootMargin, isVisible]);
+
+  return { elementRef, isVisible };
+}
+
+interface FadeInSectionProps {
+  children: ReactNode;
+  className?: string;
+  delay?: number;
+  direction?: "up" | "down" | "left" | "right";
+  threshold?: number;
+  rootMargin?: string;
+}
+
+function FadeInSection({
+  children,
+  className = "",
+  delay = 0,
+  direction = "up",
+  threshold = 0.1,
+  rootMargin = "0px 0px -50px 0px",
+}: FadeInSectionProps) {
+  const { elementRef, isVisible } = useFadeInOnScroll(threshold, rootMargin);
+
+  const getTransformClass = () => {
+    switch (direction) {
+      case "up":
+        return "translate-y-8";
+      case "down":
+        return "-translate-y-8";
+      case "left":
+        return "translate-x-8";
+      case "right":
+        return "-translate-x-8";
+      default:
+        return "translate-y-8";
+    }
+  };
 
   return (
+    <div
+      ref={elementRef}
+      className={`transition-all duration-700 ease-out ${
+        isVisible
+          ? "opacity-100 translate-x-0 translate-y-0"
+          : `opacity-0 ${getTransformClass()}`
+      } ${className}`}
+      style={{
+        transitionDelay: isVisible ? `${delay}ms` : "0ms",
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+export default function Page() {
+  return (
     <div className="w-full">
-      <link
-        rel="preload"
-        as="image"
-        href={`/hero/slide-1-poster-1280.avif?v=${posterVersion}`}
-        type="image/avif"
-        fetchPriority="high"
-        imageSrcSet={`/hero/slide-1-poster-800.avif?v=${posterVersion} 800w, /hero/slide-1-poster-1280.avif?v=${posterVersion} 1280w, /hero/slide-1-poster-1920.avif?v=${posterVersion} 1920w`}
-        imageSizes="100vw"
-      />
+      <Navbar />
       <HeroSection />
       <QuoteSection />
 
@@ -89,17 +180,17 @@ export default function Page() {
           </div>
         </section>
 
-        <DeferredMount
-          fallback={
-            <SectionSkeleton className="min-h-[650px] w-full max-w-6xl mx-auto" />
-          }
-        >
-          <ServiceFilter />
-        </DeferredMount>
+        <FadeInSection delay={300} direction="up" threshold={0.2}>
+          <DeferredMount
+            fallback={
+              <SectionSkeleton className="min-h-[650px] w-full max-w-6xl mx-auto" />
+            }
+          >
+            <ServiceFilter />
+          </DeferredMount>
+        </FadeInSection>
 
-        <DeferredMount
-          fallback={<SectionSkeleton className="h-36 w-full max-w-4xl mx-auto" />}
-        >
+        <DeferredMount fallback={<SectionSkeleton className="h-36 w-full max-w-4xl mx-auto" />}>
           <ContactHeader />
         </DeferredMount>
 

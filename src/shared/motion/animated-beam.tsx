@@ -32,7 +32,7 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
   toRef,
   curvature = 0,
   reverse = false, // Include the reverse prop
-  duration = 5,
+  duration = Math.random() * 3 + 4,
   delay = 0,
   pathColor = "gray",
   pathWidth = 2,
@@ -47,15 +47,6 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
   const id = useId()
   const [pathD, setPathD] = useState("")
   const [svgDimensions, setSvgDimensions] = useState({ width: 0, height: 0 })
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
-
-  useEffect(() => {
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)")
-    const update = () => setPrefersReducedMotion(media.matches)
-    update()
-    media.addEventListener("change", update)
-    return () => media.removeEventListener("change", update)
-  }, [])
 
   // Calculate the gradient coordinates based on the reverse prop
   const gradientCoordinates = reverse
@@ -73,65 +64,70 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
       }
 
   useEffect(() => {
-    let lastSignature = ""
-    let frame = 0
-
     const updatePath = () => {
-      if (!containerRef.current || !fromRef.current || !toRef.current) return
+      if (containerRef.current && fromRef.current && toRef.current) {
+        // Get bounding rects - these account for transforms
+        const containerRect = containerRef.current.getBoundingClientRect()
+        const fromRect = fromRef.current.getBoundingClientRect()
+        const toRect = toRef.current.getBoundingClientRect()
+        
+        // Calculate positions relative to container
+        const fromLeft = fromRect.left - containerRect.left
+        const fromTop = fromRect.top - containerRect.top
+        const toLeft = toRect.left - containerRect.left
+        const toTop = toRect.top - containerRect.top
 
-      const containerRect = containerRef.current.getBoundingClientRect()
-      const fromRect = fromRef.current.getBoundingClientRect()
-      const toRect = toRef.current.getBoundingClientRect()
-      const signature = [
-        containerRect.width,
-        containerRect.height,
-        fromRect.left,
-        fromRect.top,
-        toRect.left,
-        toRect.top,
-      ].join(":")
+        const svgWidth = containerRect.width
+        const svgHeight = containerRect.height
+        setSvgDimensions({ width: svgWidth, height: svgHeight })
 
-      if (signature === lastSignature) return
-      lastSignature = signature
+        // Calculate center points of the circles
+        const startX = fromLeft + fromRect.width / 2 + startXOffset
+        const startY = fromTop + fromRect.height / 2 + startYOffset
+        const endX = toLeft + toRect.width / 2 + endXOffset
+        const endY = toTop + toRect.height / 2 + endYOffset
 
-      const fromLeft = fromRect.left - containerRect.left
-      const fromTop = fromRect.top - containerRect.top
-      const toLeft = toRect.left - containerRect.left
-      const toTop = toRect.top - containerRect.top
+        const controlY = startY - curvature
+        const d = `M ${startX},${startY} Q ${
+          (startX + endX) / 2
+        },${controlY} ${endX},${endY}`
+        setPathD(d)
+      }
+    }
 
-      setSvgDimensions({
-        width: containerRect.width,
-        height: containerRect.height,
+    // Initialize ResizeObserver
+    const resizeObserver = new ResizeObserver(() => {
+      updatePath()
+    })
+
+    // Observe the container element
+    if (containerRef.current) {
+      resizeObserver.observe(containerRef.current)
+    }
+
+    // Also observe the individual icon elements to catch position changes
+    if (fromRef.current) {
+      resizeObserver.observe(fromRef.current)
+    }
+    if (toRef.current) {
+      resizeObserver.observe(toRef.current)
+    }
+
+    // Use multiple requestAnimationFrame calls to ensure layout has settled
+    const rafId1 = requestAnimationFrame(() => {
+      const rafId2 = requestAnimationFrame(() => {
+        updatePath()
       })
+    })
 
-      const startX = fromLeft + fromRect.width / 2 + startXOffset
-      const startY = fromTop + fromRect.height / 2 + startYOffset
-      const endX = toLeft + toRect.width / 2 + endXOffset
-      const endY = toTop + toRect.height / 2 + endYOffset
-      const controlY = startY - curvature
+    // Also add a small delay to ensure transforms are applied
+    const timeoutId = setTimeout(() => {
+      updatePath()
+    }, 100)
 
-      setPathD(
-        `M ${startX},${startY} Q ${(startX + endX) / 2},${controlY} ${endX},${endY}`
-      )
-    }
-
-    const scheduleUpdate = () => {
-      cancelAnimationFrame(frame)
-      frame = requestAnimationFrame(updatePath)
-    }
-
-    const resizeObserver = new ResizeObserver(scheduleUpdate)
-
-    if (containerRef.current) resizeObserver.observe(containerRef.current)
-    if (fromRef.current) resizeObserver.observe(fromRef.current)
-    if (toRef.current) resizeObserver.observe(toRef.current)
-
-    const rafId = requestAnimationFrame(updatePath)
-    const timeoutId = setTimeout(updatePath, 100)
-
+    // Clean up the observer on component unmount
     return () => {
-      cancelAnimationFrame(rafId)
-      cancelAnimationFrame(frame)
+      cancelAnimationFrame(rafId1)
       clearTimeout(timeoutId)
       resizeObserver.disconnect()
     }
@@ -168,47 +164,45 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
       <path
         d={pathD}
         strokeWidth={pathWidth}
-        stroke={prefersReducedMotion ? gradientStartColor : `url(#${id})`}
-        strokeOpacity={prefersReducedMotion ? 0.55 : 1}
+        stroke={`url(#${id})`}
+        strokeOpacity="1"
         strokeLinecap="round"
       />
-      {!prefersReducedMotion ? (
-        <defs>
-          <motion.linearGradient
-            className="transform-gpu"
-            id={id}
-            gradientUnits={"userSpaceOnUse"}
-            initial={{
-              x1: "0%",
-              x2: "0%",
-              y1: "0%",
-              y2: "0%",
-            }}
-            animate={{
-              x1: gradientCoordinates.x1,
-              x2: gradientCoordinates.x2,
-              y1: gradientCoordinates.y1,
-              y2: gradientCoordinates.y2,
-            }}
-            transition={{
-              delay,
-              duration,
-              ease: [0.16, 1, 0.3, 1],
-              repeat: Infinity,
-              repeatDelay: 0,
-            }}
-          >
-            <stop stopColor={gradientStartColor} stopOpacity="0"></stop>
-            <stop stopColor={gradientStartColor}></stop>
-            <stop offset="32.5%" stopColor={gradientStopColor}></stop>
-            <stop
-              offset="100%"
-              stopColor={gradientStopColor}
-              stopOpacity="0"
-            ></stop>
-          </motion.linearGradient>
-        </defs>
-      ) : null}
+      <defs>
+        <motion.linearGradient
+          className="transform-gpu"
+          id={id}
+          gradientUnits={"userSpaceOnUse"}
+          initial={{
+            x1: "0%",
+            x2: "0%",
+            y1: "0%",
+            y2: "0%",
+          }}
+          animate={{
+            x1: gradientCoordinates.x1,
+            x2: gradientCoordinates.x2,
+            y1: gradientCoordinates.y1,
+            y2: gradientCoordinates.y2,
+          }}
+          transition={{
+            delay,
+            duration,
+            ease: [0.16, 1, 0.3, 1], // https://easings.net/#easeOutExpo
+            repeat: Infinity,
+            repeatDelay: 0,
+          }}
+        >
+          <stop stopColor={gradientStartColor} stopOpacity="0"></stop>
+          <stop stopColor={gradientStartColor}></stop>
+          <stop offset="32.5%" stopColor={gradientStopColor}></stop>
+          <stop
+            offset="100%"
+            stopColor={gradientStopColor}
+            stopOpacity="0"
+          ></stop>
+        </motion.linearGradient>
+      </defs>
     </svg>
   )
 }

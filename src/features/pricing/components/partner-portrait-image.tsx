@@ -17,7 +17,7 @@ export const PartnerPortraitImage: React.FC<PartnerPortraitImageProps> = ({
 }) => {
   return (
     <Image
-      src="/Creator.webp"
+      src="/Creator.png"
       alt="A portrait of Alex"
       width={400}
       height={400}

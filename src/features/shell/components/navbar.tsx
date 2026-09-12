@@ -6,31 +6,26 @@ import Link from 'next/link';
 import { IMAGE_QUALITY, IMAGE_SIZES } from '@/shared/lib/image-sizes';
 import { NavbarUnderlineLink } from '@/features/shell/components/navbar-underline-link';
 import { NavbarMobileLink } from '@/features/shell/components/navbar-mobile-link';
+// REMOVED: AnimatePresence, motion, and ChevronDown are no longer needed.
+
+// REMOVED: The `services` data array is no longer necessary.
 
 const Navbar = () => {
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  // REMOVED: State for dropdowns is gone.
 
   useEffect(() => {
-    let lastY = window.scrollY;
-    let ticking = false;
-
-    const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
-
-      requestAnimationFrame(() => {
-        const y = window.scrollY;
-        const nextVisible = lastY > y || y < 10;
-        setVisible((prev) => (prev === nextVisible ? prev : nextVisible));
-        lastY = y;
-        ticking = false;
-      });
+    const handleScroll = () => {
+      const currentScrollPos = window.pageYOffset;
+      setVisible(prevScrollPos > currentScrollPos || currentScrollPos < 10);
+      setPrevScrollPos(currentScrollPos);
     };
 
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [prevScrollPos]);
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
   const closeMobileMenu = () => {

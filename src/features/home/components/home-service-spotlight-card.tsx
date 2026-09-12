@@ -1,6 +1,8 @@
 "use client";
 
 import React from "react";
+import { motion } from "motion/react";
+import type { Transition } from "motion/react";
 
 export interface HomeServiceData {
   id: string;
@@ -18,6 +20,7 @@ interface HomeServiceSpotlightCardProps {
   isHoverEnabled: boolean;
   titleStyle: React.CSSProperties;
   descriptionStyle: React.CSSProperties;
+  transition: Transition;
   onSelect: () => void;
 }
 
@@ -26,7 +29,8 @@ const commonStyles: React.CSSProperties = {
 };
 
 /**
- * Homepage process/service grid card. Uses CSS hover instead of layout projection.
+ * Homepage process/service grid card with shared-layout ids that pair with
+ * the expanded HomeServiceModal.
  */
 export const HomeServiceSpotlightCard: React.FC<
   HomeServiceSpotlightCardProps
@@ -36,22 +40,53 @@ export const HomeServiceSpotlightCard: React.FC<
   isHoverEnabled,
   titleStyle,
   descriptionStyle,
+  transition,
   onSelect,
 }) => {
   return (
-    <button
-      type="button"
-      onClick={onSelect}
-      className={`w-full text-left rounded-2xl border border-gray-200 bg-white shadow-[0_18px_60px_rgba(15,23,42,0.08)] transition-transform duration-200 ${
-        isHoverEnabled ? "hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-[0_12px_30px_-8px_rgba(15,23,42,0.18)]" : ""
-      }`}
+    <motion.div
+      layoutId={`service-card-${service.id}`}
+      layout
+      initial={false}
+      animate={{ borderRadius: 16 }}
+      transition={transition}
       style={{
         ...commonStyles,
         padding: isMobile ? "0.7rem" : "1.25rem",
+        backgroundColor: "#ffffff",
+        border: "1px solid #e5e7eb",
+        boxShadow: "0 18px 60px rgba(15, 23, 42, 0.08)",
+        cursor: "pointer",
       }}
+      whileHover={
+        isHoverEnabled
+          ? {
+              y: -2,
+              borderColor: "#d1d5db",
+              boxShadow:
+                "0 12px 30px -8px rgba(15, 23, 42, 0.18)",
+            }
+          : {}
+      }
+      onClick={onSelect}
     >
-      <h3 style={titleStyle}>{service.title}</h3>
-      <p style={descriptionStyle}>{service.description}</p>
-    </button>
+      {/* If you want to actually show the icon, you can place this just above the title:
+          <div style={iconContainerStyle}>{service.icon}</div>
+      */}
+      <motion.h3
+        layoutId={`service-title-${service.id}`}
+        transition={transition}
+        style={titleStyle}
+      >
+        {service.title}
+      </motion.h3>
+      <motion.p
+        layoutId={`service-desc-${service.id}`}
+        transition={transition}
+        style={descriptionStyle}
+      >
+        {service.description}
+      </motion.p>
+    </motion.div>
   );
 };
